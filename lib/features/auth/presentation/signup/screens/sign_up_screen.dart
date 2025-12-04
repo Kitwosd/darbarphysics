@@ -1,0 +1,175 @@
+import 'package:dubar_physics/core/routing/navigation_service.dart';
+import 'package:dubar_physics/core/routing/route_name.dart';
+import 'package:dubar_physics/core/theme/app_theme.dart';
+import 'package:dubar_physics/features/auth/presentation/login/widgets/text_field_widget.dart';
+import 'package:dubar_physics/features/auth/presentation/signup/cubit/sign_up_cubit.dart';
+import 'package:dubar_physics/features/auth/presentation/signup/cubit/sign_up_state.dart';
+
+import 'package:dubar_physics/features/auth/presentation/signup/widgets/input_field_widget.dart';
+import 'package:dubar_physics/features/auth/presentation/signup/widgets/sign_up_header_widget.dart';
+import 'package:dubar_physics/features/auth/presentation/signup/widgets/sign_up_textfield_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'package:dubar_physics/common/widgets/text_widget.dart';
+
+class SignUpScreen extends StatelessWidget {
+  const SignUpScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => SignUpCubit(),
+      child: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Scaffold(
+          body: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SignUpHeaderWidget(),
+                  20.verticalSpace,
+
+                  /// Name Field
+                  SignUpTextfieldWidget(title: "Name"),
+                  BlocSelector<SignUpCubit, SignUpState, String>(
+                    selector: (state) => state.nameStatus,
+                    builder: (context, nameError) {
+                      return TextFieldWidget(
+                        label: "Name",
+                        onChanged: (v) =>
+                            context.read<SignUpCubit>().getName(v),
+                        errorText: nameError.isEmpty ? null : nameError,
+                      );
+                    },
+                  ),
+                  12.verticalSpace,
+
+                  /// Email Field
+                  SignUpTextfieldWidget(title: "Email"),
+                  BlocSelector<SignUpCubit, SignUpState, String>(
+                    selector: (state) => state.emailStatus,
+                    builder: (context, emailError) {
+                      return TextFieldWidget(
+                        label: "Email",
+                        inputType: TextInputType.emailAddress,
+                        onChanged: (v) =>
+                            context.read<SignUpCubit>().getEmail(v),
+                        errorText: emailError.isEmpty ? null : emailError,
+                      );
+                    },
+                  ),
+                  12.verticalSpace,
+
+                  /// Password Field
+                  SignUpTextfieldWidget(title: "Password"),
+                  BlocSelector<SignUpCubit, SignUpState, String>(
+                    selector: (state) => state.passwordStatus,
+                    builder: (context, passwordError) {
+                      return TextFieldWidget(
+                        label: "Password",
+                        icon: true,
+                        obscureText: true,
+                        onChanged: (v) =>
+                            context.read<SignUpCubit>().getPassword(v),
+                        errorText: passwordError.isEmpty ? null : passwordError,
+                      );
+                    },
+                  ),
+                  12.verticalSpace,
+
+                  /// Phone Field
+                  SignUpTextfieldWidget(title: "Phone"),
+                  BlocSelector<SignUpCubit, SignUpState, String>(
+                    selector: (state) => state.phoneStatus,
+                    builder: (context, phoneError) {
+                      return TextFieldWidget(
+                        label: "Phone (Nepal)",
+                        inputType: TextInputType.phone,
+                        onChanged: (v) =>
+                            context.read<SignUpCubit>().getPhone(v),
+                        errorText: phoneError.isEmpty ? null : phoneError,
+                      );
+                    },
+                  ),
+                  12.verticalSpace,
+
+                  /// Age Field
+                  SignUpTextfieldWidget(title: "Age"),
+                  BlocSelector<SignUpCubit, SignUpState, String>(
+                    selector: (state) => state.ageStatus,
+                    builder: (context, ageError) {
+                      return TextFieldWidget(
+                        label: "Age",
+                        inputType: TextInputType.number,
+                        onChanged: (v) => context.read<SignUpCubit>().getAge(v),
+                        errorText: ageError.isEmpty ? null : ageError,
+                      );
+                    },
+                  ),
+                  20.verticalSpace,
+
+                  /// Signup Button
+                  Center(
+                    child: SizedBox(
+                      width: 300.w,
+                      height: 60.h,
+                      child: BlocBuilder<SignUpCubit, SignUpState>(
+                        builder: (context, state) {
+                          return ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blueAccent,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.h),
+                              ),
+                            ),
+                            onPressed: () =>
+                                context.read<SignUpCubit>().validateAndSignup(),
+                            child: state.signupStatus == "loading"
+                                ? const CircularProgressIndicator()
+                                : TextWidget(
+                                    word: "Sign Up",
+                                    size: 18,
+                                    textColor: Colors.white,
+                                    weight: FontWeight.w600,
+                                  ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                  10.verticalSpace,
+                  Padding(
+                    padding: EdgeInsets.all(8.0.w),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        TextWidget(word: 'Already have an account ?'),
+                        TextButton(
+                          onPressed: () {
+                            NavigationService.pushNamedReplacement(
+                              RouteName.login,
+                            );
+                          },
+                          child: TextWidget(
+                            word: 'Login',
+                            textColor: AppColors.primary,
+                            weight: FontWeight.w600,
+                            size: 20.sp,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

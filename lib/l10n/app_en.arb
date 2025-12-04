@@ -1,0 +1,120 @@
+{
+    "@@locale":  "en",
+    "app_name": "Digital Gurkha",
+
+  
+  "onboarding_title_1": "Learn Smarter, Grow Faster",
+  "onboarding_subtitle_1": "Kickstart your personalized learning journey and discover courses designed to boost your skills.",
+
+  "onboarding_title_2": "Master Concepts With Complete Clarity",
+  "onboarding_subtitle_2": "Understand even complex topics with clear lessons, examples, and practice exercises made just for you.",
+
+  "onboarding_title_3": "Track Your Learning Progress Like a Pro",
+  "onboarding_subtitle_3": "Monitor your learning milestones, achievements, and analytics to stay motivated and reach your goals.",
+
+  "onboarding_title_4": "Level Up Your Skills and Knowledge Today",
+  "onboarding_subtitle_4": "Join a community of learners, sharpen your expertise, and unlock opportunities for your future.",
+
+
+
+  "login": "Login",
+  "signup": "Sign Up",
+  "start": "Start",
+  "next": "Next",
+ 
+  "get_started": "Get Started",
+
+  "email": "Email",
+  "password": "Password",
+  "confirm_password": "Confirm Password",
+
+  "explore_courses": "Explore Courses",
+  "popular_courses": "Popular Courses",
+  "continue_learning": "Continue Learning",
+
+  "course": "Course",
+  "lessons": "Lessons",
+  "start_course": "Start Course",
+  "resume": "Resume",
+
+  "start_quiz": "Start Quiz",
+  "submit": "Submit",
+  "correct": "Correct",
+  "wrong": "Wrong",
+
+  "settings": "Settings",
+  "language": "Language",
+  "dark_mode": "Dark Mode",
+
+  "loading": "Loading...",
+  "error": "Something went wrong!",
+  "retry": "Retry",
+    "username": "Username",
+    "password" : "Password",
+    "hello" : "Hello",
+    "again" : "Again!",
+    "changeLanguage" : "Change Language",
+    "login" : "Login",
+    "signup" : "Sign Up",
+    
+
+
+    "loginScreentext1" : "Welcome back you've \n been missed",
+    "loginScreentext2" : "or continue with",
+    "loginScreentext3" : "don't have an account? ",
+
+    
+    "trending" : "Trending",
+    "latest" : "latest",
+    "home" : "Home",
+    "explore" : "Explore",
+    "bookmark" : "Bookmark",
+    "profile" : "profile",
+
+    "name": "Name",
+  "phone": "Phone",
+   "phoneNo": "Phone Number",
+  "nepal": "Nepal",
+  "gender": "Gender",
+  "male": "Male",
+  "female": "Female",
+  "others": "Others",
+  "age": "Age",
+  "signUp": "Sign Up",
+  "trending": "Trending",
+  "viewAll": "View All",
+  "latest": "Latest",
+  "all": "All",
+  "technology": "Technology",
+  "business": "Business",
+  "entertainment": "Entertainment",
+  "general": "General",
+  "health": "Health",
+  "science": "Science",
+  "favorites": "Favorites",
+  "home": "Home",
+  "search": "Search",
+  "searchText": "Enter the news to search",
+  "profile": "Profile",
+  "signupText1": "Signup to get Started",
+  "signupText2": "Already have an account ?",
+  "email": "Email",
+  "myProfile": "My Profile",
+  "changeLanguage": "Change Language",
+  "nepali": "Nepali",
+  "search": "Search",
+  "news": "News",
+  "favorite": "Favorite",
+  "detailedNews": "Detailed News",
+  "buttonText1": "Add To Favorite",
+  "searchTextField": "Enter the news to search",
+  "logout": "Logout",
+  "rememberMe": "Remember me",
+  "hello": "hello",
+
+  //new ones
+
+  "welcomeBack": "Welcome Back",
+  "signIn": "Sign In",
+
+}
