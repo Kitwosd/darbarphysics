@@ -2,7 +2,7 @@ import 'package:dubar_physics/core/routing/navigation_service.dart';
 import 'package:dubar_physics/core/routing/route_name.dart';
 import 'package:dubar_physics/features/auth/presentation/login/screens/login_screen.dart';
 import 'package:dubar_physics/features/auth/presentation/signUp/screens/sign_up_screen.dart';
-import 'package:dubar_physics/features/on_boarding/presentatoin/screens/on_boarding_screen.dart';
+import 'package:dubar_physics/features/on_boarding/presentation/screens/on_boarding_screen.dart';
 
 import 'package:go_router/go_router.dart';
 

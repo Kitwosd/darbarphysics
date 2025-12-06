@@ -8,7 +8,7 @@ import 'package:dubar_physics/core/routing/route_name.dart';
 import 'package:dubar_physics/core/theme/app_theme.dart';
 import 'package:dubar_physics/features/auth/presentation/login/cubit/login_cubit.dart';
 import 'package:dubar_physics/features/auth/presentation/login/cubit/login_state.dart';
-import 'package:dubar_physics/features/auth/presentation/login/widgets/text_field_widget.dart';
+import 'package:dubar_physics/common/widgets/text_field_widget.dart';
 import 'package:dubar_physics/features/auth/presentation/signup/widgets/sign_up_textfield_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -51,7 +51,7 @@ class LoginScreen extends StatelessWidget {
                     ),
 
                     TextWidget(
-                      word: 'Enter your email and password below: ',
+                      word: 'Enter your credentials: ',
                       size: 20.h,
                       weight: FontWeight.w500,
                     ),
@@ -78,7 +78,7 @@ class LoginScreen extends StatelessWidget {
                       builder: (BuildContext context, state) {
                         return TextFieldWidget(
                           label: l10.password,
-                          icon: true,
+                          obscureIcon: true,
                           errorText: state.isEmpty ? null : state,
                           hintText: "***********",
                           obscureText: true,

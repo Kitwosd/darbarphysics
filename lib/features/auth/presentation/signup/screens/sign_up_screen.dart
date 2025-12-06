@@ -1,13 +1,14 @@
+import 'package:dubar_physics/common/widgets/text_field_widget.dart';
 import 'package:dubar_physics/core/routing/navigation_service.dart';
 import 'package:dubar_physics/core/routing/route_name.dart';
 import 'package:dubar_physics/core/theme/app_theme.dart';
-import 'package:dubar_physics/features/auth/presentation/login/widgets/text_field_widget.dart';
+
 import 'package:dubar_physics/features/auth/presentation/signup/cubit/sign_up_cubit.dart';
 import 'package:dubar_physics/features/auth/presentation/signup/cubit/sign_up_state.dart';
 
-import 'package:dubar_physics/features/auth/presentation/signup/widgets/input_field_widget.dart';
 import 'package:dubar_physics/features/auth/presentation/signup/widgets/sign_up_header_widget.dart';
 import 'package:dubar_physics/features/auth/presentation/signup/widgets/sign_up_textfield_widget.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -43,6 +44,7 @@ class SignUpScreen extends StatelessWidget {
                         onChanged: (v) =>
                             context.read<SignUpCubit>().getName(v),
                         errorText: nameError.isEmpty ? null : nameError,
+                        hintText: 'Enter Your Full Name',
                       );
                     },
                   ),
@@ -59,6 +61,7 @@ class SignUpScreen extends StatelessWidget {
                         onChanged: (v) =>
                             context.read<SignUpCubit>().getEmail(v),
                         errorText: emailError.isEmpty ? null : emailError,
+                        hintText: 'example@gmail.com',
                       );
                     },
                   ),
@@ -71,11 +74,12 @@ class SignUpScreen extends StatelessWidget {
                     builder: (context, passwordError) {
                       return TextFieldWidget(
                         label: "Password",
-                        icon: true,
+                        obscureIcon: true,
                         obscureText: true,
                         onChanged: (v) =>
                             context.read<SignUpCubit>().getPassword(v),
                         errorText: passwordError.isEmpty ? null : passwordError,
+                        hintText: '********',
                       );
                     },
                   ),
@@ -92,6 +96,7 @@ class SignUpScreen extends StatelessWidget {
                         onChanged: (v) =>
                             context.read<SignUpCubit>().getPhone(v),
                         errorText: phoneError.isEmpty ? null : phoneError,
+                        hintText: '977-XXXXXXXXXX',
                       );
                     },
                   ),
@@ -107,6 +112,7 @@ class SignUpScreen extends StatelessWidget {
                         inputType: TextInputType.number,
                         onChanged: (v) => context.read<SignUpCubit>().getAge(v),
                         errorText: ageError.isEmpty ? null : ageError,
+                        hintText: 'Enter Your Age',
                       );
                     },
                   ),

@@ -15,7 +15,7 @@ class TextFieldWidget extends StatelessWidget {
   final double? borderWidth;
   final Color? borderColor;
   final String? hintText;
-  final bool? icon;
+  final bool? obscureIcon;
   final bool obscureText; // NEW PARAMETER
 
   TextFieldWidget({
@@ -31,7 +31,7 @@ class TextFieldWidget extends StatelessWidget {
     this.borderWidth,
     this.borderColor,
     this.hintText,
-    this.icon = false,
+    this.obscureIcon = false,
     this.obscureText = false, // default false
   });
 
@@ -73,7 +73,9 @@ class TextFieldWidget extends StatelessWidget {
       textAlignVertical: TextAlignVertical.center,
       decoration: InputDecoration(
         hintText: hintText,
-        contentPadding: EdgeInsets.zero,
+        hintStyle: TextStyle(fontSize: 16.sp, color: Colors.grey[500]),
+
+        contentPadding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 0.h),
         border: OutlineInputBorder(
           borderSide: BorderSide(
             color: effectiveBorderColor,
@@ -99,7 +101,7 @@ class TextFieldWidget extends StatelessWidget {
           borderSide: BorderSide(color: Colors.red, width: 2),
         ),
         errorText: errorText,
-        suffixIcon: obscureText && icon == true
+        suffixIcon: obscureText && obscureIcon == true
             ? IconButton(
                 onPressed: () {
                   _obscurePassword.value = !isObscure;
