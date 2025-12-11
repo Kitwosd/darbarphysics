@@ -1,7 +1,6 @@
 import 'package:dubar_physics/common/widgets/text_field_widget.dart';
 import 'package:dubar_physics/core/routing/navigation_service.dart';
 import 'package:dubar_physics/core/routing/route_name.dart';
-import 'package:dubar_physics/core/theme/app_theme.dart';
 
 import 'package:dubar_physics/features/auth/presentation/signup/cubit/sign_up_cubit.dart';
 import 'package:dubar_physics/features/auth/presentation/signup/cubit/sign_up_state.dart';
@@ -127,7 +126,9 @@ class SignUpScreen extends StatelessWidget {
                         builder: (context, state) {
                           return ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blueAccent,
+                              backgroundColor: Theme.of(
+                                context,
+                              ).colorScheme.primary,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8.h),
                               ),
@@ -135,7 +136,9 @@ class SignUpScreen extends StatelessWidget {
                             onPressed: () =>
                                 context.read<SignUpCubit>().validateAndSignup(),
                             child: state.signupStatus == "loading"
-                                ? const CircularProgressIndicator()
+                                ? const CircularProgressIndicator(
+                                    color: Colors.white,
+                                  )
                                 : TextWidget(
                                     word: "Sign Up",
                                     size: 18,
@@ -162,9 +165,9 @@ class SignUpScreen extends StatelessWidget {
                           },
                           child: TextWidget(
                             word: 'Login',
-                            textColor: AppColors.primary,
+                            textColor: Theme.of(context).colorScheme.primary,
                             weight: FontWeight.w600,
-                            size: 20.sp,
+                            size: 20,
                           ),
                         ),
                       ],

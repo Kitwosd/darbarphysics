@@ -28,7 +28,7 @@ class OnBoardingWidget extends StatelessWidget {
           50.verticalSpace,
           TextWidget(
             word: title,
-            size: 32.sp,
+            size: 32,
             align: TextAlign.center,
             weight: FontWeight.w600,
             maxLines: 2,
@@ -36,7 +36,7 @@ class OnBoardingWidget extends StatelessWidget {
           20.verticalSpace,
           TextWidget(
             word: subTitle,
-            size: 14.sp,
+            size: 14,
             align: TextAlign.center,
             weight: FontWeight.w400,
             maxLines: 2,

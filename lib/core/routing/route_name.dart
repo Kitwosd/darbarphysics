@@ -1,28 +1,32 @@
 class RouteName {
-  static const onBoarding = 'onBoarding';
-  static const login = 'loginScreen';
-  static const signUp = 'singUpScreen';
-  static const newsPage = 'newsPage';
-  static const home = 'homeScreen';
-  static const detailScreen = 'detailScreen';
-  static const setting = 'settingScreen';
-  static const favorite = 'favoriteScreen';
-  static const trendingNews = 'trendingNewsScreen';
-  static const profile = 'profile';
-  static const webview = 'webviewScreen';
+  static const String onBoarding = 'onBoarding';
+  static const String login = 'loginScreen';
+  static const String signUp = 'singUpScreen';
+  static const String newsPage = 'newsPage';
+  static const String home = 'homeScreen';
+  static const String detailScreen = 'detailScreen';
+  static const String setting = 'settingScreen';
+  static const String favorite = 'favoriteScreen';
+  static const String trendingNews = 'trendingNewsScreen';
+  static const String profile = 'profile';
+  static const String webview = 'webviewScreen';
+  static const String saved = 'savedScreen';
+  static const String play = 'playScreen';
 }
 
 class RoutePath {
-  static const onBoarding = '/onBoarding';
-  static const newsPage = '/newPage';
-  static const login = '/loginScreen';
-  static const signUp = '/singUpScreen';
-  static const home = '/homeScreen';
-  static const detailScreen = '/detailScreen';
-  static const setting = '/settingScreen';
-  static const favorite = '/favoriteScreen';
-  static const search = '/searchScreen';
-  static const trendingNews = '/trendingNewsScreen';
-  static const profile = '/profile';
-  static const webview = '/webviewScreen';
+  static const String onBoarding = '/onBoarding';
+  static const String newsPage = '/newPage';
+  static const String login = '/loginScreen';
+  static const String signUp = '/singUpScreen';
+  static const String home = '/homeScreen';
+  static const String detailScreen = '/detailScreen';
+  static const String setting = '/settingScreen';
+  static const String favorite = '/favoriteScreen';
+  static const String search = '/searchScreen';
+  static const String trendingNews = '/trendingNewsScreen';
+  static const String profile = '/profile';
+  static const String webview = '/webviewScreen';
+  static const String saved = '/savedScreen';
+  static const String play = '/playScreen';
 }

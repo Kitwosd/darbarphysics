@@ -1,5 +1,4 @@
 import 'package:dubar_physics/common/widgets/text_widget.dart';
-import 'package:dubar_physics/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class SignUpTextfieldWidget extends StatelessWidget {
@@ -15,7 +14,7 @@ class SignUpTextfieldWidget extends StatelessWidget {
           children: [
             TextWidget(
               word: title,
-              textColor: AppColors.textDark,
+              
               weight: FontWeight.w500,
             ),
             TextWidget(word: '*', textColor: Colors.red),

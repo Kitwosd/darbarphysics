@@ -31,8 +31,9 @@ class SignUpCubit extends Cubit<SignUpState> {
 
   void getAge(String age) {
     String? error;
-    if (int.tryParse(age) == null || int.parse(age) < 10)
+    if (int.tryParse(age) == null || int.parse(age) < 10) {
       error = "Enter valid age";
+    }
     emit(state.copyWith(age: age, ageStatus: error ?? ""));
   }
 

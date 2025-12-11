@@ -1,4 +1,4 @@
-import 'package:dubar_physics/core/theme/app_theme.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -29,7 +29,7 @@ class TextWidget extends StatelessWidget {
       textAlign: align ?? TextAlign.start,
       overflow: overflow ?? TextOverflow.ellipsis,
       style: TextStyle(
-        color: textColor ?? AppColors.textDark,
+        color: textColor ?? Theme.of(context).textTheme.bodyMedium?.color,
         fontSize: size?.sp ?? 16.sp,
         fontWeight: weight ?? FontWeight.normal,
       ),

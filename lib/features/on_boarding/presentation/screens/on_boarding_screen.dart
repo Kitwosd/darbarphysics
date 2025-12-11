@@ -1,12 +1,9 @@
-import 'dart:developer';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dubar_physics/common/widgets/button_widget.dart';
 import 'package:dubar_physics/common/widgets/text_widget.dart';
 import 'package:dubar_physics/core/localization/l10_service.dart';
 import 'package:dubar_physics/core/routing/navigation_service.dart';
 import 'package:dubar_physics/core/routing/route_name.dart';
-import 'package:dubar_physics/core/theme/app_theme.dart';
 import 'package:dubar_physics/features/on_boarding/domain/models/on_boarding_model.dart';
 import 'package:dubar_physics/features/on_boarding/presentation/widget/on_boarding_widget.dart';
 import 'package:flutter/material.dart';
@@ -84,7 +81,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 height: 8,
                 decoration: BoxDecoration(
                   color: _currentPage == index
-                      ? AppColors.primary
+                      ? Theme.of(context).colorScheme.primary
                       : Colors.grey,
                   borderRadius: BorderRadius.circular(4),
                 ),
@@ -94,9 +91,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
           Spacer(),
           ButtonWidget(
+            bgColor: Theme.of(context).colorScheme.primary,
             textWidget: TextWidget(
               word: 'SignUp',
-              textColor: AppColors.textLight,
+              weight: FontWeight.w500,
+              size: 24,
+              textColor: Colors.white,
             ),
             width: 300.w,
             onPressed: () {
@@ -107,10 +107,11 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           ButtonWidget(
             width: 300.w,
             textWidget: TextWidget(
-              word: 'Login',
-              textColor: AppColors.textDark,
+              word: l10.login,
+              weight: FontWeight.w500,
+              size: 24.sp,
+              // textColor: Colors.black,
             ),
-            bgcolor: AppColors.textLight,
 
             onPressed: () {
               NavigationService.pushNamed(RouteName.login);

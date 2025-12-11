@@ -1,10 +1,21 @@
-import 'package:dubar_physics/core/theme/app_colors.dart';
+import 'package:dubar_physics/core/theme/theme_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 extension ThemeExtension on BuildContext {
-  bool get isDark => Theme.of(this).brightness == Brightness.dark;
+  void toggleTheme() {
+    read<ThemeCubit>().toggleTheme();
+  }
 
-  //Get color form the AppColors easily
-  Color appColor(ColorModel model) =>
-      isDark ? model.darkModeColor : model.lightModeColor;
+  ThemeMode get themeMode => watch<ThemeCubit>().state;
+
+  bool get isDark {
+    final mode = themeMode;
+
+    if (mode == ThemeMode.dark) return true;
+    if (mode == ThemeMode.light) return false;
+
+    // system mode
+    return MediaQuery.of(this).platformBrightness == Brightness.dark;
+  }
 }

@@ -1,4 +1,4 @@
-import 'package:dubar_physics/core/theme/app_theme.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -50,17 +50,17 @@ class TextFieldWidget extends StatelessWidget {
               ? ValueListenableBuilder<bool>(
                   valueListenable: _obscurePassword,
                   builder: (context, isObscure, _) {
-                    return _buildTextField(isObscure);
+                    return _buildTextField(isObscure,context);
                   },
                 )
-              : _buildTextField(false),
+              : _buildTextField(false,context),
         ),
         8.verticalSpace,
       ],
     );
   }
 
-  TextFormField _buildTextField(bool isObscure) {
+  TextFormField _buildTextField(bool isObscure, BuildContext context) {
     final Color effectiveBorderColor = borderColor ?? const Color(0xFF828282);
     final double effectiveBorderWidth = borderWidth ?? 1;
 
@@ -90,7 +90,7 @@ class TextFieldWidget extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: AppColors.primary,
+            color: Theme.of(context).colorScheme.primary,
             width: effectiveBorderWidth + 1,
           ),
         ),

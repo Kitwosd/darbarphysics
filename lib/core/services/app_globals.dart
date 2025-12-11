@@ -1,0 +1,12 @@
+import 'package:dubar_physics/core/routing/navigation_service.dart';
+import 'package:dubar_physics/core/theme/app_colors.dart';
+import 'package:dubar_physics/l10n/app_localizations.dart';
+import 'package:flutter/material.dart';
+
+BuildContext get _context => NavigationService.navigationKey.currentContext!;
+
+// localization (global)
+AppLocalizations get l10 => AppLocalizations.of(_context)!;
+
+//Theme Colors(global)
+AppColors get appColors => Theme.of(_context).extension<AppColors>()!;

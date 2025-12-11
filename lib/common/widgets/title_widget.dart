@@ -1,5 +1,4 @@
 import 'package:dubar_physics/common/widgets/text_widget.dart';
-import 'package:dubar_physics/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -24,7 +23,7 @@ class TitleWidget extends StatelessWidget {
               child: Icon(
                 Icons.arrow_back_rounded,
                 size: 36.h, // set size manually
-                color: AppColors.primary,
+                color: Theme.of(context).colorScheme.primary,
               ),
             ),
           ),
@@ -32,9 +31,9 @@ class TitleWidget extends StatelessWidget {
             alignment: Alignment.center,
             child: TextWidget(
               word: title,
-              size: 40.sp,
+              size: 40,
               weight: FontWeight.w600,
-              textColor: AppColors.primary,
+              textColor: Theme.of(context).colorScheme.primary,
             ),
           ),
         ],

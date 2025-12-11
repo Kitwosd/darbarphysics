@@ -46,12 +46,21 @@ dependencies:
   flutter_localization: ^0.3.3
   flutter_localizations:
      sdk: flutter
-  injectable_generator: ^2.11.0
+  injectable_generator: ^2.11.1
   bloc: ^9.1.0
   equatable: ^2.0.7
   fluttertoast: ^9.0.0
   dio: ^5.9.0
   flex_color_scheme: ^8.3.1
+  flutter_dotenv: ^6.0.0
+  logger: ^2.6.2
+  get_it: ^9.2.0
+
+  # DI & JSON
+  
+  injectable: ^2.4.4
+  json_annotation: ^4.9.0
+  google_nav_bar: ^5.0.7
  
 
 dev_dependencies:
@@ -82,6 +91,7 @@ flutter:
   assets:
   - assets/svg/onBoarding/
   - assets/images/
+  - .env
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

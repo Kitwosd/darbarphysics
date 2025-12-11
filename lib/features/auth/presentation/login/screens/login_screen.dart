@@ -1,11 +1,10 @@
-import 'package:dubar_physics/common/widgets/button_widget.dart';
 import 'package:dubar_physics/common/widgets/change_language_widget.dart';
 import 'package:dubar_physics/common/widgets/text_widget.dart';
 import 'package:dubar_physics/common/widgets/title_widget.dart';
 import 'package:dubar_physics/core/localization/l10_service.dart';
 import 'package:dubar_physics/core/routing/navigation_service.dart';
 import 'package:dubar_physics/core/routing/route_name.dart';
-import 'package:dubar_physics/core/theme/app_theme.dart';
+import 'package:dubar_physics/core/theme/theme_extension.dart';
 import 'package:dubar_physics/features/auth/presentation/login/cubit/login_cubit.dart';
 import 'package:dubar_physics/features/auth/presentation/login/cubit/login_state.dart';
 import 'package:dubar_physics/common/widgets/text_field_widget.dart';
@@ -35,24 +34,32 @@ class LoginScreen extends StatelessWidget {
                     TitleWidget(title: l10.login),
                     Center(
                       child: SizedBox(
-                        width: 330.w,
+                        width: 250.w,
                         child: FittedBox(
                           fit: BoxFit.contain,
                           child: Align(
                             alignment: Alignment.center,
                             child: Image.asset(
                               'assets/images/logo_with_name.png', // TODO: crop the image as there is invisible padding around it.
-                              color: AppColors.primary,
+                              color: Color(0xFF1877F2),
                               colorBlendMode: BlendMode.srcATop,
                             ),
                           ),
                         ),
                       ),
                     ),
+                    Center(
+                      child: TextWidget(
+                        word: 'Durbar Physics',
+                        size: 32,
+                        weight: FontWeight.w800,
+                        textColor: Color(0xFF1877F2),
+                      ),
+                    ),
 
                     TextWidget(
                       word: 'Enter your credentials: ',
-                      size: 20.h,
+                      size: 20,
                       weight: FontWeight.w500,
                     ),
                     10.verticalSpace,
@@ -92,12 +99,16 @@ class LoginScreen extends StatelessWidget {
                     Center(
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blueAccent,
+                          backgroundColor: Theme.of(
+                            context,
+                          ).colorScheme.primary,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8.h),
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          NavigationService.pushNamed(RouteName.home);
+                        },
                         // context.read<LoginCubit>().validateAndSignup(),
                         child: TextWidget(
                           word: l10.login,
@@ -119,13 +130,31 @@ class LoginScreen extends StatelessWidget {
                           child: TextWidget(
                             word: l10.signup,
                             weight: FontWeight.w500,
-                            size: 22.h,
+
+                            size: 22,
                             textColor: Color(0xFF1877F2),
                           ),
                         ),
                       ],
                     ),
-                    Center(child: ChangeLanguageWidget()),
+                    Row(
+                      children: [
+                        ChangeLanguageWidget(),
+                        Spacer(),
+                        InkWell(
+                          child: TextWidget(word: 'Theme'),
+                          onTap: () => context.toggleTheme(),
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            context.isDark ? Icons.dark_mode : Icons.light_mode,
+                          ),
+                          onPressed: () {
+                            context.toggleTheme();
+                          },
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
