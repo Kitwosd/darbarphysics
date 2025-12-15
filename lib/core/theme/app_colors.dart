@@ -4,11 +4,13 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color whiteGrey;
   final Color whiteDarkGrey;
   final Color greyWhite;
+  final Color blackWhite;
 
   const AppColors({
     required this.whiteGrey,
     required this.whiteDarkGrey,
     required this.greyWhite,
+    required this.blackWhite
   });
 
   @override
@@ -16,11 +18,13 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? whiteGrey,
     Color? whiteDarkGrey,
     Color? greyWhite,
+    Color? blackWhite,
   }) {
     return AppColors(
       whiteGrey: whiteGrey ?? this.whiteGrey,
       whiteDarkGrey: whiteDarkGrey ?? this.whiteDarkGrey,
-      greyWhite: this.greyWhite,
+      greyWhite: greyWhite ?? this.greyWhite,
+      blackWhite:blackWhite ?? this.blackWhite
     );
   }
 
@@ -31,6 +35,7 @@ class AppColors extends ThemeExtension<AppColors> {
       whiteGrey: Color.lerp(whiteGrey, other.whiteGrey, t)!,
       whiteDarkGrey: Color.lerp(whiteDarkGrey, other.whiteDarkGrey, t)!,
       greyWhite: Color.lerp(greyWhite, other.greyWhite, t)!,
+      blackWhite:  Color.lerp(blackWhite, other.blackWhite, t)!,
     );
   }
 }

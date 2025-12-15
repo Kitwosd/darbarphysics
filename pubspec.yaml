@@ -60,7 +60,12 @@ dependencies:
   
   injectable: ^2.4.4
   json_annotation: ^4.9.0
+
+  #new
   google_nav_bar: ^5.0.7
+  better_player_plus: ^1.0.8
+  volume_controller: ^3.4.1
+  screen_brightness: ^2.1.7
  
 
 dev_dependencies:

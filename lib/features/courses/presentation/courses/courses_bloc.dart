@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:dubar_physics/common/enums/enums.dart';
-import 'package:dubar_physics/core/network/api_client.dart';
-import 'package:dubar_physics/features/home/data/models/course_model.dart';
+
+import 'package:dubar_physics/features/courses/data/model/course_model.dart';
 import 'package:dubar_physics/features/home/domain/repos/home_repo.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
@@ -25,10 +25,10 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
     emit(state.copyWith(status: ApiDataStatus.loading));
     try {
       final courses = await repo.getCourses();
-      
-      emit(state.copyWith(courses: courses));
+
+      emit(state.copyWith(status: ApiDataStatus.success, courses: courses));
     } catch (e) {
-      emit(state.copyWith(error: e.toString()));
+      emit(state.copyWith(status: ApiDataStatus.error, error: e.toString()));
     }
   }
 }

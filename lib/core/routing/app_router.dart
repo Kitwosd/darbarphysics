@@ -17,7 +17,7 @@ final GoRouter appRouter = GoRouter(
   // initialLocation: Hive.box('authBox').get('isLoggedIn', defaultValue: false)
   //     ? RoutePath.newsPage
   //     : RoutePath.login,
-  initialLocation: RoutePath.onBoarding,
+  initialLocation: RoutePath.home,
   routes: [
     GoRoute(
       path: RoutePath.onBoarding,

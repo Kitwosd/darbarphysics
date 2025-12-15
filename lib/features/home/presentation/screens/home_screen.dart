@@ -1,9 +1,10 @@
 import 'package:dubar_physics/core/di/injection.dart';
 import 'package:dubar_physics/common/enums/enums.dart';
-import 'package:dubar_physics/features/home/presentation/bloc/courses/courses_bloc.dart';
+import 'package:dubar_physics/features/courses/presentation/courses/courses_bloc.dart';
 import 'package:dubar_physics/features/home/presentation/bloc/home_bloc.dart';
+import 'package:dubar_physics/features/home/presentation/bloc/streams/streams_bloc.dart';
+import 'package:dubar_physics/features/home/presentation/bloc/videos/videos_bloc.dart';
 import 'package:dubar_physics/features/home/presentation/widgets/home_banner.dart';
-import 'package:dubar_physics/features/home/presentation/widgets/home_categories.dart';
 import 'package:dubar_physics/features/home/presentation/widgets/home_courses_list.dart';
 import 'package:dubar_physics/features/home/presentation/widgets/home_header.dart';
 import 'package:dubar_physics/features/home/presentation/widgets/home_search_bar.dart';
@@ -26,6 +27,15 @@ class HomeScreen extends StatelessWidget {
         BlocProvider(
           create: (context) => getIt<CoursesBloc>()..add(GetCoursesEvent()),
         ),
+        BlocProvider(
+          create: (context) => getIt<VideosBloc>()..add(GetVideosEvent()),
+        ),
+        BlocProvider(
+          create: (context) => getIt<CoursesBloc>()..add(GetCoursesEvent()),
+        ),
+          BlocProvider(
+          create: (context) => getIt<StreamsBloc>()..add(GetStreamsEvent()),
+        ),
       ],
       child: InkWell(
         onTap: () => FocusScope.of(context).unfocus(),
@@ -38,9 +48,10 @@ class HomeScreen extends StatelessWidget {
                 Expanded(
                   child: BlocBuilder<HomeBloc, HomeState>(
                     builder: (context, state) {
-                      if (state.status == ApiDataStatus.loading) {
-                        return const Center(child: CircularProgressIndicator());
-                      } else if (state.status == ApiDataStatus.error) {
+                      // if (state.status == ApiDataStatus.loading) {
+                      //   return const Center(child: CircularProgressIndicator());
+                      // } else
+                      if (state.status == ApiDataStatus.error) {
                         return Center(child: Text('Error: //${state.error}'));
                       } else if (state.status == ApiDataStatus.success) {
                         return SingleChildScrollView(
@@ -50,7 +61,7 @@ class HomeScreen extends StatelessWidget {
                             children: [
                               const HomeSearchBar(),
                               const HomeBanner(),
-                              HomeCategories(streams: state.streams),
+                              //HomeCategories(streams: state.streams),
 
                               HomeSectionHeader(
                                 title: 'Top Courses',
@@ -63,7 +74,7 @@ class HomeScreen extends StatelessWidget {
                                   title: 'Videos',
                                   onSeeAll: () {},
                                 ),
-                                HomeVideosList(videos: state.videos),
+                                HomeVideosList(),
                               ],
 
                               // You can add LiveClasses List similar to VideosList if needed

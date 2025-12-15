@@ -1,5 +1,5 @@
-import 'package:dubar_physics/features/home/data/models/course_model.dart';
-import 'package:dubar_physics/features/home/presentation/screens/course_detail_screen.dart';
+import 'package:dubar_physics/features/courses/data/model/course_model.dart';
+import 'package:dubar_physics/features/courses/presentation/screens/course_detail_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

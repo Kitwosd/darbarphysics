@@ -9,4 +9,8 @@ BuildContext get _context => NavigationService.navigationKey.currentContext!;
 AppLocalizations get l10 => AppLocalizations.of(_context)!;
 
 //Theme Colors(global)
-AppColors get appColors => Theme.of(_context).extension<AppColors>()!;
+ColorScheme get appColors => Theme.of(_context).colorScheme; // for primary and secondary
+
+AppColors get customColors => Theme.of(_context).extension<AppColors>()!; // for the custom colors
+
+

@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:dubar_physics/core/network/api_exception.dart';
-import 'package:flutter/foundation.dart';
 
 enum ApiMethod { get, post, put, patch, delete }
 

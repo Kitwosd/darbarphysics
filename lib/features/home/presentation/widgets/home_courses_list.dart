@@ -1,6 +1,5 @@
 import 'package:dubar_physics/common/enums/enums.dart';
-import 'package:dubar_physics/features/home/data/models/course_model.dart';
-import 'package:dubar_physics/features/home/presentation/bloc/courses/courses_bloc.dart';
+import 'package:dubar_physics/features/courses/presentation/courses/courses_bloc.dart';
 import 'package:dubar_physics/features/home/presentation/widgets/course_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,7 +15,7 @@ class HomeCoursesList extends StatelessWidget {
         if (state.courses.isEmpty) {
           return const SizedBox.shrink();
         } else if (state.status == ApiDataStatus.loading) {
-          return CircularProgressIndicator();
+          return Center(child: CircularProgressIndicator());
         } else if (state.status == ApiDataStatus.success) {
           return SizedBox(
             height: 240.h,

@@ -1,5 +1,4 @@
 import 'package:dubar_physics/core/app_config/app_config.dart';
-import 'package:dubar_physics/core/bloc/app_bloc_observer.dart';
 import 'package:dubar_physics/core/di/injection.dart';
 import 'package:dubar_physics/core/localization/bloc/localization_bloc.dart';
 import 'package:dubar_physics/core/routing/app_router.dart';
