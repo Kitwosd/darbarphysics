@@ -24,6 +24,5 @@ class CoursesState extends Equatable {
   }
 
   @override
- 
   List<Object?> get props => [courses, status, error];
 }

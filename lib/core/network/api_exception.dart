@@ -10,7 +10,7 @@ class ApiException implements Exception {
   String toString() => errorMessage;
 }
 
- ApiException handleDioException(DioException e) {
+ApiException handleDioException(DioException e) {
   switch (e.type) {
     case DioExceptionType.connectionTimeout:
     case DioExceptionType.receiveTimeout:

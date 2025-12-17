@@ -6,7 +6,11 @@ class StreamModel extends Equatable {
   final String name;
   final int level;
 
-  const StreamModel({required this.id, required this.name, required this.level});
+  const StreamModel({
+    required this.id,
+    required this.name,
+    required this.level,
+  });
 
   factory StreamModel.fromJson(Map<String, dynamic> json) =>
       StreamModel(id: json["id"], name: json["name"], level: json["level"]);

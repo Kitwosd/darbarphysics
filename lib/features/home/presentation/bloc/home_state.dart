@@ -1,7 +1,5 @@
 part of 'home_bloc.dart';
 
-
-
 class HomeState extends Equatable {
   final List<CourseModel> courses;
   final List<ClassModel> classes;

@@ -14,8 +14,7 @@ import 'package:injectable/injectable.dart' as _i526;
 
 import '../../features/home/data/repos/mock_home_repo.dart' as _i403;
 import '../../features/home/domain/repos/home_repo.dart' as _i130;
-import '../../features/courses/presentation/courses/courses_bloc.dart'
-    as _i786;
+import '../../features/courses/presentation/courses/courses_bloc.dart' as _i786;
 import '../../features/home/presentation/bloc/home_bloc.dart' as _i202;
 import '../../features/home/presentation/bloc/live_classes/live_classes_bloc.dart'
     as _i332;

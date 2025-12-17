@@ -7,6 +7,4 @@ sealed class CoursesEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetCoursesEvent extends CoursesEvent {
-  
-}
+class GetCoursesEvent extends CoursesEvent {}
