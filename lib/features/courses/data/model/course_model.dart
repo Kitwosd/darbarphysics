@@ -1,4 +1,4 @@
-import 'package:dubar_physics/features/courses/data/model/lesson_model.dart';
+import 'package:durbar_physics/features/courses/data/model/lesson_model.dart';
 import 'package:equatable/equatable.dart';
 
 class CourseModel extends Equatable {

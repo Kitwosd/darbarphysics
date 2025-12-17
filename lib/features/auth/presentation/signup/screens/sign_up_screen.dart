@@ -1,18 +1,14 @@
-import 'package:dubar_physics/common/widgets/text_field_widget.dart';
-import 'package:dubar_physics/core/routing/navigation_service.dart';
-import 'package:dubar_physics/core/routing/route_name.dart';
-
-import 'package:dubar_physics/features/auth/presentation/signup/cubit/sign_up_cubit.dart';
-import 'package:dubar_physics/features/auth/presentation/signup/cubit/sign_up_state.dart';
-
-import 'package:dubar_physics/features/auth/presentation/signup/widgets/sign_up_header_widget.dart';
-import 'package:dubar_physics/features/auth/presentation/signup/widgets/sign_up_textfield_widget.dart';
-
+import 'package:durbar_physics/common/widgets/text_field_widget.dart';
+import 'package:durbar_physics/common/widgets/text_widget.dart';
+import 'package:durbar_physics/core/routing/navigation_service.dart';
+import 'package:durbar_physics/core/routing/route_name.dart';
+import 'package:durbar_physics/features/auth/presentation/signup/cubit/sign_up_cubit.dart';
+import 'package:durbar_physics/features/auth/presentation/signup/cubit/sign_up_state.dart';
+import 'package:durbar_physics/features/auth/presentation/signup/widgets/sign_up_header_widget.dart';
+import 'package:durbar_physics/features/auth/presentation/signup/widgets/sign_up_textfield_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'package:dubar_physics/common/widgets/text_widget.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});

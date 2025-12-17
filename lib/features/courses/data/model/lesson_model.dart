@@ -38,13 +38,6 @@ class LessonModel extends Equatable {
 
   @override
   List<Object> get props {
-    return [
-      id,
-      title,
-      duration,
-      isLocked,
-      thumbnail,
-      videoUrl,
-    ];
+    return [id, title, duration, isLocked, thumbnail, videoUrl];
   }
 }

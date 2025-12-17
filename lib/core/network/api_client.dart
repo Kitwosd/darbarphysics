@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:dubar_physics/core/network/api_exception.dart';
+import 'package:durbar_physics/core/network/api_exception.dart';
 
 enum ApiMethod { get, post, put, patch, delete }
 

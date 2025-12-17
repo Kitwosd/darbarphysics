@@ -15,25 +15,31 @@ class AppLocalizationsNe extends AppLocalizations {
   String get onboarding_title_1 => 'स्मार्ट तरिकाले सिक्नुहोस्, छिटो बढ्नुहोस्';
 
   @override
-  String get onboarding_subtitle_1 => 'तपाईंको व्यक्तिगत सिकाइ यात्रा सुरु गर्नुहोस् र तपाईंका सीप बढाउन डिजाइन गरिएका पाठ्यक्रमहरू अन्वेषण गर्नुहोस्।';
+  String get onboarding_subtitle_1 =>
+      'तपाईंको व्यक्तिगत सिकाइ यात्रा सुरु गर्नुहोस् र तपाईंका सीप बढाउन डिजाइन गरिएका पाठ्यक्रमहरू अन्वेषण गर्नुहोस्।';
 
   @override
-  String get onboarding_title_2 => 'पूर्ण स्पष्टताका साथ अवधारणाहरूमा महारत हासिल गर्नुहोस्';
+  String get onboarding_title_2 =>
+      'पूर्ण स्पष्टताका साथ अवधारणाहरूमा महारत हासिल गर्नुहोस्';
 
   @override
-  String get onboarding_subtitle_2 => 'जटिल विषयहरूलाई पनि स्पष्ट पाठहरू, उदाहरणहरू, र अभ्यासका माध्यमबाट सजिलो बनाउन बुझ्नुहोस्।';
+  String get onboarding_subtitle_2 =>
+      'जटिल विषयहरूलाई पनि स्पष्ट पाठहरू, उदाहरणहरू, र अभ्यासका माध्यमबाट सजिलो बनाउन बुझ्नुहोस्।';
 
   @override
-  String get onboarding_title_3 => 'पेशेवर जस्तै आफ्नो सिकाइ प्रगति ट्र्याक गर्नुहोस्';
+  String get onboarding_title_3 =>
+      'पेशेवर जस्तै आफ्नो सिकाइ प्रगति ट्र्याक गर्नुहोस्';
 
   @override
-  String get onboarding_subtitle_3 => 'आफ्नो सिकाइको लक्ष्य, उपलब्धिहरू, र विश्लेषणहरू अनुगमन गरेर प्रेरित रहनुहोस् र लक्ष्यहरू प्राप्त गर्नुहोस्।';
+  String get onboarding_subtitle_3 =>
+      'आफ्नो सिकाइको लक्ष्य, उपलब्धिहरू, र विश्लेषणहरू अनुगमन गरेर प्रेरित रहनुहोस् र लक्ष्यहरू प्राप्त गर्नुहोस्।';
 
   @override
   String get onboarding_title_4 => 'आजै आफ्नो सीप र ज्ञान बढाउनुहोस्';
 
   @override
-  String get onboarding_subtitle_4 => 'सिक्ने समुदायमा सामेल हुनुहोस्, आफ्नो विशेषज्ञता तेज गर्नुहोस्, र भविष्यका अवसरहरू अनलक गर्नुहोस्।';
+  String get onboarding_subtitle_4 =>
+      'सिक्ने समुदायमा सामेल हुनुहोस्, आफ्नो विशेषज्ञता तेज गर्नुहोस्, र भविष्यका अवसरहरू अनलक गर्नुहोस्।';
 
   @override
   String get login => 'लगइन';

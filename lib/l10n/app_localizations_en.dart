@@ -15,25 +15,29 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboarding_title_1 => 'Learn Smarter, Grow Faster';
 
   @override
-  String get onboarding_subtitle_1 => 'Kickstart your personalized learning journey and discover courses designed to boost your skills.';
+  String get onboarding_subtitle_1 =>
+      'Kickstart your personalized learning journey and discover courses designed to boost your skills.';
 
   @override
   String get onboarding_title_2 => 'Master Concepts With Complete Clarity';
 
   @override
-  String get onboarding_subtitle_2 => 'Understand even complex topics with clear lessons, examples, and practice exercises made just for you.';
+  String get onboarding_subtitle_2 =>
+      'Understand even complex topics with clear lessons, examples, and practice exercises made just for you.';
 
   @override
   String get onboarding_title_3 => 'Track Your Learning Progress Like a Pro';
 
   @override
-  String get onboarding_subtitle_3 => 'Monitor your learning milestones, achievements, and analytics to stay motivated and reach your goals.';
+  String get onboarding_subtitle_3 =>
+      'Monitor your learning milestones, achievements, and analytics to stay motivated and reach your goals.';
 
   @override
   String get onboarding_title_4 => 'Level Up Your Skills and Knowledge Today';
 
   @override
-  String get onboarding_subtitle_4 => 'Join a community of learners, sharpen your expertise, and unlock opportunities for your future.';
+  String get onboarding_subtitle_4 =>
+      'Join a community of learners, sharpen your expertise, and unlock opportunities for your future.';
 
   @override
   String get login => 'Login';

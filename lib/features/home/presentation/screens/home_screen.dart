@@ -1,15 +1,15 @@
-import 'package:dubar_physics/core/di/injection.dart';
-import 'package:dubar_physics/common/enums/enums.dart';
-import 'package:dubar_physics/features/courses/presentation/courses/courses_bloc.dart';
-import 'package:dubar_physics/features/home/presentation/bloc/home_bloc.dart';
-import 'package:dubar_physics/features/home/presentation/bloc/streams/streams_bloc.dart';
-import 'package:dubar_physics/features/home/presentation/bloc/videos/videos_bloc.dart';
-import 'package:dubar_physics/features/home/presentation/widgets/home_banner.dart';
-import 'package:dubar_physics/features/home/presentation/widgets/home_courses_list.dart';
-import 'package:dubar_physics/features/home/presentation/widgets/home_header.dart';
-import 'package:dubar_physics/features/home/presentation/widgets/home_search_bar.dart';
-import 'package:dubar_physics/features/home/presentation/widgets/home_section_header.dart';
-import 'package:dubar_physics/features/home/presentation/widgets/home_videos_list.dart';
+import 'package:durbar_physics/common/enums/enums.dart';
+import 'package:durbar_physics/core/di/injection.dart';
+import 'package:durbar_physics/features/courses/presentation/courses/courses_bloc.dart';
+import 'package:durbar_physics/features/home/presentation/bloc/home_bloc.dart';
+import 'package:durbar_physics/features/home/presentation/bloc/streams/streams_bloc.dart';
+import 'package:durbar_physics/features/home/presentation/bloc/videos/videos_bloc.dart';
+import 'package:durbar_physics/features/home/presentation/widgets/home_banner.dart';
+import 'package:durbar_physics/features/home/presentation/widgets/home_courses_list.dart';
+import 'package:durbar_physics/features/home/presentation/widgets/home_header.dart';
+import 'package:durbar_physics/features/home/presentation/widgets/home_search_bar.dart';
+import 'package:durbar_physics/features/home/presentation/widgets/home_section_header.dart';
+import 'package:durbar_physics/features/home/presentation/widgets/home_videos_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -33,7 +33,7 @@ class HomeScreen extends StatelessWidget {
         BlocProvider(
           create: (context) => getIt<CoursesBloc>()..add(GetCoursesEvent()),
         ),
-          BlocProvider(
+        BlocProvider(
           create: (context) => getIt<StreamsBloc>()..add(GetStreamsEvent()),
         ),
       ],
@@ -61,8 +61,8 @@ class HomeScreen extends StatelessWidget {
                             children: [
                               const HomeSearchBar(),
                               const HomeBanner(),
-                              //HomeCategories(streams: state.streams),
 
+                              //HomeCategories(streams: state.streams),
                               HomeSectionHeader(
                                 title: 'Top Courses',
                                 onSeeAll: () {},

@@ -1,5 +1,5 @@
 import 'dart:developer';
-import 'package:dubar_physics/features/auth/presentation/signup/cubit/sign_up_state.dart';
+import 'package:durbar_physics/features/auth/presentation/signup/cubit/sign_up_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignUpCubit extends Cubit<SignUpState> {

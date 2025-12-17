@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -50,10 +49,10 @@ class TextFieldWidget extends StatelessWidget {
               ? ValueListenableBuilder<bool>(
                   valueListenable: _obscurePassword,
                   builder: (context, isObscure, _) {
-                    return _buildTextField(isObscure,context);
+                    return _buildTextField(isObscure, context);
                   },
                 )
-              : _buildTextField(false,context),
+              : _buildTextField(false, context),
         ),
         8.verticalSpace,
       ],

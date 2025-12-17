@@ -1,13 +1,13 @@
-import 'package:dubar_physics/core/app_config/app_config.dart';
-import 'package:dubar_physics/core/di/injection.dart';
-import 'package:dubar_physics/core/localization/bloc/localization_bloc.dart';
-import 'package:dubar_physics/core/routing/app_router.dart';
-import 'package:dubar_physics/core/theme/app_theme.dart';
-import 'package:dubar_physics/core/theme/theme_cubit.dart';
-import 'package:dubar_physics/l10n/app_localizations.dart';
+import 'package:durbar_physics/core/app_config/app_config.dart';
+import 'package:durbar_physics/core/di/injection.dart';
+import 'package:durbar_physics/core/localization/bloc/localization_bloc.dart';
+import 'package:durbar_physics/core/network/api_client.dart';
+import 'package:durbar_physics/core/routing/app_router.dart';
+import 'package:durbar_physics/core/theme/app_theme.dart';
+import 'package:durbar_physics/core/theme/theme_cubit.dart';
+import 'package:durbar_physics/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dubar_physics/core/network/api_client.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,7 +22,7 @@ void main() async {
   //Api Client base url passing from env
   ApiClient().init(baseUrl: devConfig.baseUrl);
 
-  //BlocObserver
+  //BlocObserver just to see what it does - to observe the bloc
   // Bloc.observer = AppBlocObserver();
   runApp(
     MultiBlocProvider(
@@ -37,7 +37,7 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   final AppConfig config;
- 
+
   const MyApp({super.key, required this.config});
   @override
   Widget build(BuildContext context) {

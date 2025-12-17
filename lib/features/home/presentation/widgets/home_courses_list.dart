@@ -1,6 +1,6 @@
-import 'package:dubar_physics/common/enums/enums.dart';
-import 'package:dubar_physics/features/courses/presentation/courses/courses_bloc.dart';
-import 'package:dubar_physics/features/home/presentation/widgets/course_card.dart';
+import 'package:durbar_physics/common/enums/enums.dart';
+import 'package:durbar_physics/features/courses/presentation/courses/courses_bloc.dart';
+import 'package:durbar_physics/features/home/presentation/widgets/course_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

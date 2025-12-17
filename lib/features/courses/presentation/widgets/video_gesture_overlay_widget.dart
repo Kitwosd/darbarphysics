@@ -51,7 +51,7 @@ class _VideoGestureOverlayWidgetState extends State<VideoGestureOverlayWidget> {
                   Expanded(
                     flex: 15,
                     child: GestureDetector(
-                      behavior: HitTestBehavior.translucent,
+                      behavior: HitTestBehavior.opaque,
                       onVerticalDragStart: (details) {
                         _startY = details.globalPosition.dy;
                       },
@@ -77,7 +77,7 @@ class _VideoGestureOverlayWidgetState extends State<VideoGestureOverlayWidget> {
                   Expanded(
                     flex: 15,
                     child: GestureDetector(
-                      behavior: HitTestBehavior.translucent,
+                      behavior: HitTestBehavior.opaque,
                       onVerticalDragStart: (details) {
                         _startY = details.globalPosition.dy;
                       },

@@ -1,5 +1,5 @@
-import 'package:dubar_physics/common/widgets/text_widget.dart';
-import 'package:dubar_physics/core/localization/bloc/localization_bloc.dart';
+import 'package:durbar_physics/common/widgets/text_widget.dart';
+import 'package:durbar_physics/core/localization/bloc/localization_bloc.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

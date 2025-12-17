@@ -1,4 +1,4 @@
-import 'package:dubar_physics/core/theme/theme_cubit.dart';
+import 'package:durbar_physics/core/theme/theme_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
