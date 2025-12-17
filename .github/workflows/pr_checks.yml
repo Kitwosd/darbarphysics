@@ -1,0 +1,40 @@
+name: PR Checks
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Check Formatting
+        run: dart format --output=none --set-exit-if-changed .
+
+      - name: UI Analysis
+        run: flutter analyze
+
+      - name: Run Tests
+        run: flutter test
+
+      # Conditional Build: Runs if on 'main' branch OR if PR title contains '[build]'
+      - name: Dry Run Build (Android)
+        if: github.ref == 'refs/heads/main' || contains(github.event.pull_request.title, '[build]')
+        run: flutter build apk --debug --no-pub

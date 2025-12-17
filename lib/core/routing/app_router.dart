@@ -1,15 +1,14 @@
-import 'package:dubar_physics/core/routing/navigation_service.dart';
-import 'package:dubar_physics/core/routing/route_name.dart';
-import 'package:dubar_physics/features/auth/presentation/login/screens/login_screen.dart';
-import 'package:dubar_physics/features/auth/presentation/signUp/screens/sign_up_screen.dart';
-import 'package:dubar_physics/features/home/presentation/screens/home_screen.dart';
-import 'package:dubar_physics/features/dashboard/presentation/screens/dashboard_screen.dart';
-import 'package:dubar_physics/features/on_boarding/presentation/screens/on_boarding_screen.dart';
-import 'package:dubar_physics/features/profile/profile_screen.dart';
-import 'package:dubar_physics/features/home/presentation/screens/saved_screen.dart';
-import 'package:dubar_physics/features/settings/settings_screen.dart';
+import 'package:durbar_physics/core/routing/navigation_service.dart';
+import 'package:durbar_physics/core/routing/route_name.dart';
+import 'package:durbar_physics/features/auth/presentation/login/screens/login_screen.dart';
+import 'package:durbar_physics/features/auth/presentation/signUp/screens/sign_up_screen.dart';
+import 'package:durbar_physics/features/dashboard/presentation/screens/dashboard_screen.dart';
+import 'package:durbar_physics/features/home/presentation/screens/home_screen.dart';
+import 'package:durbar_physics/features/home/presentation/screens/saved_screen.dart';
+import 'package:durbar_physics/features/on_boarding/presentation/screens/on_boarding_screen.dart';
+import 'package:durbar_physics/features/profile/profile_screen.dart';
+import 'package:durbar_physics/features/settings/settings_screen.dart';
 import 'package:flutter/material.dart';
-
 import 'package:go_router/go_router.dart';
 
 final GoRouter appRouter = GoRouter(

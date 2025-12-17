@@ -1,18 +1,15 @@
 import 'package:better_player_plus/better_player_plus.dart';
-import 'package:better_player_plus/src/controls/better_player_material_controls.dart';
-import 'package:dubar_physics/features/courses/presentation/widgets/video_gesture_overlay_widget.dart';
+import 'package:durbar_physics/features/courses/presentation/widgets/video_gesture_overlay_widget.dart';
 import 'package:flutter/material.dart';
 
 class VideoPlayerScreenWidget extends StatefulWidget {
   final String videoUrl;
   final String title;
-  final ValueNotifier<bool> isFullScreen;
 
   const VideoPlayerScreenWidget({
     super.key,
     required this.videoUrl,
     required this.title,
-    required this.isFullScreen,
   });
 
   @override
@@ -21,6 +18,7 @@ class VideoPlayerScreenWidget extends StatefulWidget {
 
 class _VideoPlayerScreenState extends State<VideoPlayerScreenWidget> {
   late BetterPlayerController _betterPlayerController;
+  final ValueNotifier<bool> isFullScreen = ValueNotifier(false);
 
   @override
   void initState() {
@@ -33,6 +31,9 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreenWidget> {
           looping: false,
           fullScreenByDefault: false,
           allowedScreenSleep: false,
+
+          // Use the overlay property to display the gesture widget
+          overlay: VideoGestureOverlayWidget(isFullScreen: isFullScreen),
 
           controlsConfiguration: BetterPlayerControlsConfiguration(
             enableSkips: true,
@@ -48,19 +49,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreenWidget> {
             progressBarHandleColor: Colors.blue,
             enablePlaybackSpeed: true,
             showControls: true,
-            customControlsBuilder: (controller, onPlayerVisibilityChanged) {
-              return Stack(
-                children: [
-                  BetterPlayerMaterialControls(
-                    onControlsVisibilityChanged: onPlayerVisibilityChanged,
-                    controlsConfiguration: controller
-                        .betterPlayerConfiguration
-                        .controlsConfiguration,
-                  ),
-                  VideoGestureOverlayWidget(isFullScreen: widget.isFullScreen),
-                ],
-              );
-            },
           ),
         );
 
@@ -75,13 +63,13 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreenWidget> {
     );
     _betterPlayerController = BetterPlayerController(betterPlayerConfiguration);
 
-    //fullScreen detection
+    // Listen to fullscreen events to update the notifier
     _betterPlayerController.addEventsListener((event) {
       if (event.betterPlayerEventType == BetterPlayerEventType.openFullscreen) {
-        widget.isFullScreen.value = true;
+        isFullScreen.value = true;
       }
       if (event.betterPlayerEventType == BetterPlayerEventType.hideFullscreen) {
-        widget.isFullScreen.value = false;
+        isFullScreen.value = false;
       }
     });
 
@@ -91,6 +79,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreenWidget> {
   @override
   void dispose() {
     _betterPlayerController.dispose();
+    isFullScreen.dispose();
     super.dispose();
   }
 

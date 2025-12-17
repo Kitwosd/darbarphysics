@@ -1,4 +1,4 @@
-import 'package:dubar_physics/core/theme/theme_extension.dart';
+import 'package:durbar_physics/core/theme/theme_extension.dart';
 import 'package:flutter/material.dart';
 
 class SettingsScreen extends StatelessWidget {

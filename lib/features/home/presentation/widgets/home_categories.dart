@@ -1,5 +1,5 @@
-import 'package:dubar_physics/common/widgets/text_widget.dart';
-import 'package:dubar_physics/features/home/data/models/stream_model.dart';
+import 'package:durbar_physics/common/widgets/text_widget.dart';
+import 'package:durbar_physics/features/home/data/models/stream_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -38,7 +38,9 @@ class HomeCategories extends StatelessWidget {
               boxShadow: isSelected
                   ? [
                       BoxShadow(
-                        color: Theme.of(context).primaryColor.withValues(alpha: 0.3),
+                        color: Theme.of(
+                          context,
+                        ).primaryColor.withValues(alpha: 0.3),
                         blurRadius: 8,
                         offset: const Offset(0, 4),
                       ),

@@ -1,4 +1,4 @@
-import 'package:dubar_physics/core/logger/app_logger.dart';
+import 'package:durbar_physics/core/logger/app_logger.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AppBlocObserver extends BlocObserver {

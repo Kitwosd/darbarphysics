@@ -1,11 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:dubar_physics/common/widgets/button_widget.dart';
-import 'package:dubar_physics/common/widgets/text_widget.dart';
-import 'package:dubar_physics/core/localization/l10_service.dart';
-import 'package:dubar_physics/core/routing/navigation_service.dart';
-import 'package:dubar_physics/core/routing/route_name.dart';
-import 'package:dubar_physics/features/on_boarding/domain/models/on_boarding_model.dart';
-import 'package:dubar_physics/features/on_boarding/presentation/widget/on_boarding_widget.dart';
+import 'package:durbar_physics/common/widgets/button_widget.dart';
+import 'package:durbar_physics/common/widgets/text_widget.dart';
+import 'package:durbar_physics/core/localization/l10_service.dart';
+import 'package:durbar_physics/core/routing/navigation_service.dart';
+import 'package:durbar_physics/core/routing/route_name.dart';
+import 'package:durbar_physics/features/on_boarding/domain/models/on_boarding_model.dart';
+import 'package:durbar_physics/features/on_boarding/presentation/widget/on_boarding_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

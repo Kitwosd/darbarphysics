@@ -1,4 +1,4 @@
-import 'package:dubar_physics/core/theme/app_colors.dart';
+import 'package:durbar_physics/core/theme/app_colors.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 

@@ -1,5 +1,5 @@
-import 'package:dubar_physics/core/routing/navigation_service.dart';
-import 'package:dubar_physics/core/routing/route_name.dart';
+import 'package:durbar_physics/core/routing/navigation_service.dart';
+import 'package:durbar_physics/core/routing/route_name.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatelessWidget {

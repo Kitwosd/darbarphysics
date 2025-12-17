@@ -1,9 +1,9 @@
-import 'package:dubar_physics/common/widgets/text_widget.dart';
-import 'package:dubar_physics/features/courses/data/model/course_model.dart';
-import 'package:dubar_physics/features/courses/presentation/widgets/course_detail_header.dart';
-import 'package:dubar_physics/features/courses/presentation/widgets/course_info_section.dart';
-import 'package:dubar_physics/features/courses/presentation/widgets/course_lessons_tab.dart';
-import 'package:dubar_physics/features/courses/presentation/widgets/course_overview_tab.dart';
+import 'package:durbar_physics/common/widgets/text_widget.dart';
+import 'package:durbar_physics/features/courses/data/model/course_model.dart';
+import 'package:durbar_physics/features/courses/presentation/widgets/course_detail_header.dart';
+import 'package:durbar_physics/features/courses/presentation/widgets/course_info_section.dart';
+import 'package:durbar_physics/features/courses/presentation/widgets/course_lessons_tab.dart';
+import 'package:durbar_physics/features/courses/presentation/widgets/course_overview_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

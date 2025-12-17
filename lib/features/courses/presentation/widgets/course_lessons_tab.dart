@@ -1,7 +1,7 @@
-import 'package:dubar_physics/common/widgets/text_widget.dart';
-import 'package:dubar_physics/features/courses/data/model/course_model.dart';
-import 'package:dubar_physics/features/courses/data/model/lesson_model.dart';
-import 'package:dubar_physics/features/courses/presentation/screens/video_player_screen.dart';
+import 'package:durbar_physics/common/widgets/text_widget.dart';
+import 'package:durbar_physics/features/courses/data/model/course_model.dart';
+import 'package:durbar_physics/features/courses/data/model/lesson_model.dart';
+import 'package:durbar_physics/features/courses/presentation/screens/video_player_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
