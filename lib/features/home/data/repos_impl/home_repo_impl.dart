@@ -1,7 +1,7 @@
 import 'package:durbar_physics/core/network/api_client.dart';
 import 'package:durbar_physics/features/courses/data/model/course_model.dart';
 import 'package:durbar_physics/features/home/data/models/class_model.dart';
-import 'package:durbar_physics/features/home/data/models/live_class_model.dart';
+
 import 'package:durbar_physics/features/home/data/models/stream_model.dart';
 import 'package:durbar_physics/features/home/data/models/video_model.dart';
 import 'package:durbar_physics/features/home/domain/repos/home_repo.dart';
@@ -39,15 +39,6 @@ class HomeRepoImpl implements HomeRepo {
       method: ApiMethod.get,
     );
     return (response as List).map((e) => StreamModel.fromJson(e)).toList();
-  }
-
-  @override
-  Future<List<LiveClassModel>> getLiveClasses() async {
-    final response = await apiClient.request(
-      path: '/liveclasses/',
-      method: ApiMethod.get,
-    );
-    return (response as List).map((e) => LiveClassModel.fromJson(e)).toList();
   }
 
   @override

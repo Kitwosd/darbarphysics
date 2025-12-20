@@ -66,6 +66,12 @@ dependencies:
   better_player_plus: ^1.0.8
   volume_controller: ^3.4.1
   screen_brightness: ^2.1.7
+
+  #for zoom 
+  flutter_inappwebview: ^6.1.5
+  permission_handler: ^12.0.1
+  wakelock_plus: ^1.4.0
+  connectivity_plus: ^6.1.0
  
 
 dev_dependencies:

@@ -1,26 +1,28 @@
 part of 'live_classes_bloc.dart';
 
 class LiveClassesState extends Equatable {
-  final String error;
-  final ApiDataStatus status;
   final List<LiveClassModel> liveClasses;
+  final ApiDataStatus status;
+  final String? error;
+
   const LiveClassesState({
-    this.error = '',
-    this.status = ApiDataStatus.initial,
     this.liveClasses = const [],
+    this.status = ApiDataStatus.initial,
+    this.error,
   });
+
   LiveClassesState copyWith({
-    String? error,
-    ApiDataStatus? status,
     List<LiveClassModel>? liveClasses,
+    ApiDataStatus? status,
+    String? error,
   }) {
     return LiveClassesState(
-      error: error ?? this.error,
-      status: status ?? this.status,
       liveClasses: liveClasses ?? this.liveClasses,
+      status: status ?? this.status,
+      error: error,
     );
   }
 
   @override
-  List<Object?> get props => [liveClasses, error, status];
+  List<Object?> get props => [liveClasses, status, error];
 }

@@ -4,7 +4,7 @@ class HomeState extends Equatable {
   final List<CourseModel> courses;
   final List<ClassModel> classes;
   final List<StreamModel> streams;
-  final List<LiveClassModel> liveClasses;
+
   final List<VideoModel> videos;
   final String error;
   final ApiDataStatus status;
@@ -13,7 +13,7 @@ class HomeState extends Equatable {
     this.courses = const [],
     this.classes = const [],
     this.streams = const [],
-    this.liveClasses = const [],
+
     this.videos = const [],
     this.error = '',
     this.status = ApiDataStatus.initial,
@@ -23,7 +23,7 @@ class HomeState extends Equatable {
     List<CourseModel>? courses,
     List<ClassModel>? classes,
     List<StreamModel>? streams,
-    List<LiveClassModel>? liveClasses,
+
     List<VideoModel>? videos,
     String? error,
     ApiDataStatus? status,
@@ -32,7 +32,7 @@ class HomeState extends Equatable {
       courses: courses ?? this.courses,
       classes: classes ?? this.classes,
       streams: streams ?? this.streams,
-      liveClasses: liveClasses ?? this.liveClasses,
+
       videos: videos ?? this.videos,
       error: error ?? this.error,
       status: status ?? this.status,
@@ -40,13 +40,5 @@ class HomeState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [
-    courses,
-    classes,
-    streams,
-    liveClasses,
-    videos,
-    error,
-    status,
-  ];
+  List<Object?> get props => [courses, classes, streams, videos, error, status];
 }

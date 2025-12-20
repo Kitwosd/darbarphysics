@@ -1,7 +1,7 @@
 import 'package:durbar_physics/features/courses/data/model/course_model.dart';
 import 'package:durbar_physics/features/courses/data/model/lesson_model.dart';
 import 'package:durbar_physics/features/home/data/models/class_model.dart';
-import 'package:durbar_physics/features/home/data/models/live_class_model.dart';
+
 import 'package:durbar_physics/features/home/data/models/stream_model.dart';
 import 'package:durbar_physics/features/home/data/models/video_model.dart';
 import 'package:durbar_physics/features/home/domain/repos/home_repo.dart';
@@ -79,11 +79,6 @@ class MockHomeRepo implements HomeRepo {
         lessons: lessons,
       ),
     ];
-  }
-
-  @override
-  Future<List<LiveClassModel>> getLiveClasses() async {
-    return [];
   }
 
   @override

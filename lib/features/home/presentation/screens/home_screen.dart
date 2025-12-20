@@ -1,3 +1,5 @@
+// ignore_for_file: directives_ordering
+
 import 'package:durbar_physics/common/enums/enums.dart';
 import 'package:durbar_physics/core/di/injection.dart';
 import 'package:durbar_physics/features/courses/presentation/courses/courses_bloc.dart';
@@ -10,6 +12,11 @@ import 'package:durbar_physics/features/home/presentation/widgets/home_header.da
 import 'package:durbar_physics/features/home/presentation/widgets/home_search_bar.dart';
 import 'package:durbar_physics/features/home/presentation/widgets/home_section_header.dart';
 import 'package:durbar_physics/features/home/presentation/widgets/home_videos_list.dart';
+import 'package:durbar_physics/features/live_classes/presentation/bloc/live_classes_bloc.dart';
+import 'package:durbar_physics/features/live_classes/presentation/widgets/home_live_classes_list.dart';
+
+import 'package:durbar_physics/core/routing/route_name.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -35,6 +42,10 @@ class HomeScreen extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => getIt<StreamsBloc>()..add(GetStreamsEvent()),
+        ),
+        BlocProvider(
+          create: (context) =>
+              getIt<LiveClassesBloc>()..add(GetLiveClassesEvent()),
         ),
       ],
       child: InkWell(
@@ -77,15 +88,14 @@ class HomeScreen extends StatelessWidget {
                                 HomeVideosList(),
                               ],
 
-                              // You can add LiveClasses List similar to VideosList if needed
-                              if (state.liveClasses.isNotEmpty) ...[
-                                HomeSectionHeader(
-                                  title: 'Live Classes',
-                                  onSeeAll: () {},
-                                ),
-                                // Placeholder for Live Classes List or reuse VideosList if structure similar
-                                // HomeVideosList(videos: state.liveClasses...)
-                              ],
+                              // Live Classes Logic managed by its own Bloc
+                              HomeSectionHeader(
+                                title: 'Live Classes',
+                                onSeeAll: () {
+                                  context.push(RoutePath.liveClassesList);
+                                },
+                              ),
+                              const HomeLiveClassesList(),
                             ],
                           ),
                         );

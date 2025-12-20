@@ -1,4 +1,7 @@
+import 'package:durbar_physics/core/routing/navigation_service.dart';
+import 'package:durbar_physics/core/routing/route_name.dart';
 import 'package:durbar_physics/core/theme/theme_extension.dart';
+import 'package:durbar_physics/features/practise/basic_webview_screen.dart';
 import 'package:flutter/material.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -77,13 +80,46 @@ class SettingsScreen extends StatelessWidget {
               const SizedBox(height: 40),
 
               // Menu Items
-              _buildSettingItem(context, Icons.person, 'Edit Profile'),
-              _buildSettingItem(context, Icons.credit_card, 'Payment Option'),
-              _buildSettingItem(context, Icons.grid_view, 'My Certificates'),
-              _buildSettingItem(context, Icons.analytics, 'Terms & Conditions'),
-              _buildSettingItem(context, Icons.headset_mic, 'Help Center'),
-              _buildSettingItem(context, Icons.send, 'Invite Friends'),
-              _buildSettingItem(context, Icons.logout, 'Logout'),
+              _buildSettingItem(
+                context,
+                Icons.person,
+                'Edit Profile',
+                () => NavigationService.pushNamed(RouteName.profile),
+              ),
+              _buildSettingItem(
+                context,
+                Icons.credit_card,
+                'Payment Option',
+                null,
+              ),
+              _buildSettingItem(
+                context,
+                Icons.grid_view,
+                'My Certificates',
+                null,
+              ),
+              _buildSettingItem(
+                context,
+                Icons.analytics,
+                'Terms & Conditions',
+                () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const BasicWebviewScreen(
+                      url:
+                          'https://us04web.zoom.us/j/3117772972?pwd=oQOKC681rjGaeyA8ZiixJe8T2sW9pN.1',
+                    ),
+                  ),
+                ),
+              ),
+              _buildSettingItem(
+                context,
+                Icons.headset_mic,
+                'Help Center',
+                null,
+              ),
+              _buildSettingItem(context, Icons.send, 'Invite Friends', null),
+              _buildSettingItem(context, Icons.logout, 'Logout', null),
             ],
           ),
         ),
@@ -91,26 +127,39 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSettingItem(BuildContext context, IconData icon, String title) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12.0),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              // color: color.withOpacity(0.1), // Optional: if we want colored bg for icon
-              borderRadius: BorderRadius.circular(8),
+  Widget _buildSettingItem(
+    BuildContext context,
+    IconData icon,
+    String title,
+    VoidCallback?
+    navigateTo, //TODO: Just for remembering void Function()? navigateTo = VoidCallback()
+  ) {
+    return InkWell(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12.0),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                // color: color.withOpacity(0.1), // Optional: if we want colored bg for icon
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Icon(icon, size: 28),
             ),
-            child: Icon(icon, size: 28),
-          ),
-          const SizedBox(width: 16),
-          Text(
-            title,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-          ),
-        ],
+            const SizedBox(width: 16),
+            Text(
+              title,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+            ),
+          ],
+        ),
       ),
+      onTap: () {
+        if (navigateTo != null) {
+          return navigateTo();
+        }
+      },
     );
   }
 }
