@@ -1,6 +1,7 @@
 import 'package:durbar_physics/core/routing/navigation_service.dart';
 import 'package:durbar_physics/core/routing/route_name.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -31,17 +32,18 @@ class ProfileScreen extends StatelessWidget {
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              // Logout logic
+              Hive.box('authBox').delete('accessToken');
+              NavigationService.goNamed(RouteName.login);
+            },
             icon: Container(
               padding: const EdgeInsets.all(4),
               decoration: BoxDecoration(
-                color: Colors.grey[200],
+                color: Colors.red[100],
                 borderRadius: BorderRadius.circular(4),
               ),
-              child: Icon(
-                Icons.notifications,
-                color: Theme.of(context).primaryColorLight,
-              ),
+              child: Icon(Icons.logout, color: Colors.red),
             ),
           ),
         ],

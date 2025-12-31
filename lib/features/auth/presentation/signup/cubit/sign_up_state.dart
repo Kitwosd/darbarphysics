@@ -21,6 +21,9 @@ class SignUpState extends Equatable {
   final String statusMessage;
   final String signupStatus; // idle, loading, success, error
 
+  final String retypedPassword;
+  final String retypedPasswordStatus;
+
   const SignUpState({
     this.name = '',
     this.nameStatus = '',
@@ -35,6 +38,8 @@ class SignUpState extends Equatable {
     this.ageStatus = '',
     this.statusMessage = '',
     this.signupStatus = '',
+    this.retypedPassword = '',
+    this.retypedPasswordStatus = '',
   });
 
   SignUpState copyWith({
@@ -51,6 +56,8 @@ class SignUpState extends Equatable {
     String? ageStatus,
     String? statusMessage,
     String? signupStatus,
+    String? retypedPassword,
+    String? retypedPasswordStatus,
   }) {
     return SignUpState(
       name: name ?? this.name,
@@ -66,6 +73,9 @@ class SignUpState extends Equatable {
       ageStatus: ageStatus ?? this.ageStatus,
       statusMessage: statusMessage ?? this.statusMessage,
       signupStatus: signupStatus ?? this.signupStatus,
+      retypedPassword: retypedPassword ?? this.retypedPassword,
+      retypedPasswordStatus:
+          retypedPasswordStatus ?? this.retypedPasswordStatus,
     );
   }
 
@@ -84,5 +94,7 @@ class SignUpState extends Equatable {
     ageStatus,
     statusMessage,
     signupStatus,
+    retypedPassword,
+    retypedPasswordStatus
   ];
 }

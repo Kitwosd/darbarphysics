@@ -1,9 +1,15 @@
 import 'dart:developer';
+import 'package:durbar_physics/common/widgets/overlay_toast_widget.dart';
+import 'package:durbar_physics/core/network/api_client.dart';
 import 'package:durbar_physics/features/auth/presentation/signup/cubit/sign_up_state.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 
+@injectable
 class SignUpCubit extends Cubit<SignUpState> {
-  SignUpCubit() : super(const SignUpState());
+  final ApiClient apiClient;
+  SignUpCubit(this.apiClient) : super(const SignUpState());
 
   void getName(String name) {
     String? error;
@@ -21,6 +27,17 @@ class SignUpCubit extends Cubit<SignUpState> {
     String? error;
     if (password.length < 6) error = "Password must be 6+ chars";
     emit(state.copyWith(password: password, passwordStatus: error ?? ""));
+  }
+
+  void getRetypedPassword(String retypedPassword) {
+    String? error;
+    if (retypedPassword != state.password) error = "Password doesn't match";
+    emit(
+      state.copyWith(
+        retypedPassword: retypedPassword,
+        retypedPasswordStatus: error ?? '',
+      ),
+    );
   }
 
   void getPhone(String phone) {
@@ -46,8 +63,17 @@ class SignUpCubit extends Cubit<SignUpState> {
         state.emailStatus.isNotEmpty ||
         state.passwordStatus.isNotEmpty ||
         state.phoneStatus.isNotEmpty ||
-        state.ageStatus.isNotEmpty) {
+        // state.ageStatus.isNotEmpty ||
+        state.retypedPasswordStatus.isNotEmpty) {
       // Already has errors, stop
+      return;
+    }
+
+    if (state.name.isEmpty ||
+        state.email.isEmpty ||
+        state.password.isEmpty ||
+        state.phone.isEmpty ||
+        state.retypedPassword.isEmpty) {
       return;
     }
 
@@ -58,10 +84,35 @@ class SignUpCubit extends Cubit<SignUpState> {
     emit(state.copyWith(signupStatus: "loading"));
 
     try {
-      await Future.delayed(const Duration(seconds: 2));
+      final data = {
+        'full_name': state.name,
+        'email': state.email,
+        'password': state.password,
+        'phone_number': state.phone,
+        'age': state.age,
+        'gender': state.gender,
+      };
+
+      final response = await apiClient.request(
+        path: 'auth/signup/',
+        method: ApiMethod.post,
+        data: data,
+      );
+
+      log("Signup Response: $response");
+
+      final message = response['message'] ?? "Signup Successful";
+      OverlayToastWidget.show(message: message, bgColor: Colors.green);
+
       emit(state.copyWith(signupStatus: "success"));
     } catch (e) {
       log("Signup error: $e");
+
+      OverlayToastWidget.show(
+        message: "Signup Failed: ${e.toString()}",
+        bgColor: Colors.red,
+      );
+
       emit(state.copyWith(signupStatus: "error"));
     }
   }

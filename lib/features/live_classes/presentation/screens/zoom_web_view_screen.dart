@@ -294,52 +294,52 @@ class _MyWidgetState extends State<ZoomWebViewScreen> {
                 return NavigationActionPolicy.ALLOW;
               },
             ),
-            if (isLoading && !showError && progress < 1.0)
-              Positioned(
-                top: 0,
-                right: 0,
-                left: 0,
-                child: Column(
-                  children: [
-                    LinearProgressIndicator(
-                      value: progress,
-                      backgroundColor: Colors.grey.shade200,
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        appColors.primary,
-                      ),
-                      minHeight: 3.h,
-                    ),
+            // if (isLoading && !showError && progress < 1.0)
+            //   Positioned(
+            //     top: 0,
+            //     right: 0,
+            //     left: 0,
+            //     child: Column(
+            //       children: [
+            //         LinearProgressIndicator(
+            //           value: progress,
+            //           backgroundColor: Colors.grey.shade200,
+            //           valueColor: AlwaysStoppedAnimation<Color>(
+            //             appColors.primary,
+            //           ),
+            //           minHeight: 3.h,
+            //         ),
 
-                    if (progress < 0.5)
-                      Container(
-                        color: Colors.white.withValues(alpha: 0.9),
-                        padding: EdgeInsets.symmetric(vertical: 8.h),
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: 16.w,
-                              height: 16.h,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                  appColors.primary,
-                                ),
-                              ),
-                            ),
-                            12.verticalSpace,
-                            TextWidget(
-                              word: 'Connecting to meeting... ',
-                              size: 14,
-                              weight: FontWeight.w500,
-                              textColor: Colors.grey.shade700,
-                            ),
-                          ],
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-            if (isLoading && !showError)
+            //         if (progress < 0.5)
+            //           Container(
+            //             color: Colors.white.withValues(alpha: 0.9),
+            //             padding: EdgeInsets.symmetric(vertical: 8.h),
+            //             child: Row(
+            //               children: [
+            //                 SizedBox(
+            //                   width: 16.w,
+            //                   height: 16.h,
+            //                   child: CircularProgressIndicator(
+            //                     strokeWidth: 2,
+            //                     valueColor: AlwaysStoppedAnimation<Color>(
+            //                       appColors.primary,
+            //                     ),
+            //                   ),
+            //                 ),
+            //                 12.verticalSpace,
+            //                 TextWidget(
+            //                   word: 'Hello broo',
+            //                   size: 14,
+            //                   weight: FontWeight.w500,
+            //                   textColor: Colors.grey.shade700,
+            //                 ),
+            //               ],
+            //             ),
+            //           ),
+            //       ],
+            //     ),
+            //   ),
+            if (isLoading && !showError && progress < 1.0)
               Positioned(
                 top: 0,
                 left: 0,
@@ -374,7 +374,7 @@ class _MyWidgetState extends State<ZoomWebViewScreen> {
                             ),
                             12.horizontalSpace,
                             TextWidget(
-                              word: 'Connecting to meeting...',
+                              word: getLoadingState(),
                               size: 14,
                               weight: FontWeight.w500,
                               textColor: Colors.grey.shade700,

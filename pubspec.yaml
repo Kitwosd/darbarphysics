@@ -70,8 +70,14 @@ dependencies:
   #for zoom 
   flutter_inappwebview: ^6.1.5
   permission_handler: ^12.0.1
-  wakelock_plus: ^1.4.0
-  connectivity_plus: ^6.1.0
+  connectivity_plus: ^6.1.0 #downgraded version for khalti
+  wakelock_plus: 1.2.10 #downgraded version for khalti
+
+  #for khalti
+  khalti_checkout_flutter: ^1.0.0-dev.9
+  http: ^1.6.0
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
  
 
 dev_dependencies:

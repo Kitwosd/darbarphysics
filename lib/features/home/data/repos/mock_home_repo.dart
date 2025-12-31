@@ -47,7 +47,7 @@ class MockHomeRepo implements HomeRepo {
         title: "Complete Physics for NEB Class 11",
         description:
             "Master Physics with this comprehensive course designed for NEB students. Covers Mechanics, Thermodynamics, and more.",
-        cost: "Rs. 2500",
+        cost: 2500,
         startTime: DateTime.now(),
         endTime: DateTime.now().add(const Duration(days: 90)),
         image:
@@ -65,7 +65,7 @@ class MockHomeRepo implements HomeRepo {
         title: "Thermodynamics Masterclass",
         description:
             "Deep dive into heat and temperature. Perfect for exam preparation.",
-        cost: "Rs. 1500",
+        cost: 1500,
         startTime: DateTime.now(),
         endTime: DateTime.now().add(const Duration(days: 45)),
         image:
@@ -95,7 +95,7 @@ class MockHomeRepo implements HomeRepo {
       const VideoModel(
         id: 1,
         title: "Understanding Newton's Laws",
-        teacher: 101,
+        teacher: 'Sanjay Chaudary',
         videoUrl:
             "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4",
         thumbnail:
@@ -104,7 +104,7 @@ class MockHomeRepo implements HomeRepo {
       const VideoModel(
         id: 2,
         title: "Kinematics in One Shot",
-        teacher: 102,
+        teacher: 'Sameer Shrestha',
         videoUrl:
             "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4",
         thumbnail:

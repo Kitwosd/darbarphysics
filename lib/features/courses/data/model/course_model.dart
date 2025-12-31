@@ -5,7 +5,7 @@ class CourseModel extends Equatable {
   final int id;
   final String title;
   final String description;
-  final String cost;
+  final double cost;
   final DateTime startTime;
   final DateTime endTime;
   final String image;

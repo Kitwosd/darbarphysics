@@ -3,8 +3,8 @@ import 'package:equatable/equatable.dart';
 class VideoModel extends Equatable {
   final int id;
   final String title;
-  final int teacher;
-  final int? course;
+  final String teacher;
+  final String? course;
   final String videoUrl;
   final String thumbnail;
   final String duration;

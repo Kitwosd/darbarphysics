@@ -25,11 +25,10 @@ class ApiClient {
         },
       ),
     );
-    // if (kDebugMode) {
-    //   _dio.interceptors.add(
-    //     LogInterceptor(requestBody: true, responseBody: true),
-    //   );
-    // }
+  }
+
+  void updateAccessToken(String accessToken) {
+    _dio.options.headers['Authorization'] = 'Bearer $accessToken';
   }
 
   Future<dynamic> request({

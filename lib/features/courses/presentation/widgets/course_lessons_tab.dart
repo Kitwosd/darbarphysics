@@ -1,5 +1,5 @@
+import 'package:durbar_physics/common/widgets/overlay_toast_widget.dart';
 import 'package:durbar_physics/common/widgets/text_widget.dart';
-import 'package:durbar_physics/common/widgets/toast_widget.dart';
 import 'package:durbar_physics/core/services/app_globals.dart';
 import 'package:durbar_physics/features/courses/data/model/course_model.dart';
 import 'package:durbar_physics/features/courses/data/model/lesson_model.dart';
@@ -28,9 +28,13 @@ class CourseLessonsTab extends StatelessWidget {
     return InkWell(
       onTap: () {
         if (lesson.isLocked) {
-          ShowToastWidget.show(
-            message: 'Please enroll to unlocked this lesson',
+          OverlayToastWidget.show(
+            message: 'Please enroll to unlock the lesson',
           );
+          // ToastWidget.show(
+          //   text: 'Please enroll to unlock the lesson',
+          //   position: ToastPosition.top,
+          // );
           // ScaffoldMessenger.of(context).showSnackBar(
           //   const SnackBar(
           //     content: Text("Please enroll to unlock this lesson"),

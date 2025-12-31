@@ -17,6 +17,7 @@ class AppTheme {
         whiteDarkGrey: Colors.white,
         greyWhite: Colors.grey,
         blackWhite: Colors.black,
+        whiteBlack: Colors.white,
       ),
     ],
 
@@ -63,6 +64,7 @@ class AppTheme {
         whiteDarkGrey: Colors.grey.shade700,
         greyWhite: Colors.white,
         blackWhite: Colors.white,
+        whiteBlack: Colors.black,
       ),
     ],
     surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,

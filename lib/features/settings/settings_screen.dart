@@ -119,7 +119,9 @@ class SettingsScreen extends StatelessWidget {
                 null,
               ),
               _buildSettingItem(context, Icons.send, 'Invite Friends', null),
-              _buildSettingItem(context, Icons.logout, 'Logout', null),
+              _buildSettingItem(context, Icons.logout, 'Logout', () {
+                NavigationService.pushNamedReplacement(RouteName.login);
+              }),
             ],
           ),
         ),

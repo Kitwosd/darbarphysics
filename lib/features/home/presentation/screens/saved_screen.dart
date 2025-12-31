@@ -1,10 +1,33 @@
 import 'package:durbar_physics/common/widgets/text_widget.dart';
+import 'package:durbar_physics/core/services/app_globals.dart';
 import 'package:durbar_physics/features/courses/data/model/course_model.dart';
+import 'package:durbar_physics/features/home/data/models/video_model.dart';
+import 'package:durbar_physics/features/home/presentation/widgets/saved_courses_list_widget.dart';
+import 'package:durbar_physics/features/home/presentation/widgets/saved_videos_list_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class SavedScreen extends StatelessWidget {
+class SavedScreen extends StatefulWidget {
   const SavedScreen({super.key});
+
+  @override
+  State<SavedScreen> createState() => _SavedScreenState();
+}
+
+class _SavedScreenState extends State<SavedScreen>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _tabController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +37,7 @@ class SavedScreen extends StatelessWidget {
         id: 1,
         title: "Adobe illustrator for all beginner artist",
         description: "Graphic design",
-        cost: "0.00",
+        cost: 10000,
         startTime: DateTime.now(),
         endTime: DateTime.now(),
         image:
@@ -25,7 +48,7 @@ class SavedScreen extends StatelessWidget {
         id: 2,
         title: "Digital illustration technique for procreate",
         description: "Graphic design",
-        cost: "0.00",
+        cost: 50000,
         startTime: DateTime.now(),
         endTime: DateTime.now(),
         image:
@@ -33,61 +56,15 @@ class SavedScreen extends StatelessWidget {
         createdAt: DateTime.now(),
       ),
     ];
-
-    if (savedCourses.isEmpty) {
-      return Scaffold(
-        appBar: AppBar(
-          title: TextWidget(
-            word: "My save list",
-            weight: FontWeight.bold,
-            size: 18,
-            textColor: Theme.of(context).appBarTheme.titleTextStyle?.color,
-          ),
-          centerTitle: true,
-          automaticallyImplyLeading: false,
-        ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.network(
-                "https://cdni.iconscout.com/illustration/premium/thumb/empty-cart-2130356-1800917.png",
-                height: 200.h,
-              ), // Placeholder
-              SizedBox(height: 20.h),
-              TextWidget(
-                word: "Nothing is here!",
-                size: 20,
-                weight: FontWeight.bold,
-              ),
-              SizedBox(height: 10.h),
-              TextWidget(
-                word:
-                    "We found nothing in your save list! Want to \nhave some? Try something best",
-                align: TextAlign.center,
-                textColor: Theme.of(context).textTheme.bodyMedium?.color,
-              ),
-              SizedBox(height: 30.h),
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).primaryColor,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 40.w,
-                    vertical: 12.h,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.r),
-                  ),
-                ),
-                child: TextWidget(word: "Recommended", textColor: Colors.white),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
-
+    final List<VideoModel> savedVideos = [
+      VideoModel(
+        id: 1,
+        title: 'HEllo broo',
+        teacher: 'Sanjay Chaudary',
+        videoUrl: 'somevidoe',
+        thumbnail: 'some picture',
+      ),
+    ];
     return Scaffold(
       appBar: AppBar(
         title: TextWidget(
@@ -101,82 +78,34 @@ class SavedScreen extends StatelessWidget {
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
-      body: ListView.builder(
-        padding: EdgeInsets.all(20.w),
-        itemCount: savedCourses.length,
-        itemBuilder: (context, index) {
-          return Container(
-            margin: EdgeInsets.only(bottom: 15.h),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      body: Column(
+        children: [
+          TabBar(
+            controller: _tabController,
+            labelColor: appColors.primary,
+            unselectedLabelColor: Colors.grey,
+            indicatorColor: appColors.primary,
+
+            tabs: const [
+              Tab(text: 'Videos'),
+              Tab(text: 'Courses'),
+            ],
+          ),
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(12.r),
-                  child: Image.network(
-                    savedCourses[index].image,
-                    height: 80.h,
-                    width: 80.w,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) => Container(
-                      height: 80.h,
-                      width: 80.w,
-                      color: Colors.grey[300],
-                    ),
-                  ),
-                ),
-                SizedBox(width: 15.w),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TextWidget(
-                        word: savedCourses[index].title,
-                        maxLines: 2,
-                        weight: FontWeight.bold,
-                      ),
-                      SizedBox(height: 5.h),
-                      TextWidget(
-                        word: "Samule Doe",
-                        textColor: Colors.grey,
-                        size: 12,
-                      ), // Mock
-                      SizedBox(height: 5.h),
-                      Row(
-                        children: [
-                          Icon(Icons.person, size: 14.sp, color: Colors.grey),
-                          TextWidget(
-                            word: " 4k student",
-                            textColor: Colors.grey,
-                            size: 12,
-                          ),
-                          SizedBox(width: 10.w),
-                          Icon(Icons.star, size: 14.sp, color: Colors.amber),
-                          TextWidget(
-                            word: " 4.7",
-                            textColor: Colors.grey,
-                            size: 12,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+                SavedVideosListWidget(videos: savedVideos),
+                SavedCoursesListWidget(courses: savedCourses),
               ],
             ),
-          );
-        },
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: ElevatedButton(
-        onPressed: () {},
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Theme.of(context).primaryColor,
-          padding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 12.h),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30.r),
           ),
-        ),
-        child: TextWidget(word: "Add more", textColor: Colors.white),
+          FloatingActionButton(
+            onPressed: () {},
+
+            child: TextWidget(word: 'Add more'),
+          ),
+        ],
       ),
     );
   }

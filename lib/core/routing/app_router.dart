@@ -11,13 +11,13 @@ import 'package:durbar_physics/features/on_boarding/presentation/screens/on_boar
 import 'package:durbar_physics/features/profile/profile_screen.dart';
 import 'package:durbar_physics/features/settings/settings_screen.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 final GoRouter appRouter = GoRouter(
   navigatorKey: NavigationService.navigationKey,
-  // initialLocation: Hive.box('authBox').get('isLoggedIn', defaultValue: false)
-  //     ? RoutePath.newsPage
-  //     : RoutePath.login,
-  initialLocation: RoutePath.home,
+  initialLocation: Hive.box('authBox').get('accessToken') != null
+      ? RoutePath.home
+      : RoutePath.login,
   routes: [
     GoRoute(
       path: RoutePath.onBoarding,
@@ -37,11 +37,6 @@ final GoRouter appRouter = GoRouter(
       builder: (context, index) => LoginScreen(),
     ),
 
-    // GoRoute(
-    //   path: RoutePath.setting,
-    //   name: RouteName.setting,
-    //   builder: (context, index) => SettingsScreen(),
-    // ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         return DashboardScreen(navigationShell: navigationShell);
@@ -100,13 +95,10 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: RoutePath.zoomWebView,
       name: RouteName.zoomWebView,
-      builder: (context, state) {
-        final extra = state.extra as Map<String, dynamic>?;
-        return ZoomWebViewScreen(
-          url : extra?['meetingUrl'] ?? '',
-          
-        );
-      },
+      builder: (context, state) => const ZoomWebViewScreen(
+        url:
+            'https://us04web.zoom.us/j/3117772972?pwd=oQOKC681rjGaeyA8ZiixJe8T2sW9pN.1',
+      ),
     ),
   ],
 );

@@ -1,9 +1,15 @@
 import 'package:durbar_physics/common/widgets/text_widget.dart';
+import 'package:durbar_physics/core/di/injection.dart';
+import 'package:durbar_physics/core/routing/navigation_service.dart';
+import 'package:durbar_physics/core/services/app_globals.dart';
 import 'package:durbar_physics/features/courses/data/model/course_model.dart';
 import 'package:durbar_physics/features/courses/presentation/widgets/course_detail_header.dart';
 import 'package:durbar_physics/features/courses/presentation/widgets/course_info_section.dart';
 import 'package:durbar_physics/features/courses/presentation/widgets/course_lessons_tab.dart';
 import 'package:durbar_physics/features/courses/presentation/widgets/course_overview_tab.dart';
+import 'package:durbar_physics/features/payment/data/models/payment_initiate_request_model.dart';
+import 'package:durbar_physics/features/payment/data/services/khalti_payment_service.dart';
+import 'package:durbar_physics/features/payment/presentation/widget/payment_status_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -20,6 +26,8 @@ class _CourseDetailScreenState extends State<CourseDetailScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
+  final KhaltiPaymentService _paymentService = getIt<KhaltiPaymentService>();
+  bool _isProcessing = false;
   @override
   void initState() {
     super.initState();
@@ -30,6 +38,93 @@ class _CourseDetailScreenState extends State<CourseDetailScreen>
   void dispose() {
     _tabController.dispose();
     super.dispose();
+  }
+
+  Future<void> _handleEnrollment() async {
+    if (_isProcessing) return;
+
+    setState(() {
+      _isProcessing = true;
+    });
+
+    try {
+      //Step 1: Create payment request
+
+      final paymentRequest = PaymentInitiateRequestModel.fromCourse(
+        courseId: widget.course.id.toString(),
+        courseName: widget.course.title,
+        userId: 'user_test_123',
+        priceInRupees: widget.course.cost,
+        userName: 'Test Name',
+        userEmail: 'Devsubedi@gmail.com',
+        userPhone: '9813291653',
+      );
+
+      //Step 2: Get pidx from Khalti API (using real API call)
+
+      final initiateReponse = await _paymentService.initializePayment(
+        request: paymentRequest,
+        useMock: false, // Using real Khalti API
+      );
+      if (!initiateReponse.success || initiateReponse.pidx == null) {
+        throw Exception(
+          initiateReponse.errorMessage ?? 'Failed to initialize the payment',
+        );
+      }
+
+      if (!mounted) return;
+
+      //step 3: Process payment with khalti
+
+      final paymentResult = await _paymentService.processPayment(
+        context: context,
+        pidx: initiateReponse.pidx!,
+      );
+
+      if (!mounted) return;
+
+      //Step 4: Handle payment result
+      if (paymentResult.success) {
+        //When backend is ready, verify payment
+
+        //final verified = await _paymentService.verifyPaymentOnBackend(
+        // pidx: paymentResult.pidx!);
+
+        await PaymentStatusDialogWidget.show(
+          context: context,
+          isSuccess: true,
+          message: 'Enrollment succesful!',
+          details: 'Transaction ID: ${paymentResult.transactionId ?? 'N/A'}',
+          onContinue: () {
+            // TODO: Navigate to course content
+            // And refresh enrolled courses to remove the lock sign and have accessed to video
+
+            NavigationService.pop();
+          },
+        );
+      } else {
+        await PaymentStatusDialogWidget.show(
+          context: context,
+          isSuccess: false,
+          message: paymentResult.errorMessage ?? 'Payment Failed',
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        await PaymentStatusDialogWidget.show(
+          context: context,
+          isSuccess: false,
+          message: 'An error occured',
+          details: e.toString(),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isProcessing = false;
+        });
+      }
+    }
   }
 
   @override
@@ -48,9 +143,9 @@ class _CourseDetailScreenState extends State<CourseDetailScreen>
                   children: [
                     TabBar(
                       controller: _tabController,
-                      labelColor: Theme.of(context).primaryColor,
+                      labelColor: appColors.primary,
                       unselectedLabelColor: Colors.grey,
-                      indicatorColor: Theme.of(context).primaryColor,
+                      indicatorColor: appColors.primary,
                       tabs: const [
                         Tab(text: "Overview"),
                         Tab(text: "Lessons"),
@@ -75,7 +170,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen>
       bottomNavigationBar: Padding(
         padding: EdgeInsets.all(20.w),
         child: ElevatedButton(
-          onPressed: () {},
+          onPressed: _isProcessing ? null : _handleEnrollment,
           style: ElevatedButton.styleFrom(
             backgroundColor: Theme.of(context).primaryColor,
             padding: EdgeInsets.symmetric(vertical: 15.h),
@@ -83,12 +178,34 @@ class _CourseDetailScreenState extends State<CourseDetailScreen>
               borderRadius: BorderRadius.circular(30.r),
             ),
           ),
-          child: const TextWidget(
-            word: "Enroll Now",
-            size: 18,
-            textColor: Colors.white,
-            weight: FontWeight.bold,
-          ),
+          child: _isProcessing
+              ? SizedBox(
+                  height: 20.h,
+                  width: 20.w,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      customColors.whiteBlack,
+                    ),
+                  ),
+                )
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const TextWidget(
+                      word: "Enroll Now - Rs. ",
+                      size: 18,
+                      textColor: Colors.white,
+                      weight: FontWeight.bold,
+                    ),
+                    TextWidget(
+                      word: '${widget.course.cost}',
+                      size: 18,
+                      textColor: Colors.white,
+                      weight: FontWeight.bold,
+                    ),
+                  ],
+                ),
         ),
       ),
     );
