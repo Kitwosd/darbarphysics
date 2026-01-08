@@ -12,7 +12,7 @@ class HomeCoursesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CoursesBloc, CoursesState>(
       builder: (context, state) {
-        if (state.courses.isEmpty) {
+        if (state.coursesList.isEmpty) {
           return const SizedBox.shrink();
         } else if (state.status == ApiDataStatus.loading) {
           return Center(child: CircularProgressIndicator());
@@ -22,12 +22,12 @@ class HomeCoursesList extends StatelessWidget {
             child: ListView.separated(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
               scrollDirection: Axis.horizontal,
-              itemCount: state.courses.length,
+              itemCount: state.coursesList.length,
               separatorBuilder: (context, index) => SizedBox(width: 15.w),
               itemBuilder: (context, index) {
                 return SizedBox(
                   width: 200.w,
-                  child: CourseCard(course: state.courses[index]),
+                  child: CourseCard(course: state.coursesList[index]),
                 );
               },
             ),

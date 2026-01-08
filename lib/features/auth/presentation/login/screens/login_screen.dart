@@ -1,4 +1,6 @@
+import 'package:durbar_physics/common/enums/enums.dart'; // Added for ApiDataStatus
 import 'package:durbar_physics/common/widgets/change_language_widget.dart';
+import 'package:durbar_physics/common/widgets/elevated_button_widget.dart';
 import 'package:durbar_physics/common/widgets/text_field_widget.dart';
 import 'package:durbar_physics/common/widgets/text_widget.dart';
 import 'package:durbar_physics/common/widgets/title_widget.dart';
@@ -6,10 +8,10 @@ import 'package:durbar_physics/core/di/injection.dart';
 import 'package:durbar_physics/core/localization/l10_service.dart';
 import 'package:durbar_physics/core/routing/navigation_service.dart';
 import 'package:durbar_physics/core/routing/route_name.dart';
+import 'package:durbar_physics/core/services/app_globals.dart' hide l10;
 import 'package:durbar_physics/core/theme/theme_extension.dart';
 import 'package:durbar_physics/features/auth/presentation/login/cubit/login_cubit.dart';
 import 'package:durbar_physics/features/auth/presentation/login/cubit/login_state.dart';
-import 'package:durbar_physics/common/enums/enums.dart'; // Added for ApiDataStatus
 import 'package:durbar_physics/features/auth/presentation/signup/widgets/sign_up_textfield_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -47,7 +49,7 @@ class LoginScreen extends StatelessWidget {
                           TitleWidget(title: l10.login),
                           Center(
                             child: SizedBox(
-                              width: 250.w,
+                              width: 220.w,
                               child: FittedBox(
                                 fit: BoxFit.contain,
                                 child: Align(
@@ -114,20 +116,35 @@ class LoginScreen extends StatelessWidget {
                             selector: (state) => state.rememberMe,
                             builder: (context, rememberMe) {
                               return Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Checkbox(
-                                    value: rememberMe,
-                                    activeColor: Theme.of(context).primaryColor,
-                                    onChanged: (value) {
-                                      context
-                                          .read<LoginCubit>()
-                                          .toggleRememberMe(value);
-                                    },
+                                  Row(
+                                    children: [
+                                      Checkbox(
+                                        value: rememberMe,
+                                        activeColor: Theme.of(
+                                          context,
+                                        ).primaryColor,
+                                        onChanged: (value) {
+                                          context
+                                              .read<LoginCubit>()
+                                              .toggleRememberMe(value);
+                                        },
+                                      ),
+                                      TextWidget(
+                                        word: "Remember Me",
+                                        size: 14,
+                                        weight: FontWeight.w500,
+                                      ),
+                                    ],
                                   ),
+
                                   TextWidget(
-                                    word: "Remember Me",
-                                    size: 14,
-                                    weight: FontWeight.w500,
+                                    word: 'Forgot Password ? ',
+                                    size: 16,
+                                    textColor: appColors.primary,
+                                    weight: FontWeight.w600,
                                   ),
                                 ],
                               );
@@ -135,25 +152,64 @@ class LoginScreen extends StatelessWidget {
                           ),
                           10.verticalSpace,
                           Center(
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Theme.of(
-                                  context,
-                                ).colorScheme.primary,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8.h),
-                                ),
-                              ),
-                              onPressed: () {
-                                context.read<LoginCubit>().login();
-                                // REMOVED: NavigationService.pushNamed(RouteName.home);
-                              },
-                              // context.read<LoginCubit>().validateAndSignup(),
-                              child: TextWidget(
-                                word: l10.login,
-                                size: 18,
-                                textColor: Colors.white,
-                                weight: FontWeight.w600,
+                            child: SizedBox(
+                              height: 60.h,
+                              width: 300.w,
+                              child: BlocSelector<LoginCubit, LoginState, ApiDataStatus>(
+                                selector: (state) => state.loginStatus,
+                                builder: (context, loginStatus) {
+                                  return ElevatedButtonWidget(
+                                    child: loginStatus == ApiDataStatus.loading
+                                        ? SizedBox(
+                                            height: 30.h,
+                                            width: 30.h,
+                                            child:
+                                                const CircularProgressIndicator(
+                                                  color: Colors.white,
+                                                ),
+                                          )
+                                        : TextWidget(
+                                            word: l10.login,
+                                            size: 18,
+                                            textColor: Colors.white,
+                                            weight: FontWeight.w600,
+                                          ),
+                                    onPressed: () =>
+                                        context.read<LoginCubit>().login(),
+                                  );
+
+                                  // ElevatedButton(
+                                  //   style: ElevatedButton.styleFrom(
+                                  //     backgroundColor: Theme.of(
+                                  //       context,
+                                  //     ).colorScheme.primary,
+                                  //     shape: RoundedRectangleBorder(
+                                  //       borderRadius: BorderRadius.circular(
+                                  //         8.h,
+                                  //       ),
+                                  //     ),
+                                  //   ),
+                                  //   onPressed: () {
+                                  //     context.read<LoginCubit>().login();
+                                  //   },
+                                  //   child:
+                                  //       loginStatus == ApiDataStatus.loading
+                                  //       ? SizedBox(
+                                  //           height: 30.h,
+                                  //           width: 30.h,
+                                  //           child:
+                                  //               const CircularProgressIndicator(
+                                  //                 color: Colors.white,
+                                  //               ),
+                                  //         )
+                                  //       : TextWidget(
+                                  //           word: l10.login,
+                                  //           size: 18,
+                                  //           textColor: Colors.white,
+                                  //           weight: FontWeight.w600,
+                                  //         ),
+                                  // );
+                                },
                               ),
                             ),
                           ),
@@ -170,8 +226,8 @@ class LoginScreen extends StatelessWidget {
                                   word: l10.signup,
                                   weight: FontWeight.w500,
 
-                                  size: 22,
-                                  textColor: Color(0xFF1877F2),
+                                  size: 22.sp,
+                                  textColor: appColors.primary,
                                 ),
                               ),
                             ],

@@ -16,7 +16,7 @@ class NavigationService {
     navigationKey.currentContext?.goNamed(routeName, extra: extra);
   }
 
-  static void pop() {
-    navigationKey.currentContext?.pop();
+  static void pop<T>({T? result}) {
+    navigationKey.currentContext?.pop(result);
   }
 }

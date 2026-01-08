@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:durbar_physics/common/enums/enums.dart';
+import 'package:durbar_physics/features/live_classes/data/models/live_class_detail_model.dart';
 import 'package:durbar_physics/features/live_classes/data/models/live_class_model.dart';
 import 'package:durbar_physics/features/live_classes/domain/repos/live_classes_repo.dart';
 import 'package:equatable/equatable.dart';
@@ -24,6 +27,7 @@ class LiveClassesBloc extends Bloc<LiveClassesEvent, LiveClassesState> {
           ),
         );
       } catch (e) {
+        log(e.toString());
         emit(state.copyWith(status: ApiDataStatus.error, error: e.toString()));
       }
     });

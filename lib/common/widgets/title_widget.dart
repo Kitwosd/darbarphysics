@@ -10,7 +10,7 @@ class TitleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 54.h,
+      height: 65.h,
       width: double.infinity,
       child: Stack(
         children: [
@@ -31,7 +31,7 @@ class TitleWidget extends StatelessWidget {
             alignment: Alignment.center,
             child: TextWidget(
               word: title,
-              size: 40,
+              size: 36,
               weight: FontWeight.w600,
               textColor: Theme.of(context).colorScheme.primary,
             ),

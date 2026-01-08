@@ -52,6 +52,7 @@ class PaymentStatusDialogWidget extends StatelessWidget {
                   word: details!,
                   size: 12,
                   textColor: customColors.greyWhite,
+                  overflow: TextOverflow.visible,
                 ),
               ],
               25.verticalSpace,

@@ -4,59 +4,64 @@ import 'package:equatable/equatable.dart';
 class LiveClassModel extends Equatable {
   final int id;
   final String title;
-  final String thumbnailUrl;
+  final String thumbnail;
   final String teacherName;
   final DateTime startTime;
-  final String status; // 'live', 'upcoming', 'ended'
+  final bool isLive; // 'live', 'upcoming', 'ended'
   final String meetingUrl;
   final String? password;
+  final String status;
 
   const LiveClassModel({
     required this.id,
     required this.title,
-    required this.thumbnailUrl,
+    required this.thumbnail,
     required this.teacherName,
     required this.startTime,
-    required this.status,
+    required this.isLive,
     required this.meetingUrl,
+    required this.status,
     this.password,
   });
 
   factory LiveClassModel.fromJson(Map<String, dynamic> json) => LiveClassModel(
     id: json["id"] ?? 0,
     title: json["title"] ?? '',
-    thumbnailUrl:
-        json["thumbnailUrl"] ??
+    thumbnail:
+        json["thumbnail"] ??
         'https://img.freepik.com/free-vector/online-tutorials-concept_52683-37480.jpg',
     teacherName: json["teacherName"] ?? 'Unknown Teacher',
     startTime: json["startTime"] != null
         ? DateTime.parse(json["startTime"])
         : DateTime.now(),
-    status: json["status"] ?? 'upcoming',
+    isLive: json["is_live"],
     meetingUrl: json["meetingUrl"] ?? '',
     password: json["password"],
+    status: json["status"],
   );
 
   Map<String, dynamic> toJson() => {
     "id": id,
     "title": title,
-    "thumbnailUrl": thumbnailUrl,
+    "thumbnail": thumbnail,
     "teacherName": teacherName,
     "startTime": startTime.toIso8601String(),
-    "status": status,
+    "is_live": isLive,
     "meetingUrl": meetingUrl,
     "password": password,
+    "status": status,
   };
 
   @override
   List<Object?> get props => [
     id,
     title,
-    thumbnailUrl,
+    thumbnail,
     teacherName,
     startTime,
-    status,
+    isLive,
     meetingUrl,
     password,
+    status,
   ];
 }

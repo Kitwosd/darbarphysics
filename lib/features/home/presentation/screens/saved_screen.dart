@@ -1,10 +1,17 @@
 import 'package:durbar_physics/common/widgets/text_widget.dart';
+import 'package:durbar_physics/core/routing/navigation_service.dart';
+import 'package:durbar_physics/core/routing/route_name.dart';
 import 'package:durbar_physics/core/services/app_globals.dart';
-import 'package:durbar_physics/features/courses/data/model/course_model.dart';
+import 'package:durbar_physics/features/courses/data/model/course_detail_model.dart';
 import 'package:durbar_physics/features/home/data/models/video_model.dart';
+import 'package:durbar_physics/features/home/presentation/bloc/bookmark/courses_book_bloc/course_bookmark_bloc.dart';
+import 'package:durbar_physics/features/home/presentation/bloc/bookmark/courses_book_bloc/course_bookmark_state.dart';
+import 'package:durbar_physics/features/home/presentation/bloc/bookmark/videos_bookmark/videos_bookmark_bloc.dart';
 import 'package:durbar_physics/features/home/presentation/widgets/saved_courses_list_widget.dart';
 import 'package:durbar_physics/features/home/presentation/widgets/saved_videos_list_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SavedScreen extends StatefulWidget {
   const SavedScreen({super.key});
@@ -31,40 +38,6 @@ class _SavedScreenState extends State<SavedScreen>
 
   @override
   Widget build(BuildContext context) {
-    // Mock saved list
-    final List<CourseModel> savedCourses = [
-      CourseModel(
-        id: 1,
-        title: "Adobe illustrator for all beginner artist",
-        description: "Graphic design",
-        cost: 10000,
-        startTime: DateTime.now(),
-        endTime: DateTime.now(),
-        image:
-            "https://images.unsplash.com/photo-1626785774573-4b799314346d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-        createdAt: DateTime.now(),
-      ),
-      CourseModel(
-        id: 2,
-        title: "Digital illustration technique for procreate",
-        description: "Graphic design",
-        cost: 50000,
-        startTime: DateTime.now(),
-        endTime: DateTime.now(),
-        image:
-            "https://images.unsplash.com/photo-1544531586-fde5298cdd40?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-        createdAt: DateTime.now(),
-      ),
-    ];
-    final List<VideoModel> savedVideos = [
-      VideoModel(
-        id: 1,
-        title: 'HEllo broo',
-        teacher: 'Sanjay Chaudary',
-        videoUrl: 'somevidoe',
-        thumbnail: 'some picture',
-      ),
-    ];
     return Scaffold(
       appBar: AppBar(
         title: TextWidget(
@@ -95,15 +68,35 @@ class _SavedScreenState extends State<SavedScreen>
             child: TabBarView(
               controller: _tabController,
               children: [
-                SavedVideosListWidget(videos: savedVideos),
-                SavedCoursesListWidget(courses: savedCourses),
+                BlocBuilder<VideosBookmarkBloc, VideosBookmarkState>(
+                  builder: (context, state) {
+                    return SavedVideosListWidget(videos: state.videos);
+                  },
+                ),
+                BlocBuilder<CourseBookmarkBloc, CourseBookmarkState>(
+                  builder: (context, state) {
+                    return SavedCoursesListWidget(courses: state.courses);
+                  },
+                ),
               ],
             ),
           ),
-          FloatingActionButton(
-            onPressed: () {},
+          SizedBox(
+            width: 150.w,
+            height: 70.h,
 
-            child: TextWidget(word: 'Add more'),
+            child: FloatingActionButton(
+              onPressed: () {
+                NavigationService.pushNamedReplacement(RouteName.home);
+              },
+
+              child: TextWidget(
+                word: 'Add more',
+                weight: FontWeight.w600,
+                size: 18,
+                textColor: customColors.whiteBlack,
+              ),
+            ),
           ),
         ],
       ),

@@ -1,3 +1,4 @@
+import 'package:durbar_physics/common/enums/enums.dart';
 import 'package:equatable/equatable.dart';
 
 class SignUpState extends Equatable {
@@ -19,7 +20,7 @@ class SignUpState extends Equatable {
   final String ageStatus;
 
   final String statusMessage;
-  final String signupStatus; // idle, loading, success, error
+  final ApiDataStatus signupStatus; // idle, loading, success, error
 
   final String retypedPassword;
   final String retypedPasswordStatus;
@@ -37,7 +38,7 @@ class SignUpState extends Equatable {
     this.age = '',
     this.ageStatus = '',
     this.statusMessage = '',
-    this.signupStatus = '',
+    this.signupStatus = ApiDataStatus.initial,
     this.retypedPassword = '',
     this.retypedPasswordStatus = '',
   });
@@ -55,7 +56,7 @@ class SignUpState extends Equatable {
     String? age,
     String? ageStatus,
     String? statusMessage,
-    String? signupStatus,
+    ApiDataStatus? signupStatus,
     String? retypedPassword,
     String? retypedPasswordStatus,
   }) {
@@ -74,8 +75,7 @@ class SignUpState extends Equatable {
       statusMessage: statusMessage ?? this.statusMessage,
       signupStatus: signupStatus ?? this.signupStatus,
       retypedPassword: retypedPassword ?? this.retypedPassword,
-      retypedPasswordStatus:
-          retypedPasswordStatus ?? this.retypedPasswordStatus,
+      retypedPasswordStatus: retypedPasswordStatus ?? this.retypedPasswordStatus,
     );
   }
 
@@ -95,6 +95,6 @@ class SignUpState extends Equatable {
     statusMessage,
     signupStatus,
     retypedPassword,
-    retypedPasswordStatus
+    retypedPasswordStatus,
   ];
 }

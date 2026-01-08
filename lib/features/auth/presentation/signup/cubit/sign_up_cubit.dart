@@ -1,6 +1,8 @@
-import 'dart:developer';
+import 'package:durbar_physics/common/enums/enums.dart';
 import 'package:durbar_physics/common/widgets/overlay_toast_widget.dart';
+import 'package:durbar_physics/core/logger/app_logger.dart';
 import 'package:durbar_physics/core/network/api_client.dart';
+import 'package:durbar_physics/core/network/api_exception.dart'; // Added
 import 'package:durbar_physics/features/auth/presentation/signup/cubit/sign_up_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,85 +14,86 @@ class SignUpCubit extends Cubit<SignUpState> {
   SignUpCubit(this.apiClient) : super(const SignUpState());
 
   void getName(String name) {
-    String? error;
-    if (name.trim().isEmpty) error = "Please enter your name";
-    emit(state.copyWith(name: name, nameStatus: error ?? ""));
+    emit(state.copyWith(name: name, nameStatus: ''));
   }
 
   void getEmail(String email) {
-    String? error;
-    if (email.isEmpty || !email.contains("@")) error = "Enter a valid email";
-    emit(state.copyWith(email: email, emailStatus: error ?? ""));
+    emit(state.copyWith(email: email, emailStatus: ""));
   }
 
   void getPassword(String password) {
-    String? error;
-    if (password.length < 6) error = "Password must be 6+ chars";
-    emit(state.copyWith(password: password, passwordStatus: error ?? ""));
+    emit(state.copyWith(password: password, passwordStatus: ""));
   }
 
   void getRetypedPassword(String retypedPassword) {
-    String? error;
-    if (retypedPassword != state.password) error = "Password doesn't match";
     emit(
       state.copyWith(
         retypedPassword: retypedPassword,
-        retypedPasswordStatus: error ?? '',
+        retypedPasswordStatus: '',
       ),
     );
   }
 
   void getPhone(String phone) {
-    String? error;
-    if (phone.length != 10) error = "Enter valid 10-digit phone";
-    emit(state.copyWith(phone: phone, phoneStatus: error ?? ""));
+    emit(state.copyWith(phone: phone, phoneStatus: ""));
   }
 
   void getAge(String age) {
-    String? error;
-    if (int.tryParse(age) == null || int.parse(age) < 10) {
-      error = "Enter valid age";
-    }
-    emit(state.copyWith(age: age, ageStatus: error ?? ""));
+    emit(state.copyWith(age: age, ageStatus: ""));
   }
 
   void getGender(String gender) => emit(state.copyWith(gender: gender));
 
-  /// Final validation on signup button
-  void validateAndSignup() {
-    // Re-check all fields
-    if (state.nameStatus.isNotEmpty ||
-        state.emailStatus.isNotEmpty ||
-        state.passwordStatus.isNotEmpty ||
-        state.phoneStatus.isNotEmpty ||
-        // state.ageStatus.isNotEmpty ||
-        state.retypedPasswordStatus.isNotEmpty) {
-      // Already has errors, stop
-      return;
-    }
+  // /// Final validation on signup button
+  // void validateAndSignup() {
+  //   // Re-check all fields
+  //   if (state.nameStatus.isNotEmpty ||
+  //       state.emailStatus.isNotEmpty ||
+  //       state.passwordStatus.isNotEmpty ||
+  //       state.phoneStatus.isNotEmpty ||
+  //       // state.ageStatus.isNotEmpty ||
+  //       state.retypedPasswordStatus.isNotEmpty) {
+  //     // Already has errors, stop
+  //     return;
+  //   }
 
-    if (state.name.isEmpty ||
-        state.email.isEmpty ||
-        state.password.isEmpty ||
-        state.phone.isEmpty ||
-        state.retypedPassword.isEmpty) {
-      return;
-    }
+  //   if (state.name.isEmpty ||
+  //       state.email.isEmpty ||
+  //       state.password.isEmpty ||
+  //       state.phone.isEmpty ||
+  //       state.retypedPassword.isEmpty) {
+  //     return;
+  //   }
 
-    signupPressed();
+  //   signupPressed();
+  // }
+
+  String _extractError(dynamic value) {
+    if (value is List && value.isNotEmpty) {
+      return value.first.toString();
+    }
+    return value.toString();
   }
 
   Future<void> signupPressed() async {
-    emit(state.copyWith(signupStatus: "loading"));
+    emit(
+      state.copyWith(
+        signupStatus: ApiDataStatus.loading,
+        nameStatus: '',
+        emailStatus: '',
+        passwordStatus: '',
+        phoneStatus: '',
+        ageStatus: '',
+      ),
+    );
 
     try {
       final data = {
-        'full_name': state.name,
+        'name': state.name,
         'email': state.email,
+        'phone': state.phone,
         'password': state.password,
-        'phone_number': state.phone,
-        'age': state.age,
-        'gender': state.gender,
+        'password2': state.retypedPassword,
       };
 
       final response = await apiClient.request(
@@ -99,21 +102,71 @@ class SignUpCubit extends Cubit<SignUpState> {
         data: data,
       );
 
-      log("Signup Response: $response");
+      logger.d("Signup Response: $response");
 
       final message = response['message'] ?? "Signup Successful";
-      OverlayToastWidget.show(message: message, bgColor: Colors.green);
+      // OverlayToastWidget.show(message: message, bgColor: Colors.green);
 
-      emit(state.copyWith(signupStatus: "success"));
-    } catch (e) {
-      log("Signup error: $e");
-
-      OverlayToastWidget.show(
-        message: "Signup Failed: ${e.toString()}",
-        bgColor: Colors.red,
+      emit(
+        state.copyWith(
+          signupStatus: ApiDataStatus.success,
+          statusMessage: message,
+        ),
       );
+    } catch (e) {
+      logger.e("Signup error: $e");
+      String errorMessage = "Signup Failed";
 
-      emit(state.copyWith(signupStatus: "error"));
+      String nameError = '';
+      String emailError = '';
+      String passwordError = '';
+      String retypePasswordError = '';
+      String phoneError = '';
+
+      if (e is ApiException && e.response is Map<String, dynamic>) {
+        final data = e.response as Map<String, dynamic>;
+
+        if (data.containsKey('name')) {
+          nameError = _extractError(data['name']);
+        }
+        if (data.containsKey('email')) {
+          emailError = _extractError(data['email']);
+        }
+        if (data.containsKey('password')) {
+          passwordError = _extractError(data['password']);
+        }
+        if (data.containsKey('phone_number')) {
+          phoneError = _extractError(data['phone_number']);
+        }
+        if (data.containsKey('password2')) {
+          retypePasswordError = _extractError(data['password2']);
+        }
+        if (data.containsKey('detail')) {
+          errorMessage = _extractError(data['detail']);
+        }
+      } else {
+        errorMessage = e.toString();
+      }
+
+      // Show toast only when there are no field-specific errors
+      if (nameError.isEmpty &&
+          emailError.isEmpty &&
+          passwordError.isEmpty &&
+          phoneError.isEmpty &&
+          retypePasswordError.isEmpty) {
+        OverlayToastWidget.show(message: errorMessage, bgColor: Colors.red);
+      }
+
+      emit(
+        state.copyWith(
+          signupStatus: ApiDataStatus.error,
+          nameStatus: nameError,
+          emailStatus: emailError,
+          passwordStatus: passwordError,
+          phoneStatus: phoneError,
+          retypedPasswordStatus: retypePasswordError,
+        ),
+      );
     }
   }
 }

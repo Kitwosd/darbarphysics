@@ -10,26 +10,40 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:get_it/get_it.dart' as _i174;
+import 'package:image_picker/image_picker.dart' as _i183;
 import 'package:injectable/injectable.dart' as _i526;
 
+import '../../common/enums/enums.dart' as _i202;
 import '../../features/auth/presentation/login/cubit/login_cubit.dart' as _i179;
 import '../../features/auth/presentation/signup/cubit/sign_up_cubit.dart'
     as _i408;
 import '../../features/courses/presentation/courses/courses_bloc.dart' as _i988;
-import '../../features/home/data/repos/mock_home_repo.dart' as _i403;
+import '../../features/home/data/repos_impl/home_repo_impl.dart' as _i386;
 import '../../features/home/domain/repos/home_repo.dart' as _i130;
+import '../../features/home/presentation/bloc/bookmark/courses_book_bloc/course_bookmark_bloc.dart'
+    as _i107;
+import '../../features/home/presentation/bloc/bookmark/videos_bookmark/videos_bookmark_bloc.dart'
+    as _i585;
 import '../../features/home/presentation/bloc/home_bloc.dart' as _i202;
 import '../../features/home/presentation/bloc/streams/streams_bloc.dart'
     as _i610;
 import '../../features/home/presentation/bloc/videos/videos_bloc.dart' as _i373;
-import '../../features/live_classes/data/repos/mock_live_classes_repo.dart'
-    as _i1061;
+import '../../features/live_classes/data/repo_impl/live_classes_repo_impl.dart'
+    as _i816;
 import '../../features/live_classes/domain/repos/live_classes_repo.dart'
     as _i1021;
 import '../../features/live_classes/presentation/bloc/live_classes_bloc.dart'
     as _i280;
 import '../../features/payment/data/services/khalti_payment_service.dart'
     as _i912;
+import '../../features/profile/data/models/profile_model.dart' as _i36;
+import '../../features/profile/data/repo_impl/profile_repository_impl.dart'
+    as _i301;
+import '../../features/profile/domain/repo/profile_repo.dart' as _i364;
+import '../../features/profile/presentation/cubit/profile_cubit.dart' as _i36;
+import '../../features/profile/presentation/cubit/profile_state.dart' as _i356;
+import '../hive_services/services/hive_course_service.dart' as _i963;
+import '../hive_services/services/hive_video_service.dart' as _i143;
 import '../network/api_client.dart' as _i557;
 import 'register_module.dart' as _i291;
 
@@ -43,25 +57,47 @@ extension GetItInjectableX on _i174.GetIt {
     final registerModule = _$RegisterModule();
     gh.factory<_i912.KhaltiPaymentService>(() => _i912.KhaltiPaymentService());
     gh.singleton<_i557.ApiClient>(() => registerModule.apiClient);
-    gh.lazySingleton<_i1021.LiveClassesRepo>(
-      () => _i1061.MockLiveClassesRepo(),
+    gh.lazySingleton<_i963.HiveCourseService>(() => _i963.HiveCourseService());
+    gh.lazySingleton<_i143.HiveVideoService>(() => _i143.HiveVideoService());
+    gh.factory<_i1021.LiveClassesRepo>(
+      () => _i816.LiveClassesRepoImpl(gh<_i557.ApiClient>()),
     );
-    gh.factory<_i130.HomeRepo>(() => _i403.MockHomeRepo());
+    gh.lazySingleton<_i107.CourseBookmarkBloc>(
+      () => _i107.CourseBookmarkBloc(gh<_i963.HiveCourseService>()),
+    );
+    gh.lazySingleton<_i585.VideosBookmarkBloc>(
+      () => _i585.VideosBookmarkBloc(gh<_i143.HiveVideoService>()),
+    );
+    gh.factory<_i364.ProfileRepo>(
+      () => _i301.ProfileRepositoryImpl(gh<_i557.ApiClient>()),
+    );
+    gh.factory<_i130.HomeRepo>(() => _i386.HomeRepoImpl(gh<_i557.ApiClient>()));
     gh.factory<_i179.LoginCubit>(() => _i179.LoginCubit(gh<_i557.ApiClient>()));
     gh.factory<_i408.SignUpCubit>(
       () => _i408.SignUpCubit(gh<_i557.ApiClient>()),
+    );
+    gh.factory<_i356.ProfileState>(
+      () => _i356.ProfileState(
+        status: gh<_i202.ApiDataStatus>(),
+        profile: gh<_i36.ProfileModel>(),
+        error: gh<String>(),
+        pickedImage: gh<_i183.XFile>(),
+      ),
     );
     gh.factory<_i202.HomeBloc>(() => _i202.HomeBloc(gh<_i130.HomeRepo>()));
     gh.factory<_i280.LiveClassesBloc>(
       () => _i280.LiveClassesBloc(gh<_i1021.LiveClassesRepo>()),
     );
-    gh.factory<_i988.CoursesBloc>(
+    gh.lazySingleton<_i988.CoursesBloc>(
       () => _i988.CoursesBloc(gh<_i130.HomeRepo>()),
     );
     gh.factory<_i610.StreamsBloc>(
       () => _i610.StreamsBloc(gh<_i130.HomeRepo>()),
     );
     gh.factory<_i373.VideosBloc>(() => _i373.VideosBloc(gh<_i130.HomeRepo>()));
+    gh.factory<_i36.ProfileCubit>(
+      () => _i36.ProfileCubit(gh<_i364.ProfileRepo>()),
+    );
     return this;
   }
 }

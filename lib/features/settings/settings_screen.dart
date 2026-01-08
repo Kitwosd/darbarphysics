@@ -1,8 +1,11 @@
+import 'package:durbar_physics/core/network/api_client.dart';
 import 'package:durbar_physics/core/routing/navigation_service.dart';
 import 'package:durbar_physics/core/routing/route_name.dart';
 import 'package:durbar_physics/core/theme/theme_extension.dart';
 import 'package:durbar_physics/features/practise/basic_webview_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hive/hive.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -119,7 +122,12 @@ class SettingsScreen extends StatelessWidget {
                 null,
               ),
               _buildSettingItem(context, Icons.send, 'Invite Friends', null),
-              _buildSettingItem(context, Icons.logout, 'Logout', () {
+              _buildSettingItem(context, Icons.logout, 'Logout', () async {
+                final authBox = Hive.box('authBox');
+                await authBox.delete('accessToken');
+                await authBox.delete('refreshToken');
+                ApiClient().clearAccessToken();
+
                 NavigationService.pushNamedReplacement(RouteName.login);
               }),
             ],
@@ -154,6 +162,8 @@ class SettingsScreen extends StatelessWidget {
               title,
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
             ),
+            Spacer(),
+            Icon(Icons.arrow_forward_ios_sharp, size: 16.h),
           ],
         ),
       ),

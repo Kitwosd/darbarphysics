@@ -1,3 +1,6 @@
+import 'package:durbar_physics/common/enums/enums.dart';
+import 'package:durbar_physics/common/widgets/elevated_button_widget.dart';
+import 'package:durbar_physics/common/widgets/overlay_toast_widget.dart';
 import 'package:durbar_physics/common/widgets/text_field_widget.dart';
 import 'package:durbar_physics/common/widgets/text_widget.dart';
 import 'package:durbar_physics/core/di/injection.dart';
@@ -20,8 +23,15 @@ class SignUpScreen extends StatelessWidget {
       create: (_) => getIt<SignUpCubit>(),
       child: BlocListener<SignUpCubit, SignUpState>(
         listener: (context, state) {
-          if (state.signupStatus == "success") {
-            NavigationService.pushNamedReplacement(RouteName.login);
+          if (state.signupStatus == ApiDataStatus.success) {
+            OverlayToastWidget.show(
+              message: state.statusMessage,
+              bgColor: Colors.green,
+            );
+
+            Future.delayed(Duration(milliseconds: 600), () {
+              NavigationService.pushNamedReplacement(RouteName.login);
+            });
           }
         },
         child: GestureDetector(
@@ -147,21 +157,8 @@ class SignUpScreen extends StatelessWidget {
                         height: 60.h,
                         child: BlocBuilder<SignUpCubit, SignUpState>(
                           builder: (context, state) {
-                            return ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Theme.of(
-                                  context,
-                                ).colorScheme.primary,
-
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8.h),
-                                ),
-                              ),
-
-                              onPressed: () => context
-                                  .read<SignUpCubit>()
-                                  .validateAndSignup(),
-                              child: state.signupStatus == "loading"
+                            return ElevatedButtonWidget(
+                              child: state.signupStatus == ApiDataStatus.loading
                                   ? const CircularProgressIndicator(
                                       color: Colors.white,
                                     )
@@ -171,7 +168,34 @@ class SignUpScreen extends StatelessWidget {
                                       textColor: Colors.white,
                                       weight: FontWeight.w600,
                                     ),
+                              onPressed: () =>
+                                  context.read<SignUpCubit>().signupPressed(),
                             );
+
+                            // ElevatedButton(
+                            //   style: ElevatedButton.styleFrom(
+                            //     backgroundColor: Theme.of(
+                            //       context,
+                            //     ).colorScheme.primary,
+
+                            //     shape: RoundedRectangleBorder(
+                            //       borderRadius: BorderRadius.circular(8.h),
+                            //     ),
+                            //   ),
+
+                            //   onPressed: () =>
+                            //       context.read<SignUpCubit>().signupPressed(),
+                            //   child: state.signupStatus == ApiDataStatus.loading
+                            //       ? const CircularProgressIndicator(
+                            //           color: Colors.white,
+                            //         )
+                            //       : TextWidget(
+                            //           word: "Sign Up",
+                            //           size: 18,
+                            //           textColor: Colors.white,
+                            //           weight: FontWeight.w600,
+                            //         ),
+                            // );
                           },
                         ),
                       ),

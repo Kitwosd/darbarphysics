@@ -207,7 +207,7 @@ class KhaltiPaymentService {
     required String userId,
   }) async {
     try {
-      /// Todo: call your backend to grant access
+      /// TODO: call your backend to grant access
       /// But i don't how the work flow works as hamle video haru ma lock rakheko ko xam with boolean,
       /// so may be hamle course lai refresh gardiye paxi aru video haru ko access milxa hola just a overview for future
 

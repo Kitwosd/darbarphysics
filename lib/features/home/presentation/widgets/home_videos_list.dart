@@ -109,6 +109,7 @@ class HomeVideosList extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => VideoPlayerScreen(
+                        video: video,
                         videoUrl: video.videoUrl,
                         title: video.title,
                       ),

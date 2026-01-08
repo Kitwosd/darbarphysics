@@ -1,8 +1,9 @@
+import 'package:durbar_physics/core/routing/navigation_service.dart';
+import 'package:durbar_physics/core/routing/route_name.dart';
 import 'package:durbar_physics/features/courses/data/model/course_model.dart';
-import 'package:durbar_physics/features/courses/presentation/screens/course_detail_screen.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 
 class CourseCard extends StatelessWidget {
   final CourseModel course;
@@ -13,12 +14,7 @@ class CourseCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => CourseDetailScreen(course: course),
-          ),
-        );
+        NavigationService.pushNamed(RouteName.detailScreen, extra: course.id);
       },
       child: Card(
         margin: EdgeInsets.only(bottom: 16.h),

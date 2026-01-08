@@ -48,7 +48,7 @@ dependencies:
      sdk: flutter
   injectable_generator: ^2.11.1
   bloc: ^9.1.0
-  equatable: ^2.0.7
+  equatable: ^2.0.8
   fluttertoast: ^9.0.0
   dio: ^5.9.0
   flex_color_scheme: ^8.3.1
@@ -78,6 +78,9 @@ dependencies:
   http: ^1.6.0
   hive: ^2.2.3
   hive_flutter: ^1.1.0
+  image_picker: ^1.2.1
+  flutter_slidable: ^4.0.3
+
  
 
 dev_dependencies:
@@ -91,6 +94,7 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
   build_runner: ^2.10.4
+  hive_ce_generator: ^1.11.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

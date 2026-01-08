@@ -1,10 +1,10 @@
 import 'package:durbar_physics/common/widgets/text_widget.dart';
-import 'package:durbar_physics/features/courses/data/model/course_model.dart';
+import 'package:durbar_physics/features/courses/data/model/course_detail_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CourseInfoSection extends StatelessWidget {
-  final CourseModel course;
+  final CourseDetailModel course;
 
   const CourseInfoSection({super.key, required this.course});
 

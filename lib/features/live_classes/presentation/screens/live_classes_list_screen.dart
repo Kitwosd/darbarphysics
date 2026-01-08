@@ -64,12 +64,22 @@ class LiveClassesListScreen extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        SizedBox(
+                          width: 100.w,
+
+                          child: Image.network(
+                            liveClass.thumbnail,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                        10.horizontalSpace,
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               TextWidget(
                                 word: liveClass.title,
+                                overflow: TextOverflow.visible,
                                 size: 16,
                                 weight: FontWeight.bold,
                                 textColor: customColors.greyWhite,

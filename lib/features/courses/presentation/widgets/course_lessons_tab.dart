@@ -1,14 +1,15 @@
 import 'package:durbar_physics/common/widgets/overlay_toast_widget.dart';
 import 'package:durbar_physics/common/widgets/text_widget.dart';
 import 'package:durbar_physics/core/services/app_globals.dart';
-import 'package:durbar_physics/features/courses/data/model/course_model.dart';
-import 'package:durbar_physics/features/courses/data/model/lesson_model.dart';
+import 'package:durbar_physics/features/courses/data/model/course_detail_model.dart';
+
 import 'package:durbar_physics/features/courses/presentation/screens/video_player_screen.dart';
+import 'package:durbar_physics/features/home/data/models/video_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CourseLessonsTab extends StatelessWidget {
-  final CourseModel course;
+  final CourseDetailModel course;
 
   const CourseLessonsTab({super.key, required this.course});
 
@@ -24,10 +25,10 @@ class CourseLessonsTab extends StatelessWidget {
     );
   }
 
-  Widget _buildLessonItem(BuildContext context, LessonModel lesson, int index) {
+  Widget _buildLessonItem(BuildContext context, VideoModel lesson, int index) {
     return InkWell(
       onTap: () {
-        if (lesson.isLocked) {
+        if (lesson.isLocked == true) {
           OverlayToastWidget.show(
             message: 'Please enroll to unlock the lesson',
           );
@@ -46,6 +47,7 @@ class CourseLessonsTab extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) => VideoPlayerScreen(
+                video: lesson,
                 videoUrl: lesson.videoUrl,
                 title: lesson.title,
               ),
@@ -82,7 +84,7 @@ class CourseLessonsTab extends StatelessWidget {
                     word: lesson.title,
                     weight: FontWeight.bold,
                     maxLines: 2,
-                    textColor: lesson.isLocked
+                    textColor: lesson.isLocked == true
                         ? Colors.grey
                         : customColors.blackWhite,
                   ),
@@ -95,7 +97,7 @@ class CourseLessonsTab extends StatelessWidget {
               ),
             ),
             Icon(
-              lesson.isLocked ? Icons.lock : Icons.play_circle_fill,
+              lesson.isLocked == true ? Icons.lock : Icons.play_circle_fill,
               color: lesson.isLocked
                   ? Colors.grey
                   : Theme.of(context).primaryColor,
