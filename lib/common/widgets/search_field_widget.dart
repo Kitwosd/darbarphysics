@@ -2,8 +2,8 @@ import 'package:durbar_physics/features/search/presentation/screens/search_scree
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class HomeSearchBar extends StatelessWidget {
-  const HomeSearchBar({super.key});
+class SearchFieldWidget extends StatelessWidget {
+  const SearchFieldWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class HomeSearchBar extends StatelessWidget {
           );
         },
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 14.h),
+          padding: EdgeInsets.symmetric(horizontal: 15.w),
           decoration: BoxDecoration(
             color: Theme.of(context).cardColor,
             borderRadius: BorderRadius.circular(12.r),
@@ -29,20 +29,26 @@ class HomeSearchBar extends StatelessWidget {
               ),
             ],
           ),
-          child: Row(
-            children: [
-              Icon(Icons.search, color: Theme.of(context).iconTheme.color),
-              SizedBox(width: 15.w),
-              Text(
-                'Search here...',
-                style: TextStyle(
-                  color: Theme.of(context).hintColor,
-                  fontSize: 14.sp,
-                ),
+          child: TextField(
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              hintText: 'Search here...',
+              hintStyle: TextStyle(
+                color: Theme.of(context).hintColor,
+                fontSize: 14.sp,
               ),
-              const Spacer(),
-              Icon(Icons.mic, color: Theme.of(context).primaryColor),
-            ],
+              icon: Icon(
+                Icons.search,
+                color: Theme.of(context).iconTheme.color,
+              ),
+              suffixIcon: Icon(
+                Icons.mic,
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
+            style: TextStyle(
+              color: Theme.of(context).textTheme.bodyLarge?.color,
+            ),
           ),
         ),
       ),

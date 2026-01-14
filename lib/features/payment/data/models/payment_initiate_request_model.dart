@@ -2,12 +2,12 @@
 import 'package:equatable/equatable.dart';
 
 class PaymentInitiateRequestModel extends Equatable {
-  final String returnUrl;
-  final String websiteUrl;
-  final int amount;
-  final String purchaseOrderId;
-  final String purchaseOrderName;
-  final CustomerInfo customerInfo;
+  final String returnUrl; //as name says it
+  final String websiteUrl; // yo chai hamro app link or mainly web link types re just for verification for the khalti that we are genuine re we can just send app.com re
+  final int amount; // must be in paisa
+  final String purchaseOrderId; //yo chai created by the backend not frontend
+  final String purchaseOrderName; //just the name of course in human readable format
+  final CustomerInfo customerInfo; //customer ko info vaihalyo. 
 
   const PaymentInitiateRequestModel({
     required this.returnUrl,
@@ -86,3 +86,12 @@ class CustomerInfo extends Equatable {
   @override
   List<Object> get props => [name, email, phone];
 }
+
+// class PaymentInitiateModel {
+//   final int courseId;
+//   const PaymentInitiateModel({required this.courseId});
+
+//   Map<String, dynamic> toJson() {
+//     return {'course_id': courseId};
+//   }
+// }

@@ -8,6 +8,7 @@ import 'package:durbar_physics/features/courses/presentation/screens/video_playe
 import 'package:durbar_physics/features/dashboard/presentation/screens/dashboard_screen.dart';
 import 'package:durbar_physics/features/home/presentation/screens/home_screen.dart';
 import 'package:durbar_physics/features/home/presentation/screens/saved_screen.dart';
+import 'package:durbar_physics/features/live_classes/presentation/screens/live_class_detail_screen.dart';
 import 'package:durbar_physics/features/live_classes/presentation/screens/live_classes_list_screen.dart';
 import 'package:durbar_physics/features/live_classes/presentation/screens/zoom_web_view_screen.dart';
 import 'package:durbar_physics/features/on_boarding/presentation/screens/on_boarding_screen.dart';
@@ -129,9 +130,17 @@ final GoRouter appRouter = GoRouter(
 
         return VideoPlayerScreen(
           videoUrl: args.videoUrl,
-          title: args.vidoeTitle,
+          title: args.videoTitle,
           video: args.video,
         );
+      },
+    ),
+    GoRoute(
+      path: RoutePath.liveClassDetail,
+      name: RouteName.liveclassDetail,
+      builder: (context, state) {
+        final int id = state.extra as int;
+        return LiveClassDetailScreen(id: id);
       },
     ),
   ],

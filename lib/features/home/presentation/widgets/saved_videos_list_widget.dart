@@ -52,7 +52,7 @@ class SavedVideosListWidget extends StatelessWidget {
               extra: VideoPlayerArgs(
                 video: video,
                 videoUrl: video.videoUrl,
-                vidoeTitle: video.title,
+                videoTitle: video.title,
               ),
             ),
             child: Container(

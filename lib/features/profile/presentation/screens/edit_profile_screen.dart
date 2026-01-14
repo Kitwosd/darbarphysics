@@ -136,6 +136,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     onPressed: () async {
                       final picked = await _pickImage();
                       if (picked != null) {
+                        // ignore: use_build_context_synchronously
                         context.read<ProfileCubit>().setPickedImage(picked);
                       }
                     },
@@ -164,7 +165,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   void _saveProfile(BuildContext context) {
     final cubit = context.read<ProfileCubit>();
-    final pickedImage = cubit.state.pickedImage;
+    // final pickedImage = cubit.state.pickedImage;
     final updatedModel = ProfileModel(
       id: widget.profile.id,
       username: _usernameController.text,

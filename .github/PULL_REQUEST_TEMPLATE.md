@@ -2,10 +2,10 @@
 Briefly describe the changes you made.
 
 ## Type of Change
-- [ ] ✨ New Feature
-- [ ] 🐛 Bug Fix
-- [ ] 🎨 UI/UX Improvement
-- [ ] 🔧 Refactor / Chore
+- [ ] ✨ New Feature(feat/featName: )
+- [ ] 🐛 Bug Fix (bugFix: )
+- [ ] 🎨 UI/UX Improvement (hotfix: )
+- [ ] 🔧 Refactor / Chore (chore: )
 
 ## Verification
 - [ ] I have ran `flutter analyze` and it passes.

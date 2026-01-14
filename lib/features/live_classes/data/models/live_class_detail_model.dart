@@ -37,6 +37,34 @@ class LiveClassDetailModel {
     required this.status,
   });
 
+  // Calculate duration
+  String get duration {
+    final diff = endTime.difference(startTime);
+    final hours = diff.inHours;
+    final minutes = diff.inMinutes % 60;
+
+    if (hours > 0) {
+      return "$hours hour${hours > 1 ? 's' : ''} ${minutes > 0 ? '$minutes min' : ''}";
+    }
+    return '$minutes minutes';
+  }
+
+  // // Get teacher name formatted
+  // String get teacherName {
+  //   return teacher.split('').map((char, index) {
+  //     if (index == 0) return char.toUpperCase();
+  //     return char;
+  //   }).join();
+  // }
+
+  String get teacherName {
+    if (teacher.isEmpty) return teacher;
+
+    final chars = teacher.split('');
+    chars[0] = chars[0].toUpperCase();
+    return chars.join();
+  }
+
   factory LiveClassDetailModel.fromJson(Map<String, dynamic> json) =>
       LiveClassDetailModel(
         id: json["id"],

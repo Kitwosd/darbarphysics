@@ -16,6 +16,7 @@ class RouteName {
   static const String liveClassesList = 'liveClassesListScreen';
   static const String editProfile = 'editProfileScreen';
   static const String videoPlayer = 'videoPlayerScreen';
+  static const String liveclassDetail = 'liveClassDetailScreen';
 }
 
 class RoutePath {
@@ -36,5 +37,6 @@ class RoutePath {
   static const String zoomWebView = '/zoomWebViewScreen';
   static const String liveClassesList = '/liveClassesListScreen';
   static const String editProfile = '/editProfileScreen';
-    static const String videoPlayer = '/videoPlayerScreen';
+  static const String videoPlayer = '/videoPlayerScreen';
+  static const String liveClassDetail = '/liveClassDetailScreen';
 }

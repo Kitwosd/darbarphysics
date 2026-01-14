@@ -59,7 +59,7 @@ class CourseBookmarkBloc
     CheckBookmarkStatus event,
     Emitter<CourseBookmarkState> emit,
   ) {
-    bool status = hiveService.isBookmarked(event.courseId);
+    hiveService.isBookmarked(event.courseId);
   }
 
   bool isBookmarked(int courseId) {

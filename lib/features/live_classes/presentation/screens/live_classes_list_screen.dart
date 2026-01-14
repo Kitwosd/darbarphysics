@@ -40,12 +40,10 @@ class LiveClassesListScreen extends StatelessWidget {
                 final liveClass = state.liveClasses[index];
                 return GestureDetector(
                   onTap: () {
+                    
                     NavigationService.pushNamed(
-                      RouteName.zoomWebView,
-                      extra: {
-                        'meetingUrl': liveClass.meetingUrl,
-                        'title': liveClass.title,
-                      },
+                      RouteName.liveclassDetail,
+                      extra: liveClass.id,
                     );
                   },
                   child: Container(

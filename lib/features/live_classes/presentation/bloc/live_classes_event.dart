@@ -8,3 +8,8 @@ abstract class LiveClassesEvent extends Equatable {
 }
 
 class GetLiveClassesEvent extends LiveClassesEvent {}
+
+class GetDetailLiveClassEvent extends LiveClassesEvent {
+  final int id;
+  const GetDetailLiveClassEvent({required this.id});
+}

@@ -43,10 +43,17 @@ class HomeLiveClassesList extends StatelessWidget {
                 final liveClass = state.liveClasses[index];
                 return GestureDetector(
                   onTap: () {
-                    NavigationService.pushNamed(
-                      RouteName.zoomWebView,
-                      extra: {'url': liveClass.meetingUrl},
-                    );
+                    if (liveClass.isLive) {
+                      NavigationService.pushNamed(
+                        RouteName.zoomWebView,
+                        extra: {'url': liveClass.meetingUrl},
+                      );
+                    } else {
+                      NavigationService.pushNamed(
+                        RouteName.liveclassDetail,
+                        extra: liveClass.id,
+                      );
+                    }
                   },
                   child: Container(
                     width: 260.w,

@@ -28,7 +28,8 @@ class LiveClassesRepoImpl implements LiveClassesRepo {
       path: '/liveclass/$id',
       method: ApiMethod.get,
     );
-    final response = liveClassDetail.map((e) => LiveClassModel.fromJson(e));
+    final response = LiveClassDetailModel.fromJson(liveClassDetail);
+
     return response;
   }
 }

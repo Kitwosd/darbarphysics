@@ -42,6 +42,9 @@ import '../../features/profile/data/repo_impl/profile_repository_impl.dart'
 import '../../features/profile/domain/repo/profile_repo.dart' as _i364;
 import '../../features/profile/presentation/cubit/profile_cubit.dart' as _i36;
 import '../../features/profile/presentation/cubit/profile_state.dart' as _i356;
+import '../../features/search/data/repo_impl/search_repo_impl.dart' as _i790;
+import '../../features/search/domain/repo/search_repo.dart' as _i1033;
+import '../../features/search/presentation/bloc/search_bloc.dart' as _i552;
 import '../hive_services/services/hive_course_service.dart' as _i963;
 import '../hive_services/services/hive_video_service.dart' as _i143;
 import '../network/api_client.dart' as _i557;
@@ -76,6 +79,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i408.SignUpCubit>(
       () => _i408.SignUpCubit(gh<_i557.ApiClient>()),
     );
+    gh.factory<_i1033.SearchRepo>(
+      () => _i790.SearchRepoImpl(gh<_i557.ApiClient>()),
+    );
     gh.factory<_i356.ProfileState>(
       () => _i356.ProfileState(
         status: gh<_i202.ApiDataStatus>(),
@@ -83,6 +89,9 @@ extension GetItInjectableX on _i174.GetIt {
         error: gh<String>(),
         pickedImage: gh<_i183.XFile>(),
       ),
+    );
+    gh.factory<_i552.SearchBloc>(
+      () => _i552.SearchBloc(gh<_i1033.SearchRepo>()),
     );
     gh.factory<_i202.HomeBloc>(() => _i202.HomeBloc(gh<_i130.HomeRepo>()));
     gh.factory<_i280.LiveClassesBloc>(

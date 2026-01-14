@@ -4,13 +4,17 @@ class LiveClassesState extends Equatable {
   final List<LiveClassModel> liveClasses;
   final LiveClassDetailModel? liveClassDetail;
   final ApiDataStatus status;
-  final String? error;
+  final ApiDataStatus liveClassDetailStatus;
+  final String error;
+  final String liveClassDetailError;
 
   const LiveClassesState({
     this.liveClasses = const [],
     this.status = ApiDataStatus.initial,
-    this.error,
+    this.error = '',
     this.liveClassDetail,
+    this.liveClassDetailStatus = ApiDataStatus.initial,
+    this.liveClassDetailError = '',
   });
 
   LiveClassesState copyWith({
@@ -18,15 +22,26 @@ class LiveClassesState extends Equatable {
     ApiDataStatus? status,
     String? error,
     LiveClassDetailModel? liveClassDetail,
+    ApiDataStatus? liveClassDetailStatus,
+    String? liveClassDetailError,
   }) {
     return LiveClassesState(
       liveClasses: liveClasses ?? this.liveClasses,
       status: status ?? this.status,
-      error: error,
+      error: error ?? this.error,
       liveClassDetail: liveClassDetail ?? this.liveClassDetail,
+      liveClassDetailStatus:
+          liveClassDetailStatus ?? this.liveClassDetailStatus,
+      liveClassDetailError: liveClassDetailError ?? this.liveClassDetailError,
     );
   }
 
   @override
-  List<Object?> get props => [liveClasses, status, error];
+  List<Object?> get props => [
+    liveClasses,
+    status,
+    error,
+    liveClassDetailStatus,
+    liveClassDetailError,
+  ];
 }

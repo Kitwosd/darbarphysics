@@ -2,8 +2,6 @@ import 'package:durbar_physics/common/widgets/text_widget.dart';
 import 'package:durbar_physics/core/routing/navigation_service.dart';
 import 'package:durbar_physics/core/routing/route_name.dart';
 import 'package:durbar_physics/core/services/app_globals.dart';
-import 'package:durbar_physics/features/courses/data/model/course_detail_model.dart';
-import 'package:durbar_physics/features/home/data/models/video_model.dart';
 import 'package:durbar_physics/features/home/presentation/bloc/bookmark/courses_book_bloc/course_bookmark_bloc.dart';
 import 'package:durbar_physics/features/home/presentation/bloc/bookmark/courses_book_bloc/course_bookmark_state.dart';
 import 'package:durbar_physics/features/home/presentation/bloc/bookmark/videos_bookmark/videos_bookmark_bloc.dart';
