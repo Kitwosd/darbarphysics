@@ -20,7 +20,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<GetHomeData>((event, emit) async {
       emit(state.copyWith(status: ApiDataStatus.loading));
       try {
-        final courses = await homeRepo.getCourses();
         final classes = await homeRepo.getClasses();
         final streams = await homeRepo.getStreams();
 
@@ -28,11 +27,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
         emit(
           state.copyWith(
-            courses: courses,
             classes: classes,
             streams: streams,
 
-            videos: videos,
+            videos: videos.results,
             status: ApiDataStatus.success,
           ),
         );

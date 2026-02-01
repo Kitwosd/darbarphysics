@@ -22,65 +22,66 @@ class PaymentStatusDialogWidget extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.r)),
       child: Padding(
         padding: EdgeInsets.all(24.w),
-        child: Flexible(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                isSuccess ? Icons.check_circle : Icons.error,
-                color: isSuccess ? Colors.green : Colors.red,
-              ),
-              10.verticalSpace,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              isSuccess ? Icons.check_circle : Icons.error,
+              color: isSuccess ? Colors.green : Colors.red,
+            ),
+            10.verticalSpace,
 
-              TextWidget(
-                word: isSuccess ? 'Payment Successful' : 'Payment Failed',
-                size: 20,
-                weight: FontWeight.bold,
-              ),
-              10.verticalSpace,
+            TextWidget(
+              word: isSuccess ? 'Payment Successful' : 'Payment Failed',
+              size: 20,
+              weight: FontWeight.bold,
+            ),
+            10.verticalSpace,
 
+            TextWidget(
+              word: message,
+              size: 14,
+              textColor: customColors.greyWhite,
+              align: TextAlign.center,
+              overflow: TextOverflow.visible,
+            ),
+
+            if (details != null) ...[
+              10.verticalSpace,
               TextWidget(
-                word: message,
-                size: 14,
+                word: details!,
+                size: 12,
                 textColor: customColors.greyWhite,
-                align: TextAlign.center,
-              ),
-
-              if (details != null) ...[
-                10.verticalSpace,
-                TextWidget(
-                  word: details!,
-                  size: 12,
-                  textColor: customColors.greyWhite,
-                  overflow: TextOverflow.visible,
-                ),
-              ],
-              25.verticalSpace,
-
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    onContinue?.call();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: appColors.primary,
-                    padding: EdgeInsets.symmetric(vertical: 12.h),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.r),
-                    ),
-                  ),
-                  child: TextWidget(
-                    word: 'Continue',
-                    size: 16,
-                    textColor: customColors.whiteBlack,
-                    weight: FontWeight.bold,
-                  ),
-                ),
+                overflow: TextOverflow.visible,
+                
               ),
             ],
-          ),
+            25.verticalSpace,
+
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  onContinue?.call();
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: appColors.primary,
+                  padding: EdgeInsets.symmetric(vertical: 12.h),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.r),
+                  ),
+                ),
+                child: TextWidget(
+                  word: 'Continue',
+                  size: 16,
+                  textColor: customColors.whiteBlack,
+                  weight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

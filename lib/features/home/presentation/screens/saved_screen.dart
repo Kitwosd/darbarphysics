@@ -79,20 +79,23 @@ class _SavedScreenState extends State<SavedScreen>
               ],
             ),
           ),
-          SizedBox(
-            width: 150.w,
-            height: 70.h,
+          Padding(
+            padding: EdgeInsets.only(bottom: 16.0.h),
+            child: SizedBox(
+              width: 150.w,
+              height: 70.h,
 
-            child: FloatingActionButton(
-              onPressed: () {
-                NavigationService.pushNamedReplacement(RouteName.home);
-              },
+              child: FloatingActionButton(
+                onPressed: () {
+                  NavigationService.pushNamedReplacement(RouteName.home);
+                },
 
-              child: TextWidget(
-                word: 'Add more',
-                weight: FontWeight.w600,
-                size: 18,
-                textColor: customColors.whiteBlack,
+                child: TextWidget(
+                  word: 'Add more',
+                  weight: FontWeight.w600,
+                  size: 18,
+                  textColor: customColors.whiteBlack,
+                ),
               ),
             ),
           ),

@@ -1,7 +1,5 @@
 part of 'course_bookmark_bloc.dart';
 
-
-
 sealed class CourseBookmarkEvent extends Equatable {
   const CourseBookmarkEvent();
 
@@ -25,3 +23,5 @@ class CheckBookmarkStatus extends CourseBookmarkEvent {
   final int courseId;
   const CheckBookmarkStatus({required this.courseId});
 }
+
+class ResetBookmarkToastResultEvent extends CourseBookmarkEvent {}

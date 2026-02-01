@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:durbar_physics/core/hive_services/hive_mappers/course_hive_mapper.dart';
 import 'package:durbar_physics/core/hive_services/hive_models/course_hive_model.dart';
 import 'package:durbar_physics/core/hive_services/services/hive_course_service.dart';
+import 'package:durbar_physics/core/logger/app_logger.dart';
 import 'package:durbar_physics/features/courses/data/model/course_model.dart';
 import 'package:durbar_physics/features/home/presentation/bloc/bookmark/courses_book_bloc/course_bookmark_state.dart';
 import 'package:equatable/equatable.dart';
@@ -20,6 +21,7 @@ class CourseBookmarkBloc
     on<RemoveCourseEvent>(_onRemoveCourseEvent);
     on<LoadBookmarkCoursesEvent>(_onLoadBookmarkCoursesEvent);
     on<CheckBookmarkStatus>(_onCheckBookmarkStatus);
+    on<ResetBookmarkToastResultEvent>(_onResetBookmarkToastResultEvent);
   }
 
   FutureOr<void> _onAddCourseEvent(
@@ -31,7 +33,14 @@ class CourseBookmarkBloc
     final courses = list.map((e) => e.toCourse()).toList();
 
     final ids = list.map((e) => e.id).toSet();
-    emit(state.copyWith(courses: courses, bookmarkIds: ids));
+    emit(
+      state.copyWith(
+        courses: courses,
+        bookmarkIds: ids,
+        showToast: true,
+        wasAdded: true,
+      ),
+    );
   }
 
   FutureOr<void> _onRemoveCourseEvent(
@@ -42,17 +51,36 @@ class CourseBookmarkBloc
     final list = hiveService.getAllCourses();
     final courses = list.map((e) => e.toCourse()).toList();
     final ids = list.map((e) => e.id).toSet();
-    emit(state.copyWith(courses: courses, bookmarkIds: ids));
+    emit(
+      state.copyWith(
+        courses: courses,
+        bookmarkIds: ids,
+        showToast: true,
+        wasAdded: false,
+      ),
+    );
   }
 
   FutureOr<void> _onLoadBookmarkCoursesEvent(
     LoadBookmarkCoursesEvent event,
     Emitter<CourseBookmarkState> emit,
   ) {
-    final List<CourseHiveModel> list = hiveService.getAllCourses();
-    final List<CourseModel> courses = list.map((e) => e.toCourse()).toList();
-    final ids = list.map((e) => e.id).toSet();
-    emit(state.copyWith(courses: courses, bookmarkIds: ids));
+    try {
+      final List<CourseHiveModel> list = hiveService.getAllCourses();
+      final List<CourseModel> courses = list.map((e) => e.toCourse()).toList();
+      final ids = list.map((e) => e.id).toSet();
+
+      //TODO: log for debugging
+      logger.d('Loaded ${courses.length} courses from hive');
+      emit(state.copyWith(courses: courses, bookmarkIds: ids));
+    } catch (e, stackTrace) {
+      logger.e(
+        'Failed to load courses fromm Hive',
+        error: e,
+        stackTrace: stackTrace,
+      );
+      emit(state.copyWith(bookmarkIds: {}, courses: []));
+    }
   }
 
   FutureOr<void> _onCheckBookmarkStatus(
@@ -64,5 +92,12 @@ class CourseBookmarkBloc
 
   bool isBookmarked(int courseId) {
     return state.courses.any((courses) => courses.id == courseId);
+  }
+
+  FutureOr<void> _onResetBookmarkToastResultEvent(
+    ResetBookmarkToastResultEvent event,
+    Emitter<CourseBookmarkState> emit,
+  ) {
+    emit(state.copyWith(showToast: false, wasAdded: true));
   }
 }

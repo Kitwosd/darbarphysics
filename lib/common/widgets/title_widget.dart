@@ -9,35 +9,31 @@ class TitleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 65.h,
+    return Container(
+      height: 40.h,
       width: double.infinity,
+      color: Theme.of(context).appBarTheme.backgroundColor,
 
       child: Padding(
-        padding: EdgeInsets.only(left: 12.w),
-        child: Stack(
+        padding: EdgeInsets.only(left: 12.w, top: 4.h),
+        child: Row(
           children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Icon(
-                  Icons.arrow_back_rounded,
-                  size: 36.h, // set size manually
-                  color: Theme.of(context).colorScheme.primary,
-                ),
+            GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Icon(
+                Icons.arrow_back_rounded,
+                size: 32.h, // set size manually
+                color: Theme.of(context).colorScheme.primary,
               ),
             ),
-            Align(
-              alignment: Alignment.center,
-              child: TextWidget(
-                word: title,
-                size: 26,
-                weight: FontWeight.w600,
-                textColor: Theme.of(context).colorScheme.primary,
-              ),
+            20.horizontalSpace,
+            TextWidget(
+              word: title,
+              size: 24,
+              weight: FontWeight.w600,
+              textColor: Theme.of(context).colorScheme.primary,
             ),
           ],
         ),

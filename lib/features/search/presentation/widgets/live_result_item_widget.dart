@@ -1,4 +1,6 @@
+import 'package:durbar_physics/common/widgets/enrollment_dialog_widget.dart';
 import 'package:durbar_physics/common/widgets/text_widget.dart';
+import 'package:durbar_physics/core/logger/app_logger.dart';
 import 'package:durbar_physics/core/routing/navigation_service.dart';
 import 'package:durbar_physics/core/routing/route_name.dart';
 import 'package:durbar_physics/features/live_classes/data/models/live_class_model.dart';
@@ -20,17 +22,29 @@ class LiveResultItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        if (liveClass.isLive) {
-          NavigationService.pushNamed(
-            RouteName.zoomWebView,
-            extra: {'url': liveClass.meetingUrl},
-          );
-        } else {
-          NavigationService.pushNamed(
-            RouteName.liveclassDetail,
-            extra: liveClass.id,
-          );
-        }
+        NavigationService.pushNamed(
+          RouteName.liveclassDetail,
+          extra: liveClass.id,
+        );
+        // if (liveClass.isUserLocked) {
+        //   NavigationService.pushNamed(
+        //     RouteName.liveclassDetail,
+        //     extra: liveClass.id,
+        //   );
+        //   logger.d('Is locked ?: courseID: ${liveClass.course}');
+        //   return;
+        // }
+        // if (liveClass.isLive) {
+        //   NavigationService.pushNamed(
+        //     RouteName.zoomWebView,
+        //     extra: {'url': liveClass.meetingUrl},
+        //   );
+        // } else {
+        //   NavigationService.pushNamed(
+        //     RouteName.liveclassDetail,
+        //     extra: liveClass.id,
+        //   );
+        // }
       },
       borderRadius: BorderRadius.circular(12.r),
       child: Container(
@@ -78,12 +92,46 @@ class LiveResultItemWidget extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 4.h),
-                  TextWidget(
-                    word: DateFormat(
-                      'MMM d, h:mm a',
-                    ).format(liveClass.startTime),
-                    size: 11,
-                    textColor: Theme.of(context).hintColor,
+                  Row(
+                    children: [
+                      TextWidget(
+                        word: DateFormat(
+                          'MMM d, h:mm a',
+                        ).format(liveClass.startTime),
+                        size: 11,
+                        textColor: Theme.of(context).hintColor,
+                      ),
+
+                      if (liveClass.isUserLocked) ...[
+                        Spacer(),
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 8.w,
+                            vertical: 2.h,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.orange.shade50,
+                            borderRadius: BorderRadius.circular(10.r),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.lock,
+                                size: 10.sp,
+                                color: Colors.orange.shade700,
+                              ),
+                              SizedBox(width: 4.w),
+                              TextWidget(
+                                word: 'Locked',
+                                size: 10,
+                                textColor: Colors.orange.shade700,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ],
                   ),
                   if (liveClass.isLive) ...[
                     SizedBox(height: 6.h),

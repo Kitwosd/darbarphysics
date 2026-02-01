@@ -1,8 +1,8 @@
-import 'package:durbar_physics/common/enums/enums.dart';
 import 'package:durbar_physics/core/di/injection.dart';
+import 'package:durbar_physics/core/routing/navigation_service.dart';
 import 'package:durbar_physics/core/routing/route_name.dart';
 import 'package:durbar_physics/core/services/app_refresh_indicator.dart';
-import 'package:durbar_physics/features/courses/presentation/courses/courses_bloc.dart';
+import 'package:durbar_physics/features/courses/presentation/bloc/courses/courses_bloc.dart';
 import 'package:durbar_physics/features/home/presentation/bloc/home_bloc.dart';
 import 'package:durbar_physics/features/home/presentation/bloc/streams/streams_bloc.dart';
 import 'package:durbar_physics/features/home/presentation/bloc/videos/videos_bloc.dart';
@@ -11,6 +11,7 @@ import 'package:durbar_physics/features/home/presentation/widgets/home_courses_l
 import 'package:durbar_physics/features/home/presentation/widgets/home_header.dart';
 import 'package:durbar_physics/features/home/presentation/widgets/home_search_bar.dart';
 import 'package:durbar_physics/features/home/presentation/widgets/home_section_header.dart';
+import 'package:durbar_physics/features/home/presentation/widgets/home_videos_list.dart';
 import 'package:durbar_physics/features/live_classes/presentation/bloc/live_classes_bloc.dart';
 import 'package:durbar_physics/features/live_classes/presentation/widgets/home_live_classes_list.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,7 @@ class HomeScreen extends StatelessWidget {
     context.read<HomeBloc>().add(GetHomeData());
     context.read<LiveClassesBloc>().add(GetLiveClassesEvent());
     context.read<CoursesBloc>().add(GetCoursesEvent());
+    context.read<VideosBloc>().add(GetVideosEvent());
     // await Future.delayed(const Duration(seconds: 2));
   }
 
@@ -69,50 +71,32 @@ class HomeScreen extends StatelessWidget {
                               const HomeBanner(),
 
                               HomeSectionHeader(
+                                title: 'Top Courses',
+                                onSeeAll: () {
+                                  NavigationService.pushNamed(
+                                    RouteName.allCourses,
+                                  );
+                                },
+                              ),
+                              const HomeCoursesList(),
+
+                              HomeSectionHeader(
                                 title: 'Live Classes',
                                 onSeeAll: () {
                                   context.push(RoutePath.liveClassesList);
                                 },
                               ),
                               const HomeLiveClassesList(),
+
                               HomeSectionHeader(
-                                title: 'Top Courses',
-                                onSeeAll: () {},
-                              ),
-                              HomeCoursesList(),
-
-                              BlocBuilder<HomeBloc, HomeState>(
-                                builder: (context, state) {
-                                  // if (state.status == ApiDataStatus.loading) {
-                                  //   return const Center(child: CircularProgressIndicator());
-                                  // } else
-                                  if (state.status == ApiDataStatus.error) {
-                                    return Center(
-                                      child: Text('Error: //${state.error}'),
-                                    );
-                                  } else if (state.status ==
-                                      ApiDataStatus.success) {
-                                    return Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        //HomeCategories(streams: state.streams),
-
-                                        // if (state.videos.isNotEmpty) ...[
-                                        //   HomeSectionHeader(
-                                        //     title: 'Videos',
-                                        //     onSeeAll: () {},
-                                        //   ),
-                                        //   HomeVideosList(),
-                                        // ],
-
-                                        // // Live Classes Logic managed by its own Bloc
-                                      ],
-                                    );
-                                  }
-                                  return const SizedBox.shrink();
+                                title: 'Videos',
+                                onSeeAll: () {
+                                  NavigationService.pushNamed(
+                                    RouteName.allVideos,
+                                  );
                                 },
                               ),
+                              const HomeVideosList(),
                             ],
                           ),
                         ),

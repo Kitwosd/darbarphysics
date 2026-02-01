@@ -6,6 +6,7 @@ import 'package:bloc/bloc.dart';
 import 'package:durbar_physics/core/hive_services/hive_mappers/video_mapper.dart';
 import 'package:durbar_physics/core/hive_services/hive_services.dart';
 import 'package:durbar_physics/core/hive_services/services/hive_video_service.dart';
+import 'package:durbar_physics/core/logger/app_logger.dart';
 import 'package:durbar_physics/features/home/data/models/video_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
@@ -51,9 +52,19 @@ class VideosBookmarkBloc
     LoadVideosEvent event,
     Emitter<VideosBookmarkState> emit,
   ) {
-    final list = hiveServices.getAllVideos();
-    final videos = list.map((e) => e.toVideo()).toList();
-    final ids = list.map((e) => e.id).toSet();
-    emit(state.copyWith(videoIds: ids, videos: videos));
+    try {
+      final list = hiveServices.getAllVideos();
+      final videos = list.map((e) => e.toVideo()).toList();
+      final ids = list.map((e) => e.id).toSet();
+      logger.d('Loaded: ${videos.length} videos from the hive');
+      emit(state.copyWith(videoIds: ids, videos: videos));
+    } catch (e, stackTrace) {
+      logger.e(
+        'Failed to load videos from hive',
+        error: e,
+        stackTrace: stackTrace,
+      );
+      emit(state.copyWith(videoIds: {}, videos: []));
+    }
   }
 }

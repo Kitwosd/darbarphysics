@@ -3,12 +3,12 @@ import 'package:durbar_physics/common/widgets/text_widget.dart';
 import 'package:durbar_physics/core/di/injection.dart';
 import 'package:durbar_physics/core/routing/navigation_service.dart';
 import 'package:durbar_physics/core/services/app_globals.dart';
-import 'package:durbar_physics/features/courses/presentation/courses/courses_bloc.dart';
+import 'package:durbar_physics/features/courses/presentation/bloc/courses/courses_bloc.dart';
 import 'package:durbar_physics/features/courses/presentation/widgets/course_detail_header.dart';
 import 'package:durbar_physics/features/courses/presentation/widgets/course_info_section.dart';
 import 'package:durbar_physics/features/courses/presentation/widgets/course_lessons_tab.dart';
+import 'package:durbar_physics/features/courses/presentation/widgets/course_live_tab.dart';
 import 'package:durbar_physics/features/courses/presentation/widgets/course_overview_tab.dart';
-import 'package:durbar_physics/features/payment/data/models/payment_initiate_request_model.dart';
 import 'package:durbar_physics/features/payment/data/services/khalti_payment_service.dart';
 import 'package:durbar_physics/features/payment/presentation/widget/payment_status_dialog_widget.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +33,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen>
     context.read<CoursesBloc>().add(
       GetCourseDetailEvent(courseId: widget.courseId),
     );
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 3, vsync: this);
   }
 
   @override
@@ -50,20 +50,9 @@ class _CourseDetailScreenState extends State<CourseDetailScreen>
       _isProcessing = true;
     });
     try {
-      //Step 1: Create payment request
-      final paymentRequest = PaymentInitiateRequestModel.fromCourse(
-        courseId: course.id.toString(),
-        courseName: course.title,
-        userId: 'user_test_123',
-        priceInRupees: double.parse(course.cost),
-        userName: 'Test Name',
-        userEmail: 'Devsubedi@gmail.com',
-        userPhone: '9813291653',
-      );
       //Step 2: Get pidx from Khalti API (using real API call)
       final initiateReponse = await _paymentService.initializePayment(
-        request: paymentRequest,
-        useMock: false, // Using real Khalti API
+        courseId: widget.courseId,
       );
       if (!initiateReponse.success || initiateReponse.pidx == null) {
         throw Exception(
@@ -79,25 +68,39 @@ class _CourseDetailScreenState extends State<CourseDetailScreen>
       if (!mounted) return;
       //Step 4: Handle payment result
       if (paymentResult.success) {
-        //When backend is ready, verify payment
-        //final verified = await _paymentService.verifyPaymentOnBackend(
-        // pidx: paymentResult.pidx!);
-        await PaymentStatusDialogWidget.show(
-          context: context,
-          isSuccess: true,
-          message: 'Enrollment succesful!',
-          details: 'Transaction ID: ${paymentResult.transactionId ?? 'N/A'}',
-          onContinue: () {
-            // TODO: Navigate to course content
-            // And refresh enrolled courses to remove the lock sign and have accessed to video
-            NavigationService.pop();
-          },
+        // Verify payment on backend
+        final verified = await _paymentService.verifyPaymentOnBackend(
+          pidx:
+              initiateReponse.pidx!, // Use the pidx that initiated the payment
         );
+
+        if (verified.isSucess) {
+          await PaymentStatusDialogWidget.show(
+            context: context,
+            isSuccess: true,
+            message: verified.status ?? 'Enrollment succesful',
+            details: 'Transaction ID: ${paymentResult.transactionId ?? 'N/A'}',
+            onContinue: () {
+              // Refresh the course details to update UI (remove lock, hide enroll, etc.)
+              context.read<CoursesBloc>().add(
+                GetCourseDetailEvent(courseId: widget.courseId),
+              );
+              // Close the dialog
+              NavigationService.pop();
+            },
+          );
+        } else {
+          await PaymentStatusDialogWidget.show(
+            context: context,
+            isSuccess: false,
+            message: verified.errorMessage ?? 'Payment verification failed',
+          );
+        }
       } else {
         await PaymentStatusDialogWidget.show(
           context: context,
           isSuccess: false,
-          message: paymentResult.errorMessage ?? 'Payment Failed',
+          message: paymentResult.errorMessage ?? 'Payment Failed on frontEnd',
         );
       }
     } catch (e) {
@@ -163,16 +166,16 @@ class _CourseDetailScreenState extends State<CourseDetailScreen>
 
         final course = state.course!;
         //         return BlocListener<BookmarkBloc, BookmarkState>(
-          // listener: (context, state) {
-          //   final isBookmarked = state.bookmarkIds.contains(course.id);
-          //   ScaffoldMessenger.of(context).showSnackBar(
-          //     SnackBar(
-          //       content: Text(
-          //         isBookmarked ? 'Added to Bookmark' : 'Removed from bookmark',
-          //       ),
-          //     ),
-          //   );
-          // },
+        // listener: (context, state) {
+        //   final isBookmarked = state.bookmarkIds.contains(course.id);
+        //   ScaffoldMessenger.of(context).showSnackBar(
+        //     SnackBar(
+        //       content: Text(
+        //         isBookmarked ? 'Added to Bookmark' : 'Removed from bookmark',
+        //       ),
+        //     ),
+        //   );
+        // },
         return Scaffold(
           body: SafeArea(
             child: Column(
@@ -193,6 +196,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen>
                           tabs: const [
                             Tab(text: "Overview"),
                             Tab(text: "Lessons"),
+                            Tab(text: 'Live'),
                           ],
                         ),
                         Expanded(
@@ -201,6 +205,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen>
                             children: [
                               CourseOverviewTab(course: course),
                               CourseLessonsTab(course: course),
+                              CourseLiveTab(course: course),
                             ],
                           ),
                         ),
@@ -213,44 +218,46 @@ class _CourseDetailScreenState extends State<CourseDetailScreen>
           ),
           bottomNavigationBar: Padding(
             padding: EdgeInsets.all(20.w),
-            child: ElevatedButton(
-              onPressed: _isProcessing ? null : _handleEnrollment,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).primaryColor,
-                padding: EdgeInsets.symmetric(vertical: 15.h),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30.r),
-                ),
-              ),
-              child: _isProcessing
-                  ? SizedBox(
-                      height: 20.h,
-                      width: 20.w,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                          customColors.whiteBlack,
-                        ),
+            child: (double.tryParse(course.cost) ?? 0) <= 0
+                ? const SizedBox.shrink() // Hide button if free
+                : ElevatedButton(
+                    onPressed: _isProcessing ? null : _handleEnrollment,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).primaryColor,
+                      padding: EdgeInsets.symmetric(vertical: 15.h),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.r),
                       ),
-                    )
-                  : Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const TextWidget(
-                          word: "Enroll Now - Rs. ",
-                          size: 18,
-                          textColor: Colors.white,
-                          weight: FontWeight.bold,
-                        ),
-                        TextWidget(
-                          word: course.cost,
-                          size: 18,
-                          textColor: Colors.white,
-                          weight: FontWeight.bold,
-                        ),
-                      ],
                     ),
-            ),
+                    child: _isProcessing
+                        ? SizedBox(
+                            height: 20.h,
+                            width: 20.w,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                customColors.whiteBlack,
+                              ),
+                            ),
+                          )
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const TextWidget(
+                                word: "Enroll Now - Rs. ",
+                                size: 18,
+                                textColor: Colors.white,
+                                weight: FontWeight.bold,
+                              ),
+                              TextWidget(
+                                word: course.cost,
+                                size: 18,
+                                textColor: Colors.white,
+                                weight: FontWeight.bold,
+                              ),
+                            ],
+                          ),
+                  ),
           ),
         );
       },

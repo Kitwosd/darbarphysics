@@ -1,4 +1,6 @@
+import 'package:durbar_physics/common/widgets/enrollment_dialog_widget.dart';
 import 'package:durbar_physics/common/widgets/text_widget.dart';
+import 'package:durbar_physics/core/logger/app_logger.dart';
 import 'package:durbar_physics/core/routing/navigation_service.dart';
 import 'package:durbar_physics/core/routing/route_name.dart';
 import 'package:durbar_physics/features/courses/presentation/routes/video_player_args.dart';
@@ -15,6 +17,22 @@ class VideoResultItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        if (video.isUserLocked) {
+          EnrollmentDialogWidget.show(
+            context,
+            forVideo: true,
+            onGoToCourse: () => {
+              NavigationService.pushNamedReplacement(
+                RouteName.detailScreen,
+                //TODO: yeha course id dinu parxa sab video haru ma dinu  parne hola do check other video player routes as well
+                extra: 42, //extra: video.courseId,
+              ),
+            },
+          );
+
+          return;
+        }
+
         NavigationService.pushNamed(
           RouteName.videoPlayer,
           extra: VideoPlayerArgs(
@@ -69,37 +87,38 @@ class VideoResultItemWidget extends StatelessWidget {
                         size: 12,
                         textColor: Theme.of(context).hintColor,
                       ),
+
+                      if (video.isUserLocked) ...[
+                        Spacer(),
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 8.w,
+                            vertical: 2.h,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.orange.shade50,
+                            borderRadius: BorderRadius.circular(10.r),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.lock,
+                                size: 10.sp,
+                                color: Colors.orange.shade700,
+                              ),
+                              SizedBox(width: 4.w),
+                              TextWidget(
+                                word: 'Locked',
+                                size: 10,
+                                textColor: Colors.orange.shade700,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ],
                   ),
-                  if (video.isLocked) ...[
-                    SizedBox(height: 6.h),
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 8.w,
-                        vertical: 2.h,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.orange.shade50,
-                        borderRadius: BorderRadius.circular(10.r),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.lock,
-                            size: 10.sp,
-                            color: Colors.orange.shade700,
-                          ),
-                          SizedBox(width: 4.w),
-                          TextWidget(
-                            word: 'Locked',
-                            size: 10,
-                            textColor: Colors.orange.shade700,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
                 ],
               ),
             ),
@@ -121,9 +140,9 @@ class VideoResultItemWidget extends StatelessWidget {
           ),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8.r),
-            child: video.thumbnail.isNotEmpty
+            child: video.thumbnail!.isNotEmpty && video.thumbnail != null
                 ? Image.network(
-                    video.thumbnail,
+                    video.thumbnail!,
                     fit: BoxFit.cover,
                     errorBuilder: (_, __, ___) => _buildPlaceholder(context),
                   )

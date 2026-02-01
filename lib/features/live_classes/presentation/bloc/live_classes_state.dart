@@ -7,6 +7,8 @@ class LiveClassesState extends Equatable {
   final ApiDataStatus liveClassDetailStatus;
   final String error;
   final String liveClassDetailError;
+  final int currentPage;
+  final bool hasReachedMax;
 
   const LiveClassesState({
     this.liveClasses = const [],
@@ -15,6 +17,8 @@ class LiveClassesState extends Equatable {
     this.liveClassDetail,
     this.liveClassDetailStatus = ApiDataStatus.initial,
     this.liveClassDetailError = '',
+    this.currentPage = 1,
+    this.hasReachedMax = false,
   });
 
   LiveClassesState copyWith({
@@ -24,6 +28,8 @@ class LiveClassesState extends Equatable {
     LiveClassDetailModel? liveClassDetail,
     ApiDataStatus? liveClassDetailStatus,
     String? liveClassDetailError,
+    int? currentPage,
+    bool? hasReachedMax,
   }) {
     return LiveClassesState(
       liveClasses: liveClasses ?? this.liveClasses,
@@ -33,6 +39,8 @@ class LiveClassesState extends Equatable {
       liveClassDetailStatus:
           liveClassDetailStatus ?? this.liveClassDetailStatus,
       liveClassDetailError: liveClassDetailError ?? this.liveClassDetailError,
+      currentPage: currentPage ?? this.currentPage,
+      hasReachedMax: hasReachedMax ?? this.hasReachedMax,
     );
   }
 
@@ -43,5 +51,7 @@ class LiveClassesState extends Equatable {
     error,
     liveClassDetailStatus,
     liveClassDetailError,
+    currentPage,
+    hasReachedMax,
   ];
 }

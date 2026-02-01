@@ -12,6 +12,8 @@ extension CourseToHive on CourseModel {
     rating: rating,
     studentCount: studentCount,
     lessonCount: lessonCount,
+    liveClassCount: liveClassCount,
+    isUserLocked: isUserLocked,
   );
 }
 
@@ -25,6 +27,8 @@ extension HiveToCourse on CourseHiveModel {
     rating: rating,
     studentCount: studentCount,
     lessonCount: lessonCount,
+    liveClassCount: liveClassCount,
+    isUserLocked: isUserLocked
   );
 }
 
@@ -39,5 +43,7 @@ extension CourseDetailToHive on CourseDetailModel {
     rating: rating,
     studentCount: studentCount,
     lessonCount: lessonCount,
+    liveClassCount: liveClassCount,
+    isUserLocked: isUserLocked
   );
 }

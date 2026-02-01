@@ -7,8 +7,9 @@ class VideoModel extends Equatable {
   // final String teacher;
   final String? course;
   final String videoUrl;
-  final String thumbnail;
+  final String? thumbnail;
   final String duration;
+  final bool isUserLocked;
 
   const VideoModel({
     required this.id,
@@ -19,6 +20,7 @@ class VideoModel extends Equatable {
     this.thumbnail = "",
     this.duration = "00:00",
     required this.isLocked,
+    required this.isUserLocked,
   });
 
   factory VideoModel.fromJson(Map<String, dynamic> json) => VideoModel(
@@ -30,6 +32,7 @@ class VideoModel extends Equatable {
     thumbnail: json["thumbnail"] ?? "",
     duration: json["duration"] ?? "00:00",
     isLocked: json["isLocked"] ?? true,
+    isUserLocked: json["is_user_locked"] ?? true,
   );
 
   Map<String, dynamic> toJson() => {
@@ -41,10 +44,11 @@ class VideoModel extends Equatable {
     "thumbnail": thumbnail,
     "duration": duration,
     "isLocked": isLocked,
+    "is_user_locked": isUserLocked,
   };
 
   @override
   List<Object> get props {
-    return [id, title, videoUrl, thumbnail, duration, isLocked];
+    return [id, title, videoUrl, duration, isLocked, isUserLocked];
   }
 }

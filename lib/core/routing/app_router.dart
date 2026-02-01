@@ -3,9 +3,12 @@ import 'package:durbar_physics/core/routing/route_name.dart';
 import 'package:durbar_physics/features/auth/presentation/login/screens/login_screen.dart';
 import 'package:durbar_physics/features/auth/presentation/signup/screens/sign_up_screen.dart';
 import 'package:durbar_physics/features/courses/presentation/routes/video_player_args.dart';
+import 'package:durbar_physics/features/courses/presentation/screens/all_courses_screen.dart';
 import 'package:durbar_physics/features/courses/presentation/screens/course_detail_screen.dart';
+import 'package:durbar_physics/features/courses/presentation/screens/enrolled_course_screen.dart';
 import 'package:durbar_physics/features/courses/presentation/screens/video_player_screen.dart';
 import 'package:durbar_physics/features/dashboard/presentation/screens/dashboard_screen.dart';
+import 'package:durbar_physics/features/home/presentation/screens/all_videos_screen.dart';
 import 'package:durbar_physics/features/home/presentation/screens/home_screen.dart';
 import 'package:durbar_physics/features/home/presentation/screens/saved_screen.dart';
 import 'package:durbar_physics/features/live_classes/presentation/screens/live_class_detail_screen.dart';
@@ -72,7 +75,7 @@ final GoRouter appRouter = GoRouter(
               path: RoutePath.play,
               name: RouteName.play,
               builder: (context, state) =>
-                  const LiveClassesListScreen(), // Placeholder
+                  const EnrolledCourseScreen(), // Placeholder
             ),
           ],
         ),
@@ -141,6 +144,28 @@ final GoRouter appRouter = GoRouter(
       builder: (context, state) {
         final int id = state.extra as int;
         return LiveClassDetailScreen(id: id);
+      },
+    ),
+
+    GoRoute(
+      path: RoutePath.enrolledCourses,
+      name: RouteName.enrolledCourses,
+      builder: (context, state) {
+        return EnrolledCourseScreen();
+      },
+    ),
+    GoRoute(
+      path: RoutePath.allVideos,
+      name: RouteName.allVideos,
+      builder: (context, state) {
+        return AllVideosScreen();
+      },
+    ),
+    GoRoute(
+      path: RoutePath.allCourses,
+      name: RouteName.allCourses,
+      builder: (context, state) {
+        return AllCoursesScreen();
       },
     ),
   ],

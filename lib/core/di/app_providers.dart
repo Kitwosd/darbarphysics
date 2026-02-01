@@ -1,7 +1,8 @@
 import 'package:durbar_physics/core/di/injection.dart';
 import 'package:durbar_physics/core/localization/bloc/localization_bloc.dart';
 import 'package:durbar_physics/core/theme/theme_cubit.dart';
-import 'package:durbar_physics/features/courses/presentation/courses/courses_bloc.dart';
+import 'package:durbar_physics/features/courses/presentation/bloc/courses/courses_bloc.dart';
+import 'package:durbar_physics/features/courses/presentation/bloc/enrolled_courses/enrolled_courses_bloc.dart';
 import 'package:durbar_physics/features/home/presentation/bloc/bookmark/courses_book_bloc/course_bookmark_bloc.dart';
 import 'package:durbar_physics/features/home/presentation/bloc/bookmark/videos_bookmark/videos_bookmark_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,5 +23,8 @@ List<BlocProvider> get providers => [
   ),
   BlocProvider<VideosBookmarkBloc>(
     create: (_) => getIt<VideosBookmarkBloc>()..add(LoadVideosEvent()),
+  ),
+  BlocProvider<EnrolledCoursesBloc>(
+    create: (_) => getIt<EnrolledCoursesBloc>()..add(GetEnrolledCoursesEvent()),
   ),
 ];

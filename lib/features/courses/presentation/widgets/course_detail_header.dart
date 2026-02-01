@@ -15,14 +15,32 @@ class CourseDetailHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<CourseBookmarkBloc, CourseBookmarkState>(
-      listenWhen: (previous, current) =>
-          previous.courses.length != current.courses.length,
+      listenWhen: (previous, current) {
+        // final wasBookmarked = previous.bookmarkIds.contains(course.id);
+        // final isBookmarked = current.bookmarkIds.contains(course.id);
+        // return wasBookmarked != isBookmarked;
+        return previous.showToast != current.showToast;
+      },
       listener: (context, state) {
-        final isBookmarked = state.bookmarkIds.contains(course.id);
-        OverlayToastWidget.show(
-          message: isBookmarked ? 'Added to Bookmark' : 'Removed from Bookmark',
-          bgColor: isBookmarked ? Colors.green.shade400 : Colors.red.shade700,
-        );
+        // final isBookmarked = state.bookmarkIds.contains(course.id);
+        //  OverlayToastWidget.show(
+        //   message: isBookmarked ? 'Added to Bookmark' : 'Removed from Bookmark',
+        //   bgColor: isBookmarked ? Colors.green.shade400 : Colors.red.shade700,
+        // );
+        if (state.showToast) {
+          OverlayToastWidget.show(
+            message: state.wasAdded
+                ? 'Added to Bookmark'
+                : 'Removed from Bookmark',
+            bgColor: state.wasAdded
+                ? Colors.green.shade400
+                : Colors.red.shade700,
+          );
+          //reset the flags to false
+          context.read<CourseBookmarkBloc>().add(
+            ResetBookmarkToastResultEvent(),
+          );
+        }
       },
       child: Stack(
         children: [

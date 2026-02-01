@@ -17,6 +17,9 @@ class RouteName {
   static const String editProfile = 'editProfileScreen';
   static const String videoPlayer = 'videoPlayerScreen';
   static const String liveclassDetail = 'liveClassDetailScreen';
+  static const String enrolledCourses = 'EnrolledCoursesScreen';
+  static const String allVideos = 'allVideosScreen';
+  static const String allCourses = 'allCoursesScreen';
 }
 
 class RoutePath {
@@ -39,4 +42,7 @@ class RoutePath {
   static const String editProfile = '/editProfileScreen';
   static const String videoPlayer = '/videoPlayerScreen';
   static const String liveClassDetail = '/liveClassDetailScreen';
+  static const String enrolledCourses = '/enrolledCoursesScreen';
+  static const String allVideos = '/allVideosScreen';
+  static const String allCourses = '/allCoursesScreen';
 }

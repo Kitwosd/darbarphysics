@@ -55,38 +55,40 @@ class _ErrorScreenState extends State<ErrorScreen>
     return Scaffold(
       backgroundColor: customColors.whiteBlack,
       body: SafeArea(
-        child: Center(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 32.w),
-            child: Column(
-              children: [
-                180.verticalSpace,
-                //Broken Robot Showing
-                _buildBrokenRobot(),
-                40.verticalSpace,
+        child: SingleChildScrollView(
+          child: Center(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 32.w),
+              child: Column(
+                children: [
+                  180.verticalSpace,
+                  //Broken Robot Showing
+                  _buildBrokenRobot(),
+                  40.verticalSpace,
 
-                //Error Title
-                TextWidget(
-                  word: widget.errorTitle ?? 'Oops!',
-                  size: 32,
-                  weight: FontWeight.w700,
-                  textColor: const Color(0xFF333333),
-                ),
-                16.verticalSpace,
+                  //Error Title
+                  TextWidget(
+                    word: widget.errorTitle ?? 'Oops!',
+                    size: 32,
+                    weight: FontWeight.w700,
+                    textColor: const Color(0xFF333333),
+                  ),
+                  16.verticalSpace,
 
-                //Error message
-                TextWidget(
-                  word:
-                      widget.errorMessage ??
-                      'Something went wrong. \nOur robot are working on it!',
-                  align: TextAlign.center,
-                  size: 16,
-                  textColor: const Color(0xFF666666),
-                ),
-                40.verticalSpace,
+                  //Error message
+                  TextWidget(
+                    word:
+                        widget.errorMessage ??
+                        'Something went wrong. \nOur robot are working on it!',
+                    align: TextAlign.center,
+                    size: 16,
+                    textColor: const Color(0xFF666666),
+                  ),
+                  40.verticalSpace,
 
-                _buildActionButtons(),
-              ],
+                  _buildActionButtons(),
+                ],
+              ),
             ),
           ),
         ),

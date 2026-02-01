@@ -1,4 +1,5 @@
 import 'package:durbar_physics/features/home/data/models/video_model.dart';
+import 'package:durbar_physics/features/live_classes/data/models/live_class_detail_model.dart';
 import 'package:equatable/equatable.dart';
 
 class CourseDetailModel extends Equatable {
@@ -16,6 +17,9 @@ class CourseDetailModel extends Equatable {
   final String totalDuration;
   final int lessonCount;
   final List<VideoModel> lessons;
+  final List<LiveClassDetailModel> liveClasses;
+  final int liveClassCount;
+  final bool isUserLocked;
 
   const CourseDetailModel({
     required this.id,
@@ -32,6 +36,9 @@ class CourseDetailModel extends Equatable {
     this.totalDuration = "0h 0m",
     this.lessonCount = 0,
     this.lessons = const [],
+    this.liveClasses = const [],
+    this.liveClassCount = 0,
+    required this.isUserLocked,
   });
 
   factory CourseDetailModel.fromJson(Map<String, dynamic> json) =>
@@ -54,6 +61,13 @@ class CourseDetailModel extends Equatable {
             : List<VideoModel>.from(
                 json["lessons"].map((x) => VideoModel.fromJson(x)),
               ),
+        liveClasses: json["liveclasses"] == null
+            ? []
+            : List<LiveClassDetailModel>.from(
+                json["liveclasses"].map((x) => LiveClassDetailModel.fromJson(x)),
+              ),
+        liveClassCount: json["liveclassCount"],
+        isUserLocked: json["is_user_locked"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -71,6 +85,8 @@ class CourseDetailModel extends Equatable {
     "total_duration": totalDuration,
     "lesson_count": lessonCount,
     "lessons": List<dynamic>.from(lessons.map((x) => x.toJson())),
+    "liveclassCount": liveClassCount,
+    "is_user_locked": isUserLocked,
   };
 
   @override
@@ -89,5 +105,8 @@ class CourseDetailModel extends Equatable {
     totalDuration,
     lessonCount,
     lessons,
+    liveClasses,
+    liveClassCount,
+    isUserLocked,
   ];
 }

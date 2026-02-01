@@ -31,15 +31,18 @@ class DashboardScreen extends StatelessWidget {
               gap: 8.w,
               activeColor: Colors.blueAccent, // Or your primary color
               iconSize: 24.h,
-              padding:  EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
               duration: const Duration(milliseconds: 400),
               tabBackgroundColor: Colors.blueAccent.withValues(alpha: 0.1),
               color: Colors.black,
               tabs: const [
                 GButton(icon: Icons.home_rounded, text: 'Home'),
                 GButton(icon: Icons.bookmark_border_rounded, text: 'Saved'),
-                GButton(icon: Icons.play_circle_outline_rounded, text: 'Play'),
-                GButton(icon: Icons.person_rounded, text: 'Profile'),
+                GButton(
+                  icon: Icons.play_circle_outline_rounded,
+                  text: 'Enrolled',
+                ),
+                GButton(icon: Icons.settings, text: 'Setting'),
               ],
               selectedIndex: navigationShell.currentIndex,
               onTabChange: (index) {

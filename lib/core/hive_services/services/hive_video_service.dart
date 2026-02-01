@@ -1,5 +1,6 @@
 import 'package:durbar_physics/core/hive_services/hive_models/video_hive_model.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive/hive.dart';
+
 import 'package:injectable/injectable.dart';
 
 @lazySingleton

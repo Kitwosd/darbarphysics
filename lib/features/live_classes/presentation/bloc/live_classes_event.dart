@@ -11,5 +11,7 @@ class GetLiveClassesEvent extends LiveClassesEvent {}
 
 class GetDetailLiveClassEvent extends LiveClassesEvent {
   final int id;
-  const GetDetailLiveClassEvent({required this.id});
+  const                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           GetDetailLiveClassEvent({required this.id});
 }
+
+class LoadMoreLiveClassEvent extends LiveClassesEvent {}

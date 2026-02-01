@@ -1,4 +1,5 @@
 import 'package:durbar_physics/core/network/api_client.dart';
+import 'package:durbar_physics/core/network/paginated_response_model.dart';
 import 'package:durbar_physics/features/courses/data/model/course_detail_model.dart';
 import 'package:durbar_physics/features/courses/data/model/course_model.dart';
 import 'package:durbar_physics/features/home/data/models/class_model.dart';
@@ -14,15 +15,6 @@ class HomeRepoImpl implements HomeRepo {
   final ApiClient apiClient;
 
   HomeRepoImpl(this.apiClient);
-
-  @override
-  Future<List<CourseModel>> getCourses() async {
-    final response = await apiClient.request(
-      path: 'course/',
-      method: ApiMethod.get,
-    );
-    return (response as List).map((e) => CourseModel.fromJson(e)).toList();
-  }
 
   @override
   Future<List<ClassModel>> getClasses() async {
@@ -43,12 +35,16 @@ class HomeRepoImpl implements HomeRepo {
   }
 
   @override
-  Future<List<VideoModel>> getVideos() async {
+  Future<PaginatedResponseModel<VideoModel>> getVideos({int page = 1}) async {
     final response = await apiClient.request(
-      path: '/videos/',
+      path: 'lessons/',
       method: ApiMethod.get,
+      queryParameters: {'page': page},
     );
-    return (response as List).map((e) => VideoModel.fromJson(e)).toList();
+    return PaginatedResponseModel<VideoModel>.fromJson(
+      response,
+      (json) => VideoModel.fromJson(json),
+    );
   }
 
   @override
@@ -59,5 +55,19 @@ class HomeRepoImpl implements HomeRepo {
     );
 
     return CourseDetailModel.fromJson(response);
+  }
+
+  @override
+  Future<PaginatedResponseModel<CourseModel>> getCourses({int page = 1}) async {
+    final response = await apiClient.request(
+      path: 'courses/',
+      method: ApiMethod.get,
+      queryParameters: {'page': page},
+    );
+
+    return PaginatedResponseModel.fromJson(
+      response,
+      (json) => CourseModel.fromJson(json),
+    );
   }
 }

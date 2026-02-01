@@ -1,6 +1,5 @@
 import 'dart:async';
 
-
 import 'package:bloc/bloc.dart';
 import 'package:durbar_physics/common/enums/enums.dart';
 import 'package:durbar_physics/core/logger/app_logger.dart';
@@ -20,6 +19,7 @@ class LiveClassesBloc extends Bloc<LiveClassesEvent, LiveClassesState> {
   LiveClassesBloc(this.liveClassesRepo) : super(const LiveClassesState()) {
     on<GetDetailLiveClassEvent>(_onGetDetailLiveClassEvent);
     on<GetLiveClassesEvent>(_onGetLiveClassesEvent);
+    on<LoadMoreLiveClassEvent>(_onLoadMoreLiveClassEvent);
   }
 
   FutureOr<void> _onGetLiveClassesEvent(
@@ -28,9 +28,15 @@ class LiveClassesBloc extends Bloc<LiveClassesEvent, LiveClassesState> {
   ) async {
     emit(state.copyWith(status: ApiDataStatus.loading));
     try {
-      final liveClasses = await liveClassesRepo.getLiveClasses();
+      final liveClasses = await liveClassesRepo.getLiveClasses(page: 1);
+
       emit(
-        state.copyWith(liveClasses: liveClasses, status: ApiDataStatus.success),
+        state.copyWith(
+          liveClasses: liveClasses.results,
+          status: ApiDataStatus.success,
+          currentPage: state.currentPage + 1,
+          hasReachedMax: liveClasses.next == null,
+        ),
       );
     } catch (e) {
       emit(state.copyWith(status: ApiDataStatus.error, error: e.toString()));
@@ -56,6 +62,35 @@ class LiveClassesBloc extends Bloc<LiveClassesEvent, LiveClassesState> {
         state.copyWith(
           liveClassDetailStatus: ApiDataStatus.error,
           liveClassDetailError: 'Error during fetching \n Try Again Later',
+        ),
+      );
+    }
+  }
+
+  FutureOr<void> _onLoadMoreLiveClassEvent(
+    LoadMoreLiveClassEvent event,
+    Emitter<LiveClassesState> emit,
+  ) async {
+    state.copyWith(status: ApiDataStatus.loading);
+    try {
+      final response = await liveClassesRepo.getLiveClasses(
+        page: state.currentPage,
+      );
+      final updatedList = List.of(state.liveClasses)..addAll(response.results);
+      emit(
+        state.copyWith(
+          status: ApiDataStatus.success,
+          liveClasses: updatedList,
+          currentPage: state.currentPage + 1,
+          hasReachedMax: response.next == null,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          status: ApiDataStatus.error,
+          error:
+              'Something we wrong at loading more event error: ${e.toString()}',
         ),
       );
     }

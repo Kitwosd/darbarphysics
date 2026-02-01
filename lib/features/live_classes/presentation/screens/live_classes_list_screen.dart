@@ -1,15 +1,16 @@
-import 'package:durbar_physics/common/widgets/text_widget.dart';
+import 'package:durbar_physics/common/enums/enums.dart';
+import 'package:durbar_physics/common/widgets/custom_appbar_Widget.dart';
+import 'package:durbar_physics/common/widgets/enrollment_dialog_widget.dart';
+import 'package:durbar_physics/common/widgets/error_screen.dart';
 import 'package:durbar_physics/core/di/injection.dart';
 import 'package:durbar_physics/core/routing/navigation_service.dart';
 
 import 'package:durbar_physics/core/routing/route_name.dart';
-import 'package:durbar_physics/core/services/app_globals.dart';
 import 'package:durbar_physics/features/live_classes/presentation/bloc/live_classes_bloc.dart';
+import 'package:durbar_physics/features/live_classes/presentation/widgets/live_class_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'package:intl/intl.dart';
 
 class LiveClassesListScreen extends StatelessWidget {
   const LiveClassesListScreen({super.key});
@@ -19,110 +20,50 @@ class LiveClassesListScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => getIt<LiveClassesBloc>()..add(GetLiveClassesEvent()),
       child: Scaffold(
-        appBar: AppBar(
-          title: const TextWidget(
-            word: "All Live Classes",
-            size: 18,
-            weight: FontWeight.bold,
-          ),
-        ),
+        appBar: CustomAppbarWidget(title: 'All Live Classes'),
         body: BlocBuilder<LiveClassesBloc, LiveClassesState>(
           builder: (context, state) {
-            if (state.liveClasses.isEmpty) {
-              // Might be loading or empty
-              return const Center(child: CircularProgressIndicator());
-            }
-            return ListView.separated(
-              padding: EdgeInsets.all(20.w),
-              itemCount: state.liveClasses.length,
-              separatorBuilder: (context, index) => SizedBox(height: 15.h),
-              itemBuilder: (context, index) {
-                final liveClass = state.liveClasses[index];
-                return GestureDetector(
-                  onTap: () {
-                    
-                    NavigationService.pushNamed(
-                      RouteName.liveclassDetail,
-                      extra: liveClass.id,
-                    );
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(12.w),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).cardColor,
-                      borderRadius: BorderRadius.circular(12.r),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.05),
-                          blurRadius: 5,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(
-                          width: 100.w,
+            if (state.status == ApiDataStatus.loading) {
+              return Center(child: CircularProgressIndicator());
+            } else if (state.status == ApiDataStatus.error) {
+              return ErrorScreen(
+                onGoHome: () =>
+                    NavigationService.pushNamedReplacement(RouteName.home),
+                onRetry: () =>
+                    context.read<LiveClassesBloc>().add(GetLiveClassesEvent()),
+              );
+            } else if (state.status == ApiDataStatus.success) {
+              if (state.liveClasses.isEmpty) {
+                // Might be loading or empty
+                return const Center(child: CircularProgressIndicator());
+              }
+              return ListView.separated(
+                padding: EdgeInsets.all(20.w),
+                itemCount: state.liveClasses.length,
+                separatorBuilder: (context, index) => SizedBox(height: 15.h),
+                itemBuilder: (context, index) {
+                  final liveClass = state.liveClasses[index];
+                  return GestureDetector(
+                    onTap: () {
+                      if (liveClass.isUserLocked) {
+                        EnrollmentDialogWidget.show(context, forVideo: false);
+                      }
 
-                          child: Image.network(
-                            liveClass.thumbnail,
-                            fit: BoxFit.contain,
-                          ),
-                        ),
-                        10.horizontalSpace,
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              TextWidget(
-                                word: liveClass.title,
-                                overflow: TextOverflow.visible,
-                                size: 16,
-                                weight: FontWeight.bold,
-                                textColor: customColors.greyWhite,
-                              ),
-                              SizedBox(height: 4.h),
-                              TextWidget(
-                                word: liveClass.teacherName,
-                                size: 14,
-                                textColor: appColors.primary,
-                              ),
-                              SizedBox(height: 4.h),
-                              TextWidget(
-                                word: DateFormat(
-                                  'MMM d, h:mm a',
-                                ).format(liveClass.startTime),
-                                size: 12,
-                                textColor: Colors.grey,
-                                weight: FontWeight.w500,
-                              ),
-                            ],
-                          ),
-                        ),
-                        if (liveClass.status == 'live')
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 8.w,
-                              vertical: 4.h,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.red,
-                              borderRadius: BorderRadius.circular(4.r),
-                            ),
-                            child: const TextWidget(
-                              word: "LIVE",
-                              size: 10,
-                              textColor: Colors.white,
-                              weight: FontWeight.bold,
-                            ),
-                          ),
-                      ],
+                      NavigationService.pushNamed(
+                        RouteName.liveclassDetail,
+                        extra: liveClass.id,
+                      );
+                    },
+                    child: LiveClassCardWidget(
+                      liveClass: liveClass,
+                      index: index,
                     ),
-                  ),
-                );
-              },
-            );
+                  );
+                },
+              );
+            } else {
+              return SizedBox.shrink();
+            }
           },
         ),
       ),

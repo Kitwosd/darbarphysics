@@ -28,7 +28,7 @@ class CourseLessonsTab extends StatelessWidget {
   Widget _buildLessonItem(BuildContext context, VideoModel lesson, int index) {
     return InkWell(
       onTap: () {
-        if (lesson.isLocked == true) {
+        if (lesson.isLocked && lesson.isUserLocked == true) {
           OverlayToastWidget.show(
             message: 'Please enroll to unlock the lesson',
           );

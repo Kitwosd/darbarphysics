@@ -5,7 +5,7 @@ import 'package:durbar_physics/core/di/injection.dart';
 import 'package:durbar_physics/core/routing/navigation_service.dart';
 import 'package:durbar_physics/core/routing/route_name.dart';
 import 'package:durbar_physics/features/live_classes/presentation/bloc/live_classes_bloc.dart';
-import 'package:durbar_physics/features/live_classes/presentation/widgets/claas_Info_card_widget.dart';
+import 'package:durbar_physics/features/live_classes/presentation/widgets/claas_info_card_widget.dart';
 import 'package:durbar_physics/features/live_classes/presentation/widgets/class_hero_card_widget.dart';
 import 'package:durbar_physics/features/live_classes/presentation/widgets/description_card_widget.dart';
 import 'package:durbar_physics/features/live_classes/presentation/widgets/live_class_action_button_widget.dart';

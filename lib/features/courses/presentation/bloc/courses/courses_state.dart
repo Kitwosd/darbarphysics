@@ -6,6 +6,8 @@ class CoursesState extends Equatable {
   final String error;
   final CourseDetailModel? course;
   final ApiDataStatus courseDetailStatus;
+  final bool hasReachedMax;
+  final int currentPage;
 
   const CoursesState({
     this.coursesList = const [],
@@ -13,6 +15,8 @@ class CoursesState extends Equatable {
     this.error = '',
     this.course,
     this.courseDetailStatus = ApiDataStatus.initial,
+    this.hasReachedMax = false,
+    this.currentPage = 1,
   });
 
   CoursesState copyWith({
@@ -21,6 +25,8 @@ class CoursesState extends Equatable {
     String? error,
     CourseDetailModel? course,
     ApiDataStatus? courseDetailStatus,
+    bool? hasReachedMax,
+    int? currentPage,
   }) {
     return CoursesState(
       coursesList: coursesList ?? this.coursesList,
@@ -28,9 +34,19 @@ class CoursesState extends Equatable {
       error: error ?? this.error,
       course: course ?? this.course,
       courseDetailStatus: courseDetailStatus ?? this.courseDetailStatus,
+      hasReachedMax: hasReachedMax ?? this.hasReachedMax,
+      currentPage: currentPage ?? this.currentPage,
     );
   }
 
   @override
-  List<Object?> get props => [coursesList, status, error, course, courseDetailStatus];
+  List<Object?> get props => [
+    coursesList,
+    status,
+    error,
+    course,
+    courseDetailStatus,
+    hasReachedMax,
+    currentPage,
+  ];
 }

@@ -1,5 +1,7 @@
 import 'package:durbar_physics/common/enums/enums.dart';
-import 'package:durbar_physics/features/courses/presentation/courses/courses_bloc.dart';
+import 'package:durbar_physics/common/widgets/text_widget.dart';
+import 'package:durbar_physics/common/widgets/view_more_card_widget.dart';
+import 'package:durbar_physics/features/courses/presentation/bloc/courses/courses_bloc.dart';
 import 'package:durbar_physics/features/home/presentation/widgets/course_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,16 +17,29 @@ class HomeCoursesList extends StatelessWidget {
         if (state.coursesList.isEmpty) {
           return const SizedBox.shrink();
         } else if (state.status == ApiDataStatus.loading) {
-          return Center(child: CircularProgressIndicator());
+          return SizedBox(
+            height: 80,
+            child: Center(child: CircularProgressIndicator(color: Colors.blue)),
+          );
         } else if (state.status == ApiDataStatus.success) {
           return SizedBox(
             height: 240.h,
             child: ListView.separated(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
               scrollDirection: Axis.horizontal,
-              itemCount: state.coursesList.length,
+              itemCount: state.coursesList.length + 1,
               separatorBuilder: (context, index) => SizedBox(width: 15.w),
               itemBuilder: (context, index) {
+                if (index == state.coursesList.length) {
+                  if (state.hasReachedMax == true) {
+                    return SizedBox.shrink();
+                  }
+                  return ViewMoreCardWidget(
+                    onTap: () {
+                      context.read<CoursesBloc>().add(CourseLoadMoreEvent());
+                    },
+                  );
+                }
                 return SizedBox(
                   width: 200.w,
                   child: CourseCard(course: state.coursesList[index]),
@@ -33,7 +48,10 @@ class HomeCoursesList extends StatelessWidget {
             ),
           );
         } else if (state.status == ApiDataStatus.error) {
-          return SizedBox.shrink();
+          return SizedBox(
+            height: 80,
+            child: Center(child: TextWidget(word: 'Something went wrong')),
+          );
         } else {
           return SizedBox.shrink();
         }

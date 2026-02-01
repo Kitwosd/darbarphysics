@@ -17,7 +17,12 @@ import '../../common/enums/enums.dart' as _i202;
 import '../../features/auth/presentation/login/cubit/login_cubit.dart' as _i179;
 import '../../features/auth/presentation/signup/cubit/sign_up_cubit.dart'
     as _i408;
-import '../../features/courses/presentation/courses/courses_bloc.dart' as _i988;
+import '../../features/courses/data/repo_impl/courses_repo_impl.dart' as _i801;
+import '../../features/courses/domain/repo/courses_repo.dart' as _i652;
+import '../../features/courses/presentation/bloc/courses/courses_bloc.dart'
+    as _i518;
+import '../../features/courses/presentation/bloc/enrolled_courses/enrolled_courses_bloc.dart'
+    as _i878;
 import '../../features/home/data/repos_impl/home_repo_impl.dart' as _i386;
 import '../../features/home/domain/repos/home_repo.dart' as _i130;
 import '../../features/home/presentation/bloc/bookmark/courses_book_bloc/course_bookmark_bloc.dart'
@@ -34,8 +39,11 @@ import '../../features/live_classes/domain/repos/live_classes_repo.dart'
     as _i1021;
 import '../../features/live_classes/presentation/bloc/live_classes_bloc.dart'
     as _i280;
+import '../../features/payment/data/repo_impl.dart/payment_repo_impl.dart'
+    as _i93;
 import '../../features/payment/data/services/khalti_payment_service.dart'
     as _i912;
+import '../../features/payment/domain/repo/payment_repo.dart' as _i50;
 import '../../features/profile/data/models/profile_model.dart' as _i36;
 import '../../features/profile/data/repo_impl/profile_repository_impl.dart'
     as _i301;
@@ -58,12 +66,17 @@ extension GetItInjectableX on _i174.GetIt {
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final registerModule = _$RegisterModule();
-    gh.factory<_i912.KhaltiPaymentService>(() => _i912.KhaltiPaymentService());
     gh.singleton<_i557.ApiClient>(() => registerModule.apiClient);
     gh.lazySingleton<_i963.HiveCourseService>(() => _i963.HiveCourseService());
     gh.lazySingleton<_i143.HiveVideoService>(() => _i143.HiveVideoService());
     gh.factory<_i1021.LiveClassesRepo>(
       () => _i816.LiveClassesRepoImpl(gh<_i557.ApiClient>()),
+    );
+    gh.factory<_i652.CoursesRepo>(
+      () => _i801.CoursesRepoImpl(gh<_i557.ApiClient>()),
+    );
+    gh.factory<_i50.PaymentRepo>(
+      () => _i93.PaymentRepoImpl(gh<_i557.ApiClient>()),
     );
     gh.lazySingleton<_i107.CourseBookmarkBloc>(
       () => _i107.CourseBookmarkBloc(gh<_i963.HiveCourseService>()),
@@ -94,11 +107,17 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i552.SearchBloc(gh<_i1033.SearchRepo>()),
     );
     gh.factory<_i202.HomeBloc>(() => _i202.HomeBloc(gh<_i130.HomeRepo>()));
+    gh.factory<_i878.EnrolledCoursesBloc>(
+      () => _i878.EnrolledCoursesBloc(gh<_i652.CoursesRepo>()),
+    );
     gh.factory<_i280.LiveClassesBloc>(
       () => _i280.LiveClassesBloc(gh<_i1021.LiveClassesRepo>()),
     );
-    gh.lazySingleton<_i988.CoursesBloc>(
-      () => _i988.CoursesBloc(gh<_i130.HomeRepo>()),
+    gh.factory<_i912.KhaltiPaymentService>(
+      () => _i912.KhaltiPaymentService(gh<_i50.PaymentRepo>()),
+    );
+    gh.factory<_i518.CoursesBloc>(
+      () => _i518.CoursesBloc(gh<_i130.HomeRepo>()),
     );
     gh.factory<_i610.StreamsBloc>(
       () => _i610.StreamsBloc(gh<_i130.HomeRepo>()),

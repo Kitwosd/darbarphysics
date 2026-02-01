@@ -4,12 +4,13 @@ import 'package:durbar_physics/features/home/data/models/video_model.dart';
 extension VideoToHive on VideoModel {
   VideoHiveModel toHive() => VideoHiveModel(
     id: id,
-    course: course,
+    // course: course,
     duration: duration,
     isLocked: isLocked,
     thumbnail: thumbnail,
     title: title,
     videoUrl: videoUrl,
+    isUserLocked: isUserLocked,
   );
 }
 
@@ -18,9 +19,10 @@ extension HiveToVideo on VideoHiveModel {
     id: id,
     title: title,
     isLocked: isLocked,
-    course: course,
+    // course: course,
     duration: duration,
     thumbnail: thumbnail,
     videoUrl: videoUrl,
+    isUserLocked: isUserLocked,
   );
 }

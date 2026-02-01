@@ -1,3 +1,6 @@
+import 'package:durbar_physics/core/di/injection.dart';
+import 'package:durbar_physics/core/hive_services/services/hive_course_service.dart';
+import 'package:durbar_physics/core/hive_services/services/hive_video_service.dart';
 import 'package:durbar_physics/core/network/api_client.dart';
 import 'package:durbar_physics/core/routing/navigation_service.dart';
 import 'package:durbar_physics/core/routing/route_name.dart';
@@ -5,7 +8,7 @@ import 'package:durbar_physics/core/theme/theme_extension.dart';
 import 'package:durbar_physics/features/practise/basic_webview_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_ce/hive.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -126,7 +129,14 @@ class SettingsScreen extends StatelessWidget {
                 final authBox = Hive.box('authBox');
                 await authBox.delete('accessToken');
                 await authBox.delete('refreshToken');
+
                 ApiClient().clearAccessToken();
+
+                final hiveCourseService = getIt<HiveCourseService>();
+                final hiveVideoService = getIt<HiveVideoService>();
+
+                await hiveCourseService.clearAll();
+                await hiveVideoService.clearAll();
 
                 NavigationService.pushNamedReplacement(RouteName.login);
               }),

@@ -7,7 +7,7 @@ import 'package:durbar_physics/core/logger/app_logger.dart';
 import 'package:durbar_physics/core/network/api_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive/hive.dart';
 
 Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   runZonedGuarded(

@@ -11,6 +11,8 @@ class LiveClassModel extends Equatable {
   final String meetingUrl;
   final String? password;
   final String status;
+  final bool isUserLocked;
+  final int course;
 
   const LiveClassModel({
     required this.id,
@@ -22,6 +24,8 @@ class LiveClassModel extends Equatable {
     required this.meetingUrl,
     required this.status,
     this.password,
+    required this.isUserLocked,
+    required this.course,
   });
 
   factory LiveClassModel.fromJson(Map<String, dynamic> json) => LiveClassModel(
@@ -37,7 +41,9 @@ class LiveClassModel extends Equatable {
     isLive: json["is_live"],
     meetingUrl: json["meetingUrl"] ?? '',
     password: json["password"],
+    isUserLocked: json["is_user_locked"] ?? false,
     status: json["status"],
+    course: json["course"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -50,6 +56,8 @@ class LiveClassModel extends Equatable {
     "meetingUrl": meetingUrl,
     "password": password,
     "status": status,
+    "is_user_locked": isUserLocked,
+    "course": course,
   };
 
   @override
@@ -63,5 +71,7 @@ class LiveClassModel extends Equatable {
     meetingUrl,
     password,
     status,
+    isUserLocked,
+    course,
   ];
 }

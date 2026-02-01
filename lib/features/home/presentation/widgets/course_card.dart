@@ -4,7 +4,6 @@ import 'package:durbar_physics/features/courses/data/model/course_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-
 class CourseCard extends StatelessWidget {
   final CourseModel course;
 

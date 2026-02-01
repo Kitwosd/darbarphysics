@@ -13,3 +13,5 @@ class GetCourseDetailEvent extends CoursesEvent {
   final int courseId;
   const GetCourseDetailEvent({required this.courseId});
 }
+
+class CourseLoadMoreEvent extends CoursesEvent {}

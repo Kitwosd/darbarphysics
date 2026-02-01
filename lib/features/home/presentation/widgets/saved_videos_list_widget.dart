@@ -60,20 +60,31 @@ class SavedVideosListWidget extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(12.r),
-                    child: Image.network(
-                      videos[index].thumbnail,
-                      height: 80.h,
-                      width: 80.w,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) => Container(
+                  if (video.thumbnail != null && video.thumbnail!.isNotEmpty)
+                    Positioned.fill(
+                      child: Image.network(
+                        videos[index].thumbnail!,
                         height: 80.h,
                         width: 80.w,
-                        color: Colors.grey[300],
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) => Center(
+                          child: Icon(
+                            Icons.play_circle_filled,
+                            size: 40.sp,
+                            color: Colors.red[300],
+                          ),
+                        ),
+                      ),
+                    )
+                  else
+                    Center(
+                      child: Icon(
+                        Icons.play_circle_filled,
+                        size: 40.sp,
+                        color: Colors.red[600],
                       ),
                     ),
-                  ),
+
                   SizedBox(width: 15.w),
                   Expanded(
                     child: Column(
