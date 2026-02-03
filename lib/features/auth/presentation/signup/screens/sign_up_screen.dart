@@ -38,13 +38,19 @@ class SignUpScreen extends StatelessWidget {
           onTap: () => FocusScope.of(context).unfocus(),
           child: Scaffold(
             body: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: EdgeInsets.all(16.0.w),
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SignUpHeaderWidget(),
                     20.verticalSpace,
+                    TextWidget(
+                      word: 'Enter your details below and free sign up',
+
+                      textColor: Colors.grey[700],
+                    ),
+                    10.verticalSpace,
 
                     /// Name Field
                     SignUpTextfieldWidget(title: "Name"),

@@ -1,5 +1,9 @@
 import 'package:durbar_physics/core/routing/navigation_service.dart';
 import 'package:durbar_physics/core/routing/route_name.dart';
+import 'package:durbar_physics/features/auth/presentation/forgot_password/cubit/forgot_password/forgot_password_cubit.dart';
+import 'package:durbar_physics/features/auth/presentation/forgot_password/screens/change_password_screen.dart';
+import 'package:durbar_physics/features/auth/presentation/forgot_password/screens/forgot_password_screen.dart';
+import 'package:durbar_physics/features/auth/presentation/forgot_password/screens/otp_screen.dart';
 import 'package:durbar_physics/features/auth/presentation/login/screens/login_screen.dart';
 import 'package:durbar_physics/features/auth/presentation/signup/screens/sign_up_screen.dart';
 import 'package:durbar_physics/features/courses/presentation/routes/video_player_args.dart';
@@ -19,6 +23,7 @@ import 'package:durbar_physics/features/profile/data/models/profile_model.dart';
 import 'package:durbar_physics/features/profile/presentation/screens/edit_profile_screen.dart';
 import 'package:durbar_physics/features/profile/presentation/screens/profile_screen.dart';
 import 'package:durbar_physics/features/settings/settings_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -166,6 +171,33 @@ final GoRouter appRouter = GoRouter(
       name: RouteName.allCourses,
       builder: (context, state) {
         return AllCoursesScreen();
+      },
+    ),
+    GoRoute(
+      path: RoutePath.forgotPassword,
+      name: RouteName.forgotPassword,
+      builder: (context, state) {
+        return ForgotPasswordScreen();
+      },
+    ),
+    GoRoute(
+      path: RoutePath.otpScreen,
+      name: RouteName.otpScreen,
+      builder: (context, state) {
+        final forgotPasswordCubit = state.extra as ForgotPasswordCubit;
+        return BlocProvider.value(
+          value: forgotPasswordCubit,
+          child: OtpScreen(),
+        );
+      },
+    ),
+
+    GoRoute(
+      path: RoutePath.changePasswordScreen,
+      name: RouteName.changePasswordScreen,
+      builder: (context, state) {
+        final token = state.extra as String;
+        return ChangePasswordScreen(token: token);
       },
     ),
   ],

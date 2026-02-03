@@ -14,6 +14,15 @@ import 'package:image_picker/image_picker.dart' as _i183;
 import 'package:injectable/injectable.dart' as _i526;
 
 import '../../common/enums/enums.dart' as _i202;
+import '../../features/auth/data/repo_impl.dart/forgot_password_repo_impl.dart'
+    as _i234;
+import '../../features/auth/domain/repo/forgot_password_repo.dart' as _i550;
+import '../../features/auth/presentation/forgot_password/cubit/change_password/change_password_cubit.dart'
+    as _i208;
+import '../../features/auth/presentation/forgot_password/cubit/forgot_password/forgot_password_cubit.dart'
+    as _i149;
+import '../../features/auth/presentation/forgot_password/cubit/otp/otp_cubit.dart'
+    as _i437;
 import '../../features/auth/presentation/login/cubit/login_cubit.dart' as _i179;
 import '../../features/auth/presentation/signup/cubit/sign_up_cubit.dart'
     as _i408;
@@ -88,12 +97,24 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i301.ProfileRepositoryImpl(gh<_i557.ApiClient>()),
     );
     gh.factory<_i130.HomeRepo>(() => _i386.HomeRepoImpl(gh<_i557.ApiClient>()));
+    gh.factory<_i550.ForgotPasswordRepo>(
+      () => _i234.ForgotPasswordRepoImpl(gh<_i557.ApiClient>()),
+    );
     gh.factory<_i179.LoginCubit>(() => _i179.LoginCubit(gh<_i557.ApiClient>()));
     gh.factory<_i408.SignUpCubit>(
       () => _i408.SignUpCubit(gh<_i557.ApiClient>()),
     );
     gh.factory<_i1033.SearchRepo>(
       () => _i790.SearchRepoImpl(gh<_i557.ApiClient>()),
+    );
+    gh.factory<_i208.ChangePasswordCubit>(
+      () => _i208.ChangePasswordCubit(gh<_i550.ForgotPasswordRepo>()),
+    );
+    gh.factory<_i149.ForgotPasswordCubit>(
+      () => _i149.ForgotPasswordCubit(gh<_i550.ForgotPasswordRepo>()),
+    );
+    gh.factory<_i437.OtpCubit>(
+      () => _i437.OtpCubit(gh<_i550.ForgotPasswordRepo>()),
     );
     gh.factory<_i356.ProfileState>(
       () => _i356.ProfileState(

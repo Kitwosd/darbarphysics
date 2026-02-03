@@ -1,6 +1,7 @@
 import 'package:hive/hive.dart';
 
-part 'course_hive_model.g.dart';
+//TODO: Hive uncomment when everything is finished
+// part 'course_hive_model.g.dart';
 
 @HiveType(typeId: 2)
 class CourseHiveModel {

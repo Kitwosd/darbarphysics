@@ -60,13 +60,17 @@ class VideoPlayerScreen extends StatelessWidget {
                           RemoveVideoEvent(videoId: video.id),
                         );
                         OverlayToastWidget.show(
+                          bgColor: Colors.red.shade400,
                           message: "Removed from bookmarks",
                         );
                       } else {
                         context.read<VideosBookmarkBloc>().add(
                           AddVideoEvent(video: video),
                         );
-                        OverlayToastWidget.show(message: "Added to bookmarks");
+                        OverlayToastWidget.show(
+                          message: "Added to bookmarks",
+                          bgColor: Colors.green.shade400,
+                        );
                       }
                     },
                   );

@@ -4,8 +4,6 @@ import 'package:durbar_physics/common/widgets/overlay_toast_widget.dart';
 import 'package:durbar_physics/common/widgets/text_widget.dart';
 import 'package:durbar_physics/common/widgets/thumbnail_widget.dart';
 import 'package:durbar_physics/core/logger/app_logger.dart';
-import 'package:durbar_physics/core/routing/navigation_service.dart';
-import 'package:durbar_physics/core/routing/route_name.dart';
 import 'package:durbar_physics/core/services/app_globals.dart';
 import 'package:durbar_physics/features/live_classes/data/models/live_class_detail_model.dart';
 import 'package:flutter/material.dart';
@@ -210,30 +208,28 @@ class CourseLiveClassCardWidget extends StatelessWidget {
       badgeText = 'Ended';
       badgeIcon = Icons.check_circle_outline;
     }
-    return Container(
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (isLive)
-            Container(
-              width: 8.w,
-              height: 8.w,
-              decoration: BoxDecoration(
-                color: badgeColor,
-                shape: BoxShape.circle,
-              ),
-            )
-          else
-            Icon(badgeIcon, size: 12.sp, color: badgeColor),
-          4.horizontalSpace,
-          TextWidget(
-            word: badgeText,
-            textColor: badgeColor,
-            size: 11,
-            weight: FontWeight.w900,
-          ),
-        ],
-      ),
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (isLive)
+          Container(
+            width: 8.w,
+            height: 8.w,
+            decoration: BoxDecoration(
+              color: badgeColor,
+              shape: BoxShape.circle,
+            ),
+          )
+        else
+          Icon(badgeIcon, size: 12.sp, color: badgeColor),
+        4.horizontalSpace,
+        TextWidget(
+          word: badgeText,
+          textColor: badgeColor,
+          size: 11,
+          weight: FontWeight.w900,
+        ),
+      ],
     );
   }
 

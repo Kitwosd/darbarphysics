@@ -135,8 +135,8 @@ class SignUpCubit extends Cubit<SignUpState> {
         if (data.containsKey('password')) {
           passwordError = _extractError(data['password']);
         }
-        if (data.containsKey('phone_number')) {
-          phoneError = _extractError(data['phone_number']);
+        if (data.containsKey('phone')) {
+          phoneError = _extractError(data['phone']);
         }
         if (data.containsKey('password2')) {
           retypePasswordError = _extractError(data['password2']);

@@ -6,7 +6,6 @@ import 'package:durbar_physics/core/services/app_globals.dart';
 import 'package:durbar_physics/features/courses/data/model/course_detail_model.dart';
 import 'package:durbar_physics/features/courses/presentation/widgets/course_live_class_card_widget.dart';
 import 'package:durbar_physics/features/live_classes/data/models/live_class_detail_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

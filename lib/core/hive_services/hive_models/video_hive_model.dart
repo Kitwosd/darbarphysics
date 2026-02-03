@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 
-part 'video_hive_model.g.dart';
+// part 'video_hive_model.g.dart';
 
 @HiveType(typeId: 1)
 class VideoHiveModel {

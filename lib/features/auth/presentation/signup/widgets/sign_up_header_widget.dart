@@ -1,4 +1,3 @@
-import 'package:durbar_physics/common/widgets/text_widget.dart';
 import 'package:durbar_physics/common/widgets/title_widget.dart';
 import 'package:durbar_physics/core/localization/l10_service.dart';
 import 'package:flutter/material.dart';
@@ -13,11 +12,7 @@ class SignUpHeaderWidget extends StatelessWidget {
       children: [
         10.verticalSpace,
         TitleWidget(title: l10.signUp),
-        TextWidget(
-          word: 'Enter your details below and free sign up',
-
-          textColor: Colors.grey[700],
-        ),
+        10.verticalSpace,
       ],
     );
   }

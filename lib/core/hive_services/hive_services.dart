@@ -9,10 +9,11 @@ class HiveServices {
 
     //Register adapters
     if (!Hive.isAdapterRegistered(2)) {
-      Hive.registerAdapter(CourseHiveModelAdapter());
+      //TODO: Hive uncomment when everything is finished
+      // Hive.registerAdapter(CourseHiveModelAdapter());
     }
     if (!Hive.isAdapterRegistered(1)) {
-      Hive.registerAdapter(VideoHiveModelAdapter());
+      // Hive.registerAdapter(VideoHiveModelAdapter());
     }
 
     //Open boxes

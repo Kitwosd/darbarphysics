@@ -140,11 +140,16 @@ class LoginScreen extends StatelessWidget {
                                     ],
                                   ),
 
-                                  TextWidget(
-                                    word: 'Forgot Password ? ',
-                                    size: 16,
-                                    textColor: appColors.primary,
-                                    weight: FontWeight.w600,
+                                  InkWell(
+                                    child: TextWidget(
+                                      word: 'Forgot Password ? ',
+                                      size: 16,
+                                      textColor: appColors.primary,
+                                      weight: FontWeight.w600,
+                                    ),
+                                    onTap: () => NavigationService.pushNamed(
+                                      RouteName.forgotPassword,
+                                    ),
                                   ),
                                 ],
                               );

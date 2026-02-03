@@ -1,6 +1,7 @@
 import 'package:durbar_physics/core/di/injection.dart';
 import 'package:durbar_physics/core/hive_services/services/hive_course_service.dart';
 import 'package:durbar_physics/core/hive_services/services/hive_video_service.dart';
+import 'package:durbar_physics/core/logger/app_logger.dart';
 import 'package:durbar_physics/core/network/api_client.dart';
 import 'package:durbar_physics/core/routing/navigation_service.dart';
 import 'package:durbar_physics/core/routing/route_name.dart';
@@ -8,7 +9,7 @@ import 'package:durbar_physics/core/theme/theme_extension.dart';
 import 'package:durbar_physics/features/practise/basic_webview_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hive_ce/hive.dart';
+import 'package:hive/hive.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -126,6 +127,7 @@ class SettingsScreen extends StatelessWidget {
               ),
               _buildSettingItem(context, Icons.send, 'Invite Friends', null),
               _buildSettingItem(context, Icons.logout, 'Logout', () async {
+                logger.d('Button Pressed');
                 final authBox = Hive.box('authBox');
                 await authBox.delete('accessToken');
                 await authBox.delete('refreshToken');

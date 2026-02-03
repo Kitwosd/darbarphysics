@@ -20,6 +20,9 @@ class RouteName {
   static const String enrolledCourses = 'EnrolledCoursesScreen';
   static const String allVideos = 'allVideosScreen';
   static const String allCourses = 'allCoursesScreen';
+  static const String forgotPassword = 'forgotPasswordScreen';
+  static const String otpScreen = 'otpScreen';
+  static const String changePasswordScreen = 'changePasswordScreen';
 }
 
 class RoutePath {
@@ -45,4 +48,7 @@ class RoutePath {
   static const String enrolledCourses = '/enrolledCoursesScreen';
   static const String allVideos = '/allVideosScreen';
   static const String allCourses = '/allCoursesScreen';
+  static const String forgotPassword = '/forgotPasswordScreen';
+  static const String otpScreen = '/otpScreen';
+  static const String changePasswordScreen = '/changePasswordScreen';
 }

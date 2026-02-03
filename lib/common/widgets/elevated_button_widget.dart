@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ElevatedButtonWidget extends StatelessWidget {
   final Widget child;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final double? height;
   final double? width;
   final Color? bgColor;
@@ -17,7 +17,7 @@ class ElevatedButtonWidget extends StatelessWidget {
   const ElevatedButtonWidget({
     super.key,
     required this.child,
-    required this.onPressed,
+    this.onPressed,
     this.height,
     this.width,
     this.bgColor,
@@ -33,7 +33,7 @@ class ElevatedButtonWidget extends StatelessWidget {
       height: height?.h ?? 60.h,
       width: width?.w ?? double.infinity,
       child: ElevatedButton(
-        onPressed: () => onPressed(),
+        onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: bgColor ?? appColors.primary,
           overlayColor: Colors.white.withValues(alpha: 0.90),

@@ -16,6 +16,7 @@ class TextFieldWidget extends StatelessWidget {
   final String? hintText;
   final bool? obscureIcon;
   final bool obscureText; // NEW PARAMETER
+  final double? borderRadius;
 
   TextFieldWidget({
     super.key,
@@ -31,7 +32,8 @@ class TextFieldWidget extends StatelessWidget {
     this.borderColor,
     this.hintText,
     this.obscureIcon = false,
-    this.obscureText = false, // default false
+    this.obscureText = false,
+    this.borderRadius, // default false
   });
 
   final ValueNotifier<bool> _obscurePassword = ValueNotifier(true);
@@ -67,6 +69,7 @@ class TextFieldWidget extends StatelessWidget {
       initialValue: initialValue,
       obscureText: isObscure,
       keyboardType: inputType,
+
       enabled: enabled,
       onChanged: (value) => onChanged?.call(value),
       textAlignVertical: TextAlignVertical.center,
@@ -80,24 +83,30 @@ class TextFieldWidget extends StatelessWidget {
             color: effectiveBorderColor,
             width: effectiveBorderWidth,
           ),
+
+          borderRadius: BorderRadius.circular(borderRadius ?? 4.r),
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: effectiveBorderColor,
             width: effectiveBorderWidth,
           ),
+          borderRadius: BorderRadius.circular(borderRadius ?? 4.r),
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: Theme.of(context).colorScheme.primary,
             width: effectiveBorderWidth + 1,
           ),
+          borderRadius: BorderRadius.circular(borderRadius ?? 4.r),
         ),
         errorBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.red),
+          borderRadius: BorderRadius.circular(borderRadius ?? 4.r),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.red, width: 2),
+          borderRadius: BorderRadius.circular(borderRadius ?? 4.r),
         ),
         errorText: errorText,
         suffixIcon: obscureText && obscureIcon == true
