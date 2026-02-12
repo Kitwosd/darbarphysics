@@ -9,6 +9,7 @@ import 'package:durbar_physics/features/courses/presentation/widgets/course_info
 import 'package:durbar_physics/features/courses/presentation/widgets/course_lessons_tab.dart';
 import 'package:durbar_physics/features/courses/presentation/widgets/course_live_tab.dart';
 import 'package:durbar_physics/features/courses/presentation/widgets/course_overview_tab.dart';
+import 'package:durbar_physics/features/courses/presentation/widgets/verifying_dialog_widget.dart';
 import 'package:durbar_physics/features/payment/data/services/khalti_payment_service.dart';
 import 'package:durbar_physics/features/payment/presentation/widget/payment_status_dialog_widget.dart';
 import 'package:flutter/material.dart';
@@ -69,17 +70,33 @@ class _CourseDetailScreenState extends State<CourseDetailScreen>
       //Step 4: Handle payment result
       if (paymentResult.success) {
         // Verify payment on backend
+
+        /// 'Verifying ... 'dialog
+
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => VerifyingDialogWidget(),
+        );
+
+        //Verify paymement(with retry logic -may take 10-30 seconds)
         final verified = await _paymentService.verifyPaymentOnBackend(
           pidx:
               initiateReponse.pidx!, // Use the pidx that initiated the payment
         );
+        if (!mounted) return;
 
+        //close verifying dialog
+        Navigator.of(context).pop();
+
+        //show result
         if (verified.isSucess) {
           await PaymentStatusDialogWidget.show(
             context: context,
             isSuccess: true,
             message: verified.status ?? 'Enrollment succesful',
-            details: 'Transaction ID: ${paymentResult.transactionId ?? 'N/A'}',
+            details:
+                'You can now access all course content. \n Transaction ID: ${paymentResult.transactionId ?? 'N/A'}',
             onContinue: () {
               // Refresh the course details to update UI (remove lock, hide enroll, etc.)
               context.read<CoursesBloc>().add(
@@ -90,17 +107,22 @@ class _CourseDetailScreenState extends State<CourseDetailScreen>
             },
           );
         } else {
+          // ❌ FAILED or TIMEOUT
           await PaymentStatusDialogWidget.show(
             context: context,
             isSuccess: false,
             message: verified.errorMessage ?? 'Payment verification failed',
+            details:
+                '${verified.errorMessage ?? "Could not verify payment"}\n\n'
+                'If money was deducted, please contact support with:\n'
+                'Transaction ID: ${paymentResult.transactionId ?? "N/A"}',
           );
         }
       } else {
         await PaymentStatusDialogWidget.show(
           context: context,
           isSuccess: false,
-          message: paymentResult.errorMessage ?? 'Payment Failed on frontEnd',
+          message: paymentResult.errorMessage ?? 'Payment Failed ',
         );
       }
     } catch (e) {

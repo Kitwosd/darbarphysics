@@ -1,5 +1,11 @@
 import 'package:durbar_physics/common/widgets/text_widget.dart';
+import 'package:durbar_physics/common/widgets/user_avatar_widget.dart';
+import 'package:durbar_physics/core/routing/navigation_service.dart';
+import 'package:durbar_physics/core/routing/route_name.dart';
+import 'package:durbar_physics/features/profile/presentation/cubit/profile_cubit.dart';
+import 'package:durbar_physics/features/profile/presentation/cubit/profile_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomeHeader extends StatelessWidget {
@@ -25,10 +31,19 @@ class HomeHeader extends StatelessWidget {
                 ),
               ],
             ),
-            child: Icon(
-              Icons.grid_view,
-              size: 24.sp,
-              color: Theme.of(context).iconTheme.color,
+            child: SizedBox(
+              width: 32.w,
+              child: FittedBox(
+                fit: BoxFit.contain,
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Image.asset(
+                    'assets/images/logo_with_name.png', // TODO: crop the image as there is invisible padding around it.
+                    color: Color(0xFF1877F2),
+                    colorBlendMode: BlendMode.srcATop,
+                  ),
+                ),
+              ),
             ),
           ),
           Row(
@@ -56,7 +71,25 @@ class HomeHeader extends StatelessWidget {
                 ),
               ],
             ),
-            child: Icon(Icons.shopping_cart_outlined, size: 24.sp),
+            child: BlocBuilder<ProfileCubit, ProfileState>(
+              builder: (context, state) {
+                if (state.profile != null) {
+                  return InkWell(
+                    onTap: () => NavigationService.pushNamed(RouteName.profile),
+                    child: UserAvatarWidget(
+                      imageUrl: state.profile!.profilePicture,
+                      name: state.profile!.username,
+                      radius: 20.r,
+                      fontSize: 14.sp,
+                    ),
+                  );
+                }
+                return InkWell(
+                  onTap: () => NavigationService.pushNamed(RouteName.profile),
+                  child: Icon(Icons.person_outline, size: 24.sp),
+                );
+              },
+            ),
           ),
         ],
       ),

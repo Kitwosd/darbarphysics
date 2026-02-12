@@ -19,7 +19,7 @@ class PaymentRepoImpl implements PaymentRepo {
         method: ApiMethod.post,
         data: {'course_id': courseId},
       );
-      logger.e(response);
+      logger.i(response);
       return PaymentInitiateResponseModel.fromJson(response);
     } catch (e) {
       // Check if it's an ApiException (which wraps DioException)
@@ -34,7 +34,7 @@ class PaymentRepoImpl implements PaymentRepo {
   Future<PaymentVerificationModel> verifyPayment(String pidx) async {
     try {
       final response = await client.request(
-        path: '/api/khalti/verify/',
+        path: 'khalti/verify/',
         method: ApiMethod.get,
         queryParameters: {'pidx': pidx},
       );

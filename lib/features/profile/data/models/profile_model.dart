@@ -55,4 +55,26 @@ class ProfileModel {
     "academic_level": academicLevel,
     "course": course,
   };
+
+  ProfileModel copyWith({
+    int? id,
+    String? username,
+    String? email,
+    String? phone,
+    String? role,
+    String? bio,
+    String? profilePicture,
+    String? academicLevel,
+    String? course,
+  }) {
+    return ProfileModel(
+      id: id ?? this.id,
+      username: username ?? this.username,
+      email: email ?? this.email,
+      phone: phone ?? this.phone,
+      academicLevel: academicLevel ?? this.academicLevel,
+      bio: bio ?? this.bio,
+      profilePicture: profilePicture ?? this.profilePicture,
+    );
+  }
 }

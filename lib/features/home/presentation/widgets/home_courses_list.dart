@@ -14,9 +14,7 @@ class HomeCoursesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CoursesBloc, CoursesState>(
       builder: (context, state) {
-        if (state.coursesList.isEmpty) {
-          return const SizedBox.shrink();
-        } else if (state.status == ApiDataStatus.loading) {
+        if (state.status == ApiDataStatus.loading) {
           return SizedBox(
             height: 80,
             child: Center(child: CircularProgressIndicator(color: Colors.blue)),

@@ -11,7 +11,9 @@ import 'package:durbar_physics/features/courses/presentation/screens/all_courses
 import 'package:durbar_physics/features/courses/presentation/screens/course_detail_screen.dart';
 import 'package:durbar_physics/features/courses/presentation/screens/enrolled_course_screen.dart';
 import 'package:durbar_physics/features/courses/presentation/screens/video_player_screen.dart';
+import 'package:durbar_physics/features/courses/presentation/screens/youtube_video_player_screen.dart';
 import 'package:durbar_physics/features/dashboard/presentation/screens/dashboard_screen.dart';
+import 'package:durbar_physics/features/home/data/models/video_model.dart';
 import 'package:durbar_physics/features/home/presentation/screens/all_videos_screen.dart';
 import 'package:durbar_physics/features/home/presentation/screens/home_screen.dart';
 import 'package:durbar_physics/features/home/presentation/screens/saved_screen.dart';
@@ -22,7 +24,7 @@ import 'package:durbar_physics/features/on_boarding/presentation/screens/on_boar
 import 'package:durbar_physics/features/profile/data/models/profile_model.dart';
 import 'package:durbar_physics/features/profile/presentation/screens/edit_profile_screen.dart';
 import 'package:durbar_physics/features/profile/presentation/screens/profile_screen.dart';
-import 'package:durbar_physics/features/settings/settings_screen.dart';
+import 'package:durbar_physics/features/settings/screens/settings_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -198,6 +200,14 @@ final GoRouter appRouter = GoRouter(
       builder: (context, state) {
         final token = state.extra as String;
         return ChangePasswordScreen(token: token);
+      },
+    ),
+    GoRoute(
+      path: RoutePath.youtubeVideoPlayerScreen,
+      name: RouteName.youtubeVideoPlayerScreen,
+      builder: (context, state) {
+        final video = state.extra as VideoModel;
+        return YoutubeVideoPlayerScreen(video: video);
       },
     ),
   ],

@@ -1,5 +1,5 @@
 import 'package:durbar_physics/common/enums/enums.dart';
-import 'package:durbar_physics/common/widgets/user_avatar.dart';
+import 'package:durbar_physics/common/widgets/user_avatar_widget.dart';
 import 'package:durbar_physics/core/di/injection.dart';
 import 'package:durbar_physics/core/routing/navigation_service.dart';
 import 'package:durbar_physics/core/routing/route_name.dart';
@@ -15,10 +15,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => getIt<ProfileCubit>()..getProfile(),
-      child: const ProfileView(),
-    );
+    return const ProfileView();
   }
 }
 
@@ -39,51 +36,53 @@ class ProfileView extends StatelessWidget {
           } else if (state.profile != null) {
             final profile = state.profile!;
             return SafeArea(
-              child: Stack(
-                children: [
-                  Container(
-                    height: 300.h,
-                    width: double.infinity,
-                    color: Colors.black,
-                  ),
-                  Column(
-                    children: [
-                      50.verticalSpace,
-                      // Header with title
-                      Padding(
-                        padding: EdgeInsets.all(16.w),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            'Profile',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 28.sp,
-                              fontWeight: FontWeight.bold,
+              child: SingleChildScrollView(
+                child: Stack(
+                  children: [
+                    Container(
+                      height: 300.h,
+                      width: double.infinity,
+                      color: Colors.black,
+                    ),
+                    Column(
+                      children: [
+                        50.verticalSpace,
+                        // Header with title
+                        Padding(
+                          padding: EdgeInsets.all(16.w),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              'Profile',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 28.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
-                      ),
 
-                      30.verticalSpace,
+                        30.verticalSpace,
 
-                      // White container with rounded top corners
-                      Flexible(
-                        child: Container(
+                        // White container with rounded top corners
+                        Container(
                           margin: EdgeInsets.symmetric(horizontal: 10.w),
 
                           decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(30.r),
-                              topRight: Radius.circular(30.r),
-                            ),
+                            borderRadius: BorderRadius.circular(32.r),
+                            // borderRadius: BorderRadius.only(
+
+                            //   topLeft: Radius.circular(30.r),
+                            //   topRight: Radius.circular(30.r),
+                            // ),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.black.withValues(alpha: 0.2),
                                 spreadRadius: 1,
-                                blurRadius: 10,
-                                offset: Offset(0, 10),
+                                blurRadius: 8,
+                                offset: Offset(0, 2),
                               ),
                             ],
                           ),
@@ -114,41 +113,38 @@ class ProfileView extends StatelessWidget {
                               24.verticalSpace,
 
                               // Profile information list
-                              Flexible(
-                                child: ListView(
-                                  children: [
+                              Column(
+                                children: [
+                                  ProfileListTileWidget(
+                                    icon: Icons.phone_outlined,
+                                    title: 'Phone Number',
+                                    subTitle: profile.phone,
+                                    onTap: () {},
+                                  ),
+                                  ProfileListTileWidget(
+                                    icon: Icons.school_outlined,
+                                    title: 'Academic Level',
+                                    subTitle:
+                                        profile.academicLevel ?? 'Not provided',
+                                    onTap: () {},
+                                  ),
+                                  if (profile.role != null)
                                     ProfileListTileWidget(
-                                      icon: Icons.phone_outlined,
-                                      title: 'Phone Number',
-                                      subTitle: profile.phone,
+                                      icon: Icons.workspace_premium_outlined,
+                                      title: 'Role',
+                                      subTitle: profile.role ?? '-',
                                       onTap: () {},
                                     ),
-                                    ProfileListTileWidget(
-                                      icon: Icons.school_outlined,
-                                      title: 'Academic Level',
-                                      subTitle:
-                                          profile.academicLevel ??
-                                          'Not provided',
-                                      onTap: () {},
-                                    ),
-                                    if (profile.role != null)
-                                      ProfileListTileWidget(
-                                        icon: Icons.workspace_premium_outlined,
-                                        title: 'Role',
-                                        subTitle: profile.role ?? '-',
-                                        onTap: () {},
-                                      ),
-                                    ProfileListTileWidget(
-                                      icon: Icons.info_outline,
-                                      title: 'Bio',
-                                      subTitle:
-                                          profile.bio ?? 'No bio available',
-                                      onTap: () {},
-                                    ),
-                                  ],
-                                ),
+                                  ProfileListTileWidget(
+                                    icon: Icons.info_outline,
+                                    title: 'Bio',
+                                    subTitle: profile.bio ?? 'No bio available',
+                                    onTap: () {},
+                                  ),
+                                ],
                               ),
 
+                              20.verticalSpace,
                               // Save button at bottom
                               Padding(
                                 padding: EdgeInsets.all(20.w),
@@ -171,7 +167,7 @@ class ProfileView extends StatelessWidget {
                                         icon: Icon(Icons.arrow_back),
                                       ),
                                     ),
-                                    SizedBox(width: 12.w),
+                                    12.horizontalSpace,
                                     // Save button
                                     Expanded(
                                       child: ElevatedButton(
@@ -210,20 +206,20 @@ class ProfileView extends StatelessWidget {
                             ],
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Positioned(
-                    right: 150.w,
-                    top: 70.h,
-                    child: UserAvatar(
-                      imageUrl: profile.profilePicture,
-                      name: profile.username,
-                      radius: 70.r,
-                      fontSize: 30.sp,
+                      ],
                     ),
-                  ),
-                ],
+                    Positioned(
+                      right: 150.w,
+                      top: 70.h,
+                      child: UserAvatarWidget(
+                        imageUrl: profile.profilePicture,
+                        name: profile.username,
+                        radius: 70.r,
+                        fontSize: 30.sp,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             );
           }

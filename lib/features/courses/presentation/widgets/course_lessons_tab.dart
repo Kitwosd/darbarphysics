@@ -4,6 +4,7 @@ import 'package:durbar_physics/core/services/app_globals.dart';
 import 'package:durbar_physics/features/courses/data/model/course_detail_model.dart';
 
 import 'package:durbar_physics/features/courses/presentation/screens/video_player_screen.dart';
+import 'package:durbar_physics/features/courses/presentation/screens/youtube_video_player_screen.dart';
 import 'package:durbar_physics/features/home/data/models/video_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -28,29 +29,16 @@ class CourseLessonsTab extends StatelessWidget {
   Widget _buildLessonItem(BuildContext context, VideoModel lesson, int index) {
     return InkWell(
       onTap: () {
-        if (lesson.isLocked && lesson.isUserLocked == true) {
+        if (lesson.isUserLocked == true) {
           OverlayToastWidget.show(
             message: 'Please enroll to unlock the lesson',
           );
-          // ToastWidget.show(
-          //   text: 'Please enroll to unlock the lesson',
-          //   position: ToastPosition.top,
-          // );
-          // ScaffoldMessenger.of(context).showSnackBar(
-          //   const SnackBar(
-          //     content: Text("Please enroll to unlock this lesson"),
-          //   ),
-          // );
         } else {
           // Play Video
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => VideoPlayerScreen(
-                video: lesson,
-                videoUrl: lesson.videoUrl,
-                title: lesson.title,
-              ),
+              builder: (context) => YoutubeVideoPlayerScreen(video: lesson),
             ),
           );
         }
@@ -97,8 +85,8 @@ class CourseLessonsTab extends StatelessWidget {
               ),
             ),
             Icon(
-              lesson.isLocked == true ? Icons.lock : Icons.play_circle_fill,
-              color: lesson.isLocked
+              lesson.isUserLocked == true ? Icons.lock : Icons.play_circle_fill,
+              color: lesson.isUserLocked
                   ? Colors.grey
                   : Theme.of(context).primaryColor,
             ),

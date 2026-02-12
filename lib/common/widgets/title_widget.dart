@@ -12,23 +12,29 @@ class TitleWidget extends StatelessWidget {
     return Container(
       height: 40.h,
       width: double.infinity,
-      color: Theme.of(context).appBarTheme.backgroundColor,
+      color: Theme.of(context).scaffoldBackgroundColor,
 
       child: Padding(
-        padding: EdgeInsets.only(left: 12.w, top: 4.h),
+        padding: EdgeInsets.only(left: 4.w),
         child: Row(
           children: [
             GestureDetector(
               onTap: () {
                 Navigator.pop(context);
               },
-              child: Icon(
-                Icons.arrow_back_rounded,
-                size: 32.h, // set size manually
-                color: Theme.of(context).colorScheme.primary,
+              child: Column(
+                children: [
+                  2.verticalSpace,
+                  Icon(
+                    Icons.keyboard_backspace_outlined,
+                    size: 36.sp, // set size manually
+                    color: Theme.of(context).colorScheme.primary,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ],
               ),
             ),
-            20.horizontalSpace,
+            30.horizontalSpace,
             TextWidget(
               word: title,
               size: 24,

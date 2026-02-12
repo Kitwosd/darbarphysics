@@ -3,6 +3,7 @@ import 'package:durbar_physics/common/widgets/enrollment_dialog_widget.dart';
 import 'package:durbar_physics/common/widgets/text_widget.dart';
 import 'package:durbar_physics/common/widgets/view_more_card_widget.dart';
 import 'package:durbar_physics/features/courses/presentation/screens/video_player_screen.dart';
+import 'package:durbar_physics/features/courses/presentation/screens/youtube_video_player_screen.dart';
 import 'package:durbar_physics/features/home/presentation/bloc/videos/videos_bloc.dart';
 import 'package:durbar_physics/features/home/presentation/widgets/video_thumbnail_widget.dart';
 import 'package:flutter/material.dart';
@@ -101,11 +102,8 @@ class HomeVideosList extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => VideoPlayerScreen(
-                                video: video,
-                                videoUrl: video.videoUrl,
-                                title: video.title,
-                              ),
+                              builder: (context) =>
+                                  YoutubeVideoPlayerScreen(video: video),
                             ),
                           );
                         }

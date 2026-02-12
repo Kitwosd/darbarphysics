@@ -1,13 +1,15 @@
 import 'package:durbar_physics/common/widgets/text_widget.dart';
+import 'package:durbar_physics/core/services/app_globals.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 
-class UserAvatar extends StatelessWidget {
+class UserAvatarWidget extends StatelessWidget {
   final String? imageUrl;
   final String name;
   final double radius;
   final double fontSize;
 
-  const UserAvatar({
+  const UserAvatarWidget({
     super.key,
     this.imageUrl,
     required this.name,
@@ -42,12 +44,12 @@ class UserAvatar extends StatelessWidget {
 
     return CircleAvatar(
       radius: radius,
-      backgroundColor: Colors.blue,
+      backgroundColor: Colors.blue.shade300,
       child: TextWidget(
         word: initials,
         size: fontSize,
         weight: FontWeight.bold,
-        textColor: Theme.of(context).primaryColor,
+        textColor: Colors.black,
       ),
     );
   }

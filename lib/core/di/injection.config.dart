@@ -116,14 +116,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i437.OtpCubit>(
       () => _i437.OtpCubit(gh<_i550.ForgotPasswordRepo>()),
     );
-    gh.factory<_i356.ProfileState>(
-      () => _i356.ProfileState(
-        status: gh<_i202.ApiDataStatus>(),
-        profile: gh<_i36.ProfileModel>(),
-        error: gh<String>(),
-        pickedImage: gh<_i183.XFile>(),
-      ),
-    );
     gh.factory<_i552.SearchBloc>(
       () => _i552.SearchBloc(gh<_i1033.SearchRepo>()),
     );
@@ -136,6 +128,19 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i912.KhaltiPaymentService>(
       () => _i912.KhaltiPaymentService(gh<_i50.PaymentRepo>()),
+    );
+    gh.factory<_i356.ProfileState>(
+      () => _i356.ProfileState(
+        status: gh<_i202.ApiDataStatus>(),
+        profile: gh<_i36.ProfileModel>(),
+        error: gh<String>(),
+        pickedImage: gh<_i183.XFile>(),
+        userNameError: gh<String>(),
+        emailError: gh<String>(),
+        phoneError: gh<String>(),
+        bioError: gh<String>(),
+        academicError: gh<String>(),
+      ),
     );
     gh.factory<_i518.CoursesBloc>(
       () => _i518.CoursesBloc(gh<_i130.HomeRepo>()),

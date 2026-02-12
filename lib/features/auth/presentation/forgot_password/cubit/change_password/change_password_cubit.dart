@@ -55,9 +55,7 @@ class ChangePasswordCubit extends Cubit<ChangePasswordState> {
           }
 
           //handle invalid token
-          if (data.containsKey('error')) {
-            generalErrorMessage = data['error'];
-          }
+         
 
           //handle password specific password one errors
           if (data.containsKey('password')) {
