@@ -4,8 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TitleWidget extends StatelessWidget {
   final String title;
+  final VoidCallback? function;
 
-  const TitleWidget({super.key, required this.title});
+  const TitleWidget({super.key, required this.title, this.function});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,11 @@ class TitleWidget extends StatelessWidget {
           children: [
             GestureDetector(
               onTap: () {
-                Navigator.pop(context);
+                if (function != null) {
+                  function!();
+                } else {
+                  Navigator.pop(context);
+                }
               },
               child: Column(
                 children: [

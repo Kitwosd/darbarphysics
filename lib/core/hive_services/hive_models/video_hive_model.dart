@@ -10,8 +10,8 @@ class VideoHiveModel {
   final String title;
   @HiveField(2)
   final bool isLocked;
-  // @HiveField(3)
-  // final int? course;
+  @HiveField(3)
+  final int? course;
   @HiveField(3)
   final String videoUrl;
   @HiveField(4)
@@ -29,6 +29,7 @@ class VideoHiveModel {
     this.thumbnail,
     required this.duration,
     required this.isUserLocked,
+    this.course,
   });
 
   //Added copyWith for immutability
@@ -40,6 +41,7 @@ class VideoHiveModel {
     String? thumbnail,
     String? duration,
     bool? isUserLocked,
+    int? course,
   }) {
     return VideoHiveModel(
       id: id ?? this.id,
@@ -48,6 +50,7 @@ class VideoHiveModel {
       videoUrl: videoUrl ?? this.videoUrl,
       duration: duration ?? this.duration,
       isUserLocked: isUserLocked ?? this.isUserLocked,
+      course: course ?? this.course,
     );
   }
 }

@@ -26,13 +26,20 @@ class CourseLessonsTab extends StatelessWidget {
   }
 
   Widget _buildLessonItem(BuildContext context, VideoModel lesson, int index) {
+    bool canAccess = !(lesson.isLocked && lesson.isUserLocked);
     return InkWell(
       onTap: () {
-        if (lesson.isUserLocked == true) {
+        if (!canAccess) {
           OverlayToastWidget.show(
             message: 'Please enroll to unlock the lesson',
           );
-        } else {
+        }
+        // if (lesson.isUserLocked == true) {
+        //   OverlayToastWidget.show(
+        //     message: 'Please enroll to unlock the lesson',
+        //   );
+        // }
+        else {
           // Play Video
           Navigator.push(
             context,
@@ -71,7 +78,8 @@ class CourseLessonsTab extends StatelessWidget {
                     word: lesson.title,
                     weight: FontWeight.bold,
                     maxLines: 2,
-                    textColor: lesson.isLocked == true
+                    textColor: !(canAccess)
+                        // lesson.isUserLocked == true
                         ? Colors.grey
                         : customColors.blackWhite,
                   ),
@@ -84,7 +92,7 @@ class CourseLessonsTab extends StatelessWidget {
               ),
             ),
             Icon(
-              lesson.isUserLocked == true ? Icons.lock : Icons.play_circle_fill,
+              !canAccess ? Icons.lock : Icons.play_circle_fill,
               color: lesson.isUserLocked
                   ? Colors.grey
                   : Theme.of(context).primaryColor,

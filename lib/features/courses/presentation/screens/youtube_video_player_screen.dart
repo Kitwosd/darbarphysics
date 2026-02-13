@@ -61,59 +61,61 @@ class _YoutubeVideoPlayerScreenState extends State<YoutubeVideoPlayerScreen> {
         progressIndicatorColor: Colors.red,
       ),
       builder: (context, player) {
-        return BlocProvider(
-          create: (context) => getIt<VideosBookmarkBloc>(),
-          child: Scaffold(
-            appBar: AppBar(
-              title: TextWidget(word: widget.video.title),
-              actions: [
-                Builder(
-                  builder: (context) {
-                    if (MediaQuery.of(context).orientation ==
-                        Orientation.landscape) {
-                      return const SizedBox();
-                    }
-                    return BlocBuilder<VideosBookmarkBloc, VideosBookmarkState>(
-                      builder: (context, state) {
-                        final isBookmarked = state.videoIds.contains(
-                          widget.video.id,
-                        );
-
-                        return IconButton(
-                          icon: Icon(
-                            isBookmarked
-                                ? Icons.bookmark
-                                : Icons.bookmark_border,
-                            color: Colors.white,
-                          ),
-                          onPressed: () {
-                            if (isBookmarked) {
-                              context.read<VideosBookmarkBloc>().add(
-                                RemoveVideoEvent(videoId: widget.video.id),
-                              );
-                              OverlayToastWidget.show(
-                                bgColor: Colors.red.shade400,
-                                message: "Removed from bookmarks",
-                              );
-                            } else {
-                              context.read<VideosBookmarkBloc>().add(
-                                AddVideoEvent(video: widget.video),
-                              );
-                              OverlayToastWidget.show(
-                                message: "Added to bookmarks",
-                                bgColor: Colors.green.shade400,
-                              );
-                            }
-                          },
-                        );
-                      },
-                    );
-                  },
-                ),
-              ],
+        return Scaffold(
+          backgroundColor: Colors.black,
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            title: TextWidget(
+              word: widget.video.title,
+              textColor: Colors.white,
+              weight: FontWeight.w800,
             ),
-            body: Column(children: [player, _buildVideoInfo()]),
+            leading: BackButton(color: Colors.white),
+            actions: [
+              Builder(
+                builder: (context) {
+                  if (MediaQuery.of(context).orientation ==
+                      Orientation.landscape) {
+                    return const SizedBox();
+                  }
+                  return BlocBuilder<VideosBookmarkBloc, VideosBookmarkState>(
+                    builder: (context, state) {
+                      final isBookmarked = state.videoIds.contains(
+                        widget.video.id,
+                      );
+
+                      return IconButton(
+                        icon: Icon(
+                          isBookmarked ? Icons.bookmark : Icons.bookmark_border,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          if (isBookmarked) {
+                            context.read<VideosBookmarkBloc>().add(
+                              RemoveVideoEvent(videoId: widget.video.id),
+                            );
+                            OverlayToastWidget.show(
+                              bgColor: Colors.red.shade400,
+                              message: "Removed from bookmarks",
+                            );
+                          } else {
+                            context.read<VideosBookmarkBloc>().add(
+                              AddVideoEvent(video: widget.video),
+                            );
+                            OverlayToastWidget.show(
+                              message: "Added to bookmarks",
+                              bgColor: Colors.green.shade400,
+                            );
+                          }
+                        },
+                      );
+                    },
+                  );
+                },
+              ),
+            ],
           ),
+          body: Column(children: [player, _buildVideoInfo()]),
         );
       },
     );
@@ -129,6 +131,7 @@ class _YoutubeVideoPlayerScreenState extends State<YoutubeVideoPlayerScreen> {
             word: widget.video.title,
             size: 18,
             weight: FontWeight.bold,
+            textColor: Colors.white,
           ),
           8.verticalSpace,
           TextWidget(

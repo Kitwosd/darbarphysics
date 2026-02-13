@@ -2,14 +2,14 @@ class LiveClassDetailModel {
   final int id;
   final String title;
   final int? course;
-  final int level;
-  final int subject;
+  final int? level;
+  final int? subject;
   final DateTime startTime;
   final DateTime endTime;
   final String meetingUrl;
   final String description;
   final bool isRecorded;
-  final dynamic recordingUrl;
+  final String? recordingUrl;
   final DateTime createdAt;
   final bool isLive;
   final bool willStartSoon;
@@ -22,14 +22,14 @@ class LiveClassDetailModel {
     required this.id,
     required this.title,
     this.course,
-    required this.level,
-    required this.subject,
+    this.level,
+    this.subject,
     required this.startTime,
     required this.endTime,
     required this.meetingUrl,
     required this.description,
     required this.isRecorded,
-    required this.recordingUrl,
+    this.recordingUrl,
     required this.createdAt,
     required this.isLive,
     required this.willStartSoon,

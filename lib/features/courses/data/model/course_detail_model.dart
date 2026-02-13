@@ -7,8 +7,8 @@ class CourseDetailModel extends Equatable {
   final String title;
   final String description;
   final String cost;
-  final DateTime startTime;
-  final DateTime endTime;
+  final DateTime? startTime;
+  final DateTime? endTime;
   final String image;
   final DateTime createdAt;
   final double rating;
@@ -26,8 +26,8 @@ class CourseDetailModel extends Equatable {
     required this.title,
     required this.description,
     required this.cost,
-    required this.startTime,
-    required this.endTime,
+    this.startTime,
+    this.endTime,
     required this.image,
     required this.createdAt,
     this.rating = 0.0,
@@ -41,42 +41,47 @@ class CourseDetailModel extends Equatable {
     required this.isUserLocked,
   });
 
-  factory CourseDetailModel.fromJson(Map<String, dynamic> json) =>
-      CourseDetailModel(
-        id: json["id"],
-        title: json["title"],
-        description: json["description"],
-        cost: json["cost"],
-        startTime: DateTime.parse(json["start_time"]),
-        endTime: DateTime.parse(json["end_time"]),
-        image: json["image"],
-        createdAt: DateTime.parse(json["created_at"]),
-        rating: (json["rating"] as num?)?.toDouble() ?? 0.0,
-        reviewCount: json["review_count"] ?? 0,
-        studentCount: json["student_count"] ?? 0,
-        totalDuration: json["total_duration"] ?? "0h 0m",
-        lessonCount: json["lesson_count"] ?? 0,
-        lessons: json["lessons"] == null
-            ? []
-            : List<VideoModel>.from(
-                json["lessons"].map((x) => VideoModel.fromJson(x)),
-              ),
-        liveClasses: json["liveclasses"] == null
-            ? []
-            : List<LiveClassDetailModel>.from(
-                json["liveclasses"].map((x) => LiveClassDetailModel.fromJson(x)),
-              ),
-        liveClassCount: json["liveclassCount"],
-        isUserLocked: json["is_user_locked"],
-      );
+  factory CourseDetailModel.fromJson(
+    Map<String, dynamic> json,
+  ) => CourseDetailModel(
+    id: json["id"],
+    title: json["title"],
+    description: json["description"],
+    cost: json["cost"],
+    startTime: json["start_time"] != null
+        ? DateTime.parse(json["start_time"])
+        : null,
+
+    endTime: json["end_time"] != null ? DateTime.parse(json["end_time"]) : null,
+
+    image: json["image"],
+    createdAt: DateTime.parse(json["created_at"]),
+    rating: (json["rating"] as num?)?.toDouble() ?? 0.0,
+    reviewCount: json["review_count"] ?? 0,
+    studentCount: json["student_count"] ?? 0,
+    totalDuration: json["total_duration"] ?? "0h 0m",
+    lessonCount: json["lesson_count"] ?? 0,
+    lessons: json["lessons"] == null
+        ? []
+        : List<VideoModel>.from(
+            json["lessons"].map((x) => VideoModel.fromJson(x)),
+          ),
+    liveClasses: json["liveclasses"] == null
+        ? []
+        : List<LiveClassDetailModel>.from(
+            json["liveclasses"].map((x) => LiveClassDetailModel.fromJson(x)),
+          ),
+    liveClassCount: json["liveclassCount"],
+    isUserLocked: json["is_user_locked"],
+  );
 
   Map<String, dynamic> toJson() => {
     "id": id,
     "title": title,
     "description": description,
     "cost": cost,
-    "start_time": startTime.toIso8601String(),
-    "end_time": endTime.toIso8601String(),
+    "start_time": startTime?.toIso8601String(),
+    "end_time": endTime?.toIso8601String(),
     "image": image,
     "created_at": createdAt.toIso8601String(),
     "rating": rating,

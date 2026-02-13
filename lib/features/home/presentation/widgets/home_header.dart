@@ -31,19 +31,13 @@ class HomeHeader extends StatelessWidget {
                 ),
               ],
             ),
-            child: SizedBox(
+            child: Image.asset(
+              'assets/images/logo_with_name.png',
+              fit: BoxFit.cover,
+              height: 32.h,
               width: 32.w,
-              child: FittedBox(
-                fit: BoxFit.contain,
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Image.asset(
-                    'assets/images/logo_with_name.png', // TODO: crop the image as there is invisible padding around it.
-                    color: Color(0xFF1877F2),
-                    colorBlendMode: BlendMode.srcATop,
-                  ),
-                ),
-              ),
+
+              colorBlendMode: BlendMode.srcATop,
             ),
           ),
           Row(

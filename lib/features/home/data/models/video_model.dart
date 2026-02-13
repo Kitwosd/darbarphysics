@@ -5,7 +5,7 @@ class VideoModel extends Equatable {
   final String title;
   final bool isLocked;
   // final String teacher;
-  final String? course;
+  final int? course;
   final String videoUrl;
   final String? thumbnail;
   final String duration;

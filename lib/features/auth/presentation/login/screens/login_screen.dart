@@ -46,7 +46,14 @@ class LoginScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          TitleWidget(title: l10.login),
+                          TitleWidget(
+                            title: l10.login,
+                            function: () =>
+                                NavigationService.pushNamedReplacement(
+                                  RouteName.onBoarding,
+                                ),
+                          ),
+                          50.verticalSpace,
                           Center(
                             child: SizedBox(
                               width: 220.w,
@@ -56,7 +63,7 @@ class LoginScreen extends StatelessWidget {
                                   alignment: Alignment.center,
                                   child: Image.asset(
                                     'assets/images/logo_with_name.png', // TODO: crop the image as there is invisible padding around it.
-                                    color: Color(0xFF1877F2),
+
                                     colorBlendMode: BlendMode.srcATop,
                                   ),
                                 ),
@@ -238,9 +245,10 @@ class LoginScreen extends StatelessWidget {
                             ],
                           ),
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              ChangeLanguageWidget(),
-                              Spacer(),
+                              // ChangeLanguageWidget(),
+                              // Spacer(),
                               InkWell(
                                 child: TextWidget(word: 'Theme'),
                                 onTap: () => context.toggleTheme(),
