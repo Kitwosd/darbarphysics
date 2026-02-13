@@ -3,7 +3,6 @@ import 'package:durbar_physics/common/widgets/text_widget.dart';
 import 'package:durbar_physics/core/services/app_globals.dart';
 import 'package:durbar_physics/features/courses/data/model/course_detail_model.dart';
 
-import 'package:durbar_physics/features/courses/presentation/screens/video_player_screen.dart';
 import 'package:durbar_physics/features/courses/presentation/screens/youtube_video_player_screen.dart';
 import 'package:durbar_physics/features/home/data/models/video_model.dart';
 import 'package:flutter/material.dart';

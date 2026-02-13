@@ -1,6 +1,5 @@
 import 'package:durbar_physics/common/enums/enums.dart';
 import 'package:durbar_physics/common/widgets/user_avatar_widget.dart';
-import 'package:durbar_physics/core/di/injection.dart';
 import 'package:durbar_physics/core/routing/navigation_service.dart';
 import 'package:durbar_physics/core/routing/route_name.dart';
 import 'package:durbar_physics/features/profile/presentation/cubit/profile_cubit.dart';

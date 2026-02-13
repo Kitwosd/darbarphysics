@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:durbar_physics/common/enums/enums.dart';
-import 'package:durbar_physics/core/logger/app_logger.dart';
 import 'package:durbar_physics/core/network/api_exception.dart';
 import 'package:durbar_physics/features/auth/domain/repo/forgot_password_repo.dart';
 import 'package:equatable/equatable.dart';
@@ -39,7 +38,7 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
           emailError: '', // clear old errors
         ),
       );
-    } catch (e, s) {
+    } catch (e) {
       //TODO: Comeback to study again
       String specificEmailError = '';
       String generalErrorMessage = 'Something went wrong';

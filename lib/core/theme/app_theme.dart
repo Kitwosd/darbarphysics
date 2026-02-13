@@ -6,7 +6,7 @@ class AppTheme {
   static ThemeData lightTheme = FlexThemeData.light(
     colors: const FlexSchemeColor(
       primary: Color(0xFF3787FF), //Brand primary
-      secondary: Color(0xFFFF9D42), //brand secondary
+      secondary: Color(0xFFFF9D42), //brand   
       secondaryLightRef: Colors.white, // white in light
     ),
 

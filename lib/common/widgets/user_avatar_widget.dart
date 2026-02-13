@@ -1,6 +1,4 @@
 import 'package:durbar_physics/common/widgets/text_widget.dart';
-import 'package:durbar_physics/core/services/app_globals.dart';
-import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 
 class UserAvatarWidget extends StatelessWidget {

@@ -34,7 +34,7 @@ class ChangePasswordCubit extends Cubit<ChangePasswordState> {
           successMessage: successMessage,
         ),
       );
-    } catch (e, s) {
+    } catch (e) {
       String generalErrorMessage = '';
       String passwordOneError = '';
       String passwordTwoError = '';

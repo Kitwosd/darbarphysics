@@ -24,6 +24,7 @@ class RouteName {
   static const String otpScreen = 'otpScreen';
   static const String changePasswordScreen = 'changePasswordScreen';
   static const String youtubeVideoPlayerScreen = 'youtubeVideoScreen';
+  static const String resetPassword = 'resetPasswordScreen';
 }
 
 class RoutePath {
@@ -52,5 +53,6 @@ class RoutePath {
   static const String forgotPassword = '/forgotPasswordScreen';
   static const String otpScreen = '/otpScreen';
   static const String changePasswordScreen = '/changePasswordScreen';
-   static const String youtubeVideoPlayerScreen = '/youtubeVideoScreen';
+  static const String youtubeVideoPlayerScreen = '/youtubeVideoScreen';
+  static const String resetPassword = '/resetPasswordScreen';
 }

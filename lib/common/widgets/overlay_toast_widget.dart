@@ -161,6 +161,7 @@ class _ToastViewState extends State<_ToastView>
                   textColor: widget.textColor,
                   size: widget.size,
                   weight: FontWeight.w600,
+                  maxLines: 2,
                 ),
               ),
             ),

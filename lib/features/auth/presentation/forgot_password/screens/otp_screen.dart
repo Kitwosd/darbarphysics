@@ -4,7 +4,6 @@ import 'package:durbar_physics/common/widgets/elevated_button_widget.dart';
 import 'package:durbar_physics/common/widgets/overlay_toast_widget.dart';
 import 'package:durbar_physics/common/widgets/text_widget.dart';
 import 'package:durbar_physics/core/di/injection.dart';
-import 'package:durbar_physics/core/logger/app_logger.dart';
 import 'package:durbar_physics/core/routing/route_name.dart';
 import 'package:durbar_physics/core/services/app_globals.dart';
 import 'package:durbar_physics/features/auth/presentation/forgot_password/cubit/forgot_password/forgot_password_cubit.dart';

@@ -24,6 +24,7 @@ import 'package:durbar_physics/features/on_boarding/presentation/screens/on_boar
 import 'package:durbar_physics/features/profile/data/models/profile_model.dart';
 import 'package:durbar_physics/features/profile/presentation/screens/edit_profile_screen.dart';
 import 'package:durbar_physics/features/profile/presentation/screens/profile_screen.dart';
+import 'package:durbar_physics/features/settings/screens/reset_password_screen.dart';
 import 'package:durbar_physics/features/settings/screens/settings_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -208,6 +209,13 @@ final GoRouter appRouter = GoRouter(
       builder: (context, state) {
         final video = state.extra as VideoModel;
         return YoutubeVideoPlayerScreen(video: video);
+      },
+    ),
+    GoRoute(
+      path: RoutePath.resetPassword,
+      name: RouteName.resetPassword,
+      builder: (context, state) {
+        return ResetPasswordScreen();
       },
     ),
   ],

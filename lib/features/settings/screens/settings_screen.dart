@@ -8,7 +8,6 @@ import 'package:durbar_physics/core/network/api_client.dart';
 import 'package:durbar_physics/core/routing/navigation_service.dart';
 import 'package:durbar_physics/core/routing/route_name.dart';
 import 'package:durbar_physics/core/theme/theme_extension.dart';
-import 'package:durbar_physics/features/practise/basic_webview_screen.dart';
 import 'package:durbar_physics/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:durbar_physics/features/profile/presentation/cubit/profile_state.dart';
 import 'package:flutter/cupertino.dart';
@@ -101,7 +100,7 @@ class SettingsScreen extends StatelessWidget {
               _buildSettingItem(
                 context,
                 Icons.person,
-                'Edit Profile',
+                'View Profile',
                 () => NavigationService.pushNamed(RouteName.profile),
               ),
 
@@ -114,13 +113,13 @@ class SettingsScreen extends StatelessWidget {
                 context,
                 Icons.grid_view,
                 'Reset Password',
-                null,
+                () => NavigationService.pushNamed(RouteName.resetPassword),
               ),
               _buildSettingItem(
                 context,
                 Icons.analytics,
                 'Terms & Conditions',
-                null,
+                null
               ),
               // _buildSettingItem(
               //   context,
@@ -152,6 +151,7 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
+  // ignore: unused_element
   Widget _darkModeToggle(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12.0),

@@ -35,9 +35,9 @@ class CustomAppbarWidget extends StatelessWidget
                   Navigator.pop(context);
                 },
                 icon: Icon(
-                  Icons.arrow_back,
+                  Icons.keyboard_backspace_outlined,
                   color: appColors.primary,
-                  size: 28.sp,
+                  size: 36.sp,
                 ),
               ),
             )

@@ -62,6 +62,11 @@ import '../../features/profile/presentation/cubit/profile_state.dart' as _i356;
 import '../../features/search/data/repo_impl/search_repo_impl.dart' as _i790;
 import '../../features/search/domain/repo/search_repo.dart' as _i1033;
 import '../../features/search/presentation/bloc/search_bloc.dart' as _i552;
+import '../../features/settings/bloc/reset_password_cubit/reset_password_cubit.dart'
+    as _i584;
+import '../../features/settings/data/repo_impl/reset_password_repo_impl.dart'
+    as _i966;
+import '../../features/settings/domain/rep/reset_password_repo.dart' as _i323;
 import '../hive_services/services/hive_course_service.dart' as _i963;
 import '../hive_services/services/hive_video_service.dart' as _i143;
 import '../network/api_client.dart' as _i557;
@@ -95,6 +100,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i364.ProfileRepo>(
       () => _i301.ProfileRepositoryImpl(gh<_i557.ApiClient>()),
+    );
+    gh.factory<_i323.ResetPasswordRepo>(
+      () => _i966.ResetPasswordRepoImpl(gh<_i557.ApiClient>()),
     );
     gh.factory<_i130.HomeRepo>(() => _i386.HomeRepoImpl(gh<_i557.ApiClient>()));
     gh.factory<_i550.ForgotPasswordRepo>(
@@ -140,6 +148,7 @@ extension GetItInjectableX on _i174.GetIt {
         phoneError: gh<String>(),
         bioError: gh<String>(),
         academicError: gh<String>(),
+        justUpdated: gh<bool>(),
       ),
     );
     gh.factory<_i518.CoursesBloc>(
@@ -151,6 +160,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i373.VideosBloc>(() => _i373.VideosBloc(gh<_i130.HomeRepo>()));
     gh.factory<_i36.ProfileCubit>(
       () => _i36.ProfileCubit(gh<_i364.ProfileRepo>()),
+    );
+    gh.factory<_i584.ResetPasswordCubit>(
+      () => _i584.ResetPasswordCubit(gh<_i323.ResetPasswordRepo>()),
     );
     return this;
   }

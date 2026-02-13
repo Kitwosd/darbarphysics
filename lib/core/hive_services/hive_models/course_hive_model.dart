@@ -3,6 +3,8 @@ import 'package:hive/hive.dart';
 //TODO: Hive uncomment when everything is finished
 // part 'course_hive_model.g.dart';
 
+ part 'course_hive_model.g.dart';
+
 @HiveType(typeId: 2)
 class CourseHiveModel {
   @HiveField(0)
