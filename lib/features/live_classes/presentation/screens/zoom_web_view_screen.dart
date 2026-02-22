@@ -154,7 +154,12 @@ class _MyWidgetState extends State<ZoomWebViewScreen> {
     if (showError) {
       log('The error is this : $errorMessage');
     }
-    final zoomLink = _convertToWebClientUrl(widget.url);
+    final zoomLink = _convertToWebClientUrl(
+      'https://us04web.zoom.us/j/3117772972?pwd=oQOKC681rjGaeyA8ZiixJe8T2sW9pN.1',
+
+      //TODO make it back to getting the link from the backend
+      // widget.url
+    );
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -175,8 +180,9 @@ class _MyWidgetState extends State<ZoomWebViewScreen> {
                 allowsInlineMediaPlayback: true, // same as before
                 domStorageEnabled:
                     true, // zoom stores meeting tokens, session state -> prevents reload loop
-                useHybridComposition: true, // same as before
+                useHybridComposition: false, // same as before
                 cacheEnabled: true, //improves -> reload speed, less cpu usage
+                hardwareAcceleration: true, // Fix crash on older devices
               ),
 
               //imp methods if you wanna show and all
@@ -241,6 +247,25 @@ class _MyWidgetState extends State<ZoomWebViewScreen> {
                   loadingTimer?.cancel();
                 }
                 return;
+              },
+
+              // ✅ FIX: Handle Renderer Crash (SIGTRAP/OOM)
+              onRenderProcessGone: (controller, detail) async {
+                log(
+                  'CRITICAL: WebView Render Process Gone. DidCrash: ${detail.didCrash}',
+                );
+
+                if (!mounted) return;
+
+                setState(() {
+                  isWebViewError = true;
+                  isLoading = false;
+                  errorMessage =
+                      'The Zoom view crashed unexpectedly. Please reload.';
+                });
+
+                // Return true to prevent the app from crashing entirely
+                // return true; // Handled by plugin if callback is provided
               },
 
               //Fix: Only handle MainFrame erros, ignore subresources
@@ -432,19 +457,21 @@ class _MyWidgetState extends State<ZoomWebViewScreen> {
                           textColor: Colors.grey.shade600,
                           size: 15,
                           align: TextAlign.center,
+                          maxLines: 2,
                         ),
 
                         40.verticalSpace,
 
                         // Retry button
                         ButtonWidget(
+                          bgColor: appColors.primary,
                           width: double.infinity,
                           height: 50.h,
                           textWidget: TextWidget(
                             word: 'Try Again',
                             weight: FontWeight.w600,
                             size: 16,
-                            textColor: Colors.white,
+                            textColor: customColors.whiteBlack,
                           ),
                           onPressed: _retryLoading,
                         ),

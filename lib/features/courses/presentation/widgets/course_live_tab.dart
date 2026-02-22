@@ -43,168 +43,6 @@ class _CourseLiveTabState extends State<CourseLiveTab> {
     return ended;
   }
 
-  // // TEMPORARY: Dummy data for testing
-  // List<LiveClassDetailModel> _getDummyLiveClasses() {
-  //   final now = DateTime.now();
-  //   return [
-  //     // Live class
-  //     LiveClassDetailModel(
-  //       id: 1,
-  //       title: 'Introduction to Quantum Physics - Live Session',
-  //       course: widget.course.id,
-  //       startTime: now.subtract(const Duration(minutes: 15)),
-  //       endTime: now.add(const Duration(hours: 1)),
-  //       meetingUrl: 'https://zoom.us/j/123456789',
-  //       description: 'Understanding quantum mechanics basics',
-  //       isRecorded: true,
-  //       recordingUrl: '',
-  //       createdAt: now.subtract(const Duration(days: 2)),
-  //       isLive: true,
-  //       willStartSoon: false,
-  //       thumbnail:
-  //           'https://images.unsplash.com/photo-1761839271800-f44070ff0eb9?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  //       teacher: 'Dr. Prashant Durbar',
-  //       status: 'live',
-  //       isUserLocked: false,
-  //       level: 1,
-  //       subject: 1,
-  //     ),
-
-  //     // Upcoming - Today (2 hours from now)
-  //     LiveClassDetailModel(
-  //       id: 2,
-  //       title: 'Problem Solving Session - Electricity & Magnetism',
-  //       course: widget.course.id,
-  //       startTime: now.add(const Duration(hours: 2)),
-  //       endTime: now.add(const Duration(hours: 3, minutes: 30)),
-  //       meetingUrl: 'https://zoom.us/j/987654321',
-  //       description: 'Solving complex problems',
-  //       isRecorded: false,
-  //       recordingUrl: '',
-  //       createdAt: now.subtract(const Duration(days: 1)),
-  //       isLive: false,
-  //       willStartSoon: true,
-  //       thumbnail: '',
-  //       teacher: 'Dr. Prashant Durbar',
-  //       status: 'upcoming',
-  //       isUserLocked: false,
-  //       level: 1,
-  //       subject: 1,
-  //     ),
-
-  //     // Upcoming - Tomorrow
-  //     LiveClassDetailModel(
-  //       id: 3,
-  //       title: 'Wave Motion and Sound - Interactive Class',
-  //       course: widget.course.id,
-  //       startTime: now.add(const Duration(days: 1, hours: 10)),
-  //       endTime: now.add(const Duration(days: 1, hours: 12)),
-  //       meetingUrl: 'https://meet.google.com/abc-defg-hij',
-  //       description: 'Deep dive into wave mechanics',
-  //       isRecorded: true,
-  //       recordingUrl: '',
-  //       createdAt: now.subtract(const Duration(hours: 12)),
-  //       isLive: false,
-  //       willStartSoon: false,
-  //       thumbnail:
-  //           'https://images.unsplash.com/photo-1761839271800-f44070ff0eb9?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  //       teacher: 'Dr. Sarah Johnson',
-  //       status: 'upcoming',
-  //       isUserLocked: false,
-  //       level: 1,
-  //       subject: 1,
-  //     ),
-
-  //     // Upcoming - Locked (3 days from now)
-  //     LiveClassDetailModel(
-  //       id: 4,
-  //       title: 'Advanced Thermodynamics - Premium Session',
-  //       course: widget.course.id,
-  //       startTime: now.add(const Duration(days: 3, hours: 14)),
-  //       endTime: now.add(const Duration(days: 3, hours: 16)),
-  //       meetingUrl: '',
-  //       description: 'For enrolled students only',
-  //       isRecorded: true,
-  //       recordingUrl: '',
-  //       createdAt: now.subtract(const Duration(hours: 6)),
-  //       isLive: false,
-  //       willStartSoon: false,
-  //       thumbnail: '',
-  //       teacher: 'Dr. Prashant Durbar',
-  //       status: 'upcoming',
-  //       isUserLocked: true,
-  //       level: 1,
-  //       subject: 1,
-  //     ),
-
-  //     // Ended - Yesterday (with recording)
-  //     LiveClassDetailModel(
-  //       id: 5,
-  //       title: 'Newton\'s Laws of Motion - Recorded',
-  //       course: widget.course.id,
-  //       startTime: now.subtract(const Duration(days: 1, hours: 10)),
-  //       endTime: now.subtract(const Duration(days: 1, hours: 8)),
-  //       meetingUrl: '',
-  //       description: 'Complete overview of Newton\'s laws',
-  //       isRecorded: true,
-  //       recordingUrl: 'https://vimeo.com/recording123',
-  //       createdAt: now.subtract(const Duration(days: 5)),
-  //       isLive: false,
-  //       willStartSoon: false,
-  //       thumbnail: '',
-  //       teacher: 'Dr. Prashant Durbar',
-  //       status: 'ended',
-  //       isUserLocked: false,
-  //       level: 1,
-  //       subject: 1,
-  //     ),
-
-  //     // Ended - 3 days ago (no recording)
-  //     LiveClassDetailModel(
-  //       id: 6,
-  //       title: 'Circular Motion Fundamentals',
-  //       course: widget.course.id,
-  //       startTime: now.subtract(const Duration(days: 3, hours: 15)),
-  //       endTime: now.subtract(const Duration(days: 3, hours: 13)),
-  //       meetingUrl: '',
-  //       description: 'Basic concepts of circular motion',
-  //       isRecorded: false,
-  //       recordingUrl: '',
-  //       createdAt: now.subtract(const Duration(days: 7)),
-  //       isLive: false,
-  //       willStartSoon: false,
-  //       thumbnail: '',
-  //       teacher: 'Dr. Michael Chen',
-  //       status: 'ended',
-  //       isUserLocked: false,
-  //       level: 1,
-  //       subject: 1,
-  //     ),
-
-  //     // Ended - Last week (locked)
-  //     LiveClassDetailModel(
-  //       id: 7,
-  //       title: 'Optics - Advanced Concepts',
-  //       course: widget.course.id,
-  //       startTime: now.subtract(const Duration(days: 7, hours: 14)),
-  //       endTime: now.subtract(const Duration(days: 7, hours: 12)),
-  //       meetingUrl: '',
-  //       description: 'Premium content for enrolled students',
-  //       isRecorded: true,
-  //       recordingUrl: 'https://vimeo.com/recording456',
-  //       createdAt: now.subtract(const Duration(days: 10)),
-  //       isLive: false,
-  //       willStartSoon: false,
-  //       thumbnail: '',
-  //       teacher: 'Dr. Prashant Durbar',
-  //       status: 'ended',
-  //       isUserLocked: true,
-  //       level: 1,
-  //       subject: 1,
-  //     ),
-  //   ];
-  // }
-
   @override
   Widget build(BuildContext context) {
     final liveClasses = _getLiveClasses();
@@ -212,8 +50,6 @@ class _CourseLiveTabState extends State<CourseLiveTab> {
     final endedClasses = _getEndedClasses();
 
     final allClassSorted = List<LiveClassDetailModel>.from(
-      //TODO: change this to widget.course.liveClasses
-      // _getDummyLiveClasses(),
       widget.course.liveClasses,
     )..sort((a, b) => a.startTime.compareTo(b.startTime));
     final Map<int, int> sessionNumberMap = {};
@@ -223,20 +59,6 @@ class _CourseLiveTabState extends State<CourseLiveTab> {
 
       sessionNumberMap[classId] = sessionNumber;
     }
-    //TODO: remove the talw talw ko and mathi ko dummy data after the simulation
-    // final dummyClasses = _getDummyLiveClasses();
-
-    // final liveClasses = dummyClasses.where((c) => c.status == 'live').toList();
-
-    // final upcomingClasses =
-    //     dummyClasses
-    //         .where((c) => c.status != 'live' && c.status != 'ended')
-    //         .toList()
-    //       ..sort((a, b) => a.startTime.compareTo(b.startTime));
-
-    // final endedClasses = dummyClasses.where((c) => c.status == 'ended').toList()
-    //   ..sort((a, b) => b.endTime.compareTo(a.endTime));
-
     if (widget.course.liveClasses.isEmpty) {
       return Center(
         child: Column(

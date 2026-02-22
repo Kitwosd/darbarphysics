@@ -9,6 +9,7 @@ class VerifyingDialogWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopScope(
+      
       canPop: false, // Can't dismiss with back button
       child: Center(
         child: Card(

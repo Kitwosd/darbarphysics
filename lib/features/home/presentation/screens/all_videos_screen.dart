@@ -7,7 +7,6 @@ import 'package:durbar_physics/common/widgets/services/pagination_wrapper_widget
 import 'package:durbar_physics/core/di/injection.dart';
 import 'package:durbar_physics/core/routing/navigation_service.dart';
 import 'package:durbar_physics/core/routing/route_name.dart';
-import 'package:durbar_physics/features/courses/presentation/routes/video_player_args.dart';
 import 'package:durbar_physics/features/home/presentation/bloc/videos/videos_bloc.dart';
 import 'package:durbar_physics/features/home/presentation/widgets/home_video_card.dart';
 import 'package:flutter/material.dart';
@@ -66,16 +65,19 @@ class AllVideosScreen extends StatelessWidget {
                                           //TODO: course id not available so can't go to the course detail page.
                                           EnrollmentDialogWidget.show(
                                             context,
-                                            onGoToCourse: () {},
+                                            onGoToCourse: () {
+                                              if (video.course != null) {
+                                                NavigationService.pushNamed(
+                                                  RouteName.detailScreen,
+                                                  extra: video.course,
+                                                );
+                                              }
+                                            },
                                           );
                                         } else {
                                           NavigationService.pushNamed(
-                                            RouteName.videoPlayer,
-                                            extra: VideoPlayerArgs(
-                                              video: video,
-                                              videoUrl: video.videoUrl,
-                                              videoTitle: video.title,
-                                            ),
+                                            RouteName.youtubeVideoPlayerScreen,
+                                            extra: video,
                                           );
                                         }
                                       },

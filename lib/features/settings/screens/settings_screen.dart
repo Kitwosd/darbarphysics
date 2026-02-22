@@ -119,7 +119,11 @@ class SettingsScreen extends StatelessWidget {
                 context,
                 Icons.analytics,
                 'Terms & Conditions',
-                null
+                null,
+                // () => Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => ZoomTestScreen()),
+                // ),
               ),
               // _buildSettingItem(
               //   context,

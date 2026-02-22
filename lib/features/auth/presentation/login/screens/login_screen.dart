@@ -1,5 +1,4 @@
 import 'package:durbar_physics/common/enums/enums.dart'; // Added for ApiDataStatus
-import 'package:durbar_physics/common/widgets/change_language_widget.dart';
 import 'package:durbar_physics/common/widgets/elevated_button_widget.dart';
 import 'package:durbar_physics/common/widgets/text_field_widget.dart';
 import 'package:durbar_physics/common/widgets/text_widget.dart';
@@ -62,7 +61,7 @@ class LoginScreen extends StatelessWidget {
                                 child: Align(
                                   alignment: Alignment.center,
                                   child: Image.asset(
-                                    'assets/images/logo_with_name.png', // TODO: crop the image as there is invisible padding around it.
+                                    'assets/images/logo_with_name.png', 
 
                                     colorBlendMode: BlendMode.srcATop,
                                   ),

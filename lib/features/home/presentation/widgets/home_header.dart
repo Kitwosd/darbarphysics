@@ -40,17 +40,21 @@ class HomeHeader extends StatelessWidget {
               colorBlendMode: BlendMode.srcATop,
             ),
           ),
-          Row(
-            children: [
-              TextWidget(
-                word: 'Hi, Dev Subedi',
-                size: 16.sp,
-                weight: FontWeight.bold,
-                textColor: Theme.of(context).textTheme.titleLarge?.color,
-              ),
-              SizedBox(width: 5.w),
-              Text('👋', style: TextStyle(fontSize: 16.sp)),
-            ],
+          BlocBuilder<ProfileCubit, ProfileState>(
+            builder: (context, state) {
+              return Row(
+                children: [
+                  TextWidget(
+                    word: 'Hi, ${state.profile?.username ?? 'User'}',
+                    size: 16.sp,
+                    weight: FontWeight.bold,
+                    textColor: Theme.of(context).textTheme.titleLarge?.color,
+                  ),
+                  SizedBox(width: 5.w),
+                  Text('👋', style: TextStyle(fontSize: 16.sp)),
+                ],
+              );
+            },
           ),
           Container(
             padding: EdgeInsets.all(8.w),

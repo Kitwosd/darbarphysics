@@ -1,6 +1,5 @@
 import 'package:durbar_physics/common/enums/enums.dart';
 import 'package:durbar_physics/common/widgets/custom_appbar_Widget.dart';
-import 'package:durbar_physics/common/widgets/enrollment_dialog_widget.dart';
 import 'package:durbar_physics/common/widgets/error_screen.dart';
 import 'package:durbar_physics/core/di/injection.dart';
 import 'package:durbar_physics/core/routing/navigation_service.dart';
@@ -45,6 +44,7 @@ class LiveClassesListScreen extends StatelessWidget {
                   final liveClass = state.liveClasses[index];
                   return GestureDetector(
                     onTap: () {
+                      //TODO: live class enrollment
                       // if (liveClass.isUserLocked) {
                       //   EnrollmentDialogWidget.show(context, forVideo: false);
                       //   return;

@@ -15,6 +15,10 @@ class CourseOverviewTab extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          !course.isUserLocked
+              ? _userAlreadyEnrolledCard(context)
+              : SizedBox.shrink(),
+          20.verticalSpace,
           const TextWidget(
             word: "Introduction",
             size: 18,
@@ -46,6 +50,52 @@ class CourseOverviewTab extends StatelessWidget {
                 Colors.blue,
               ),
             ],
+          ),
+
+          10.verticalSpace,
+        ],
+      ),
+    );
+  }
+
+  Widget _userAlreadyEnrolledCard(BuildContext context) {
+    final primary = Theme.of(context).primaryColor;
+
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.all(16.w),
+      decoration: BoxDecoration(
+        color: primary.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(16.r),
+        border: Border.all(color: primary.withValues(alpha: 0.3), width: 1.2),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            height: 40.w,
+            width: 40.w,
+            decoration: BoxDecoration(color: primary, shape: BoxShape.circle),
+            child: Icon(Icons.check_rounded, color: Colors.white, size: 22.sp),
+          ),
+          SizedBox(width: 14.w),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const TextWidget(
+                  word: "You're enrolled 🎉",
+                  weight: FontWeight.bold,
+                  size: 16,
+                ),
+                SizedBox(height: 6.h),
+                TextWidget(
+                  word: "You have full access to all lessons and live classes.",
+                  size: 13,
+                  textColor: Theme.of(context).textTheme.bodyMedium?.color,
+                ),
+              ],
+            ),
           ),
         ],
       ),

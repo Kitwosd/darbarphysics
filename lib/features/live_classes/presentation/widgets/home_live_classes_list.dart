@@ -1,5 +1,4 @@
 import 'package:durbar_physics/common/enums/enums.dart';
-import 'package:durbar_physics/common/widgets/enrollment_dialog_widget.dart';
 import 'package:durbar_physics/common/widgets/services/pagination_wrapper_widget.dart';
 import 'package:durbar_physics/common/widgets/text_widget.dart';
 import 'package:durbar_physics/common/widgets/view_more_card_widget.dart';
@@ -70,29 +69,30 @@ class HomeLiveClassesList extends StatelessWidget {
                       final liveClass = state.liveClasses[index];
                       return GestureDetector(
                         onTap: () {
-                          if (liveClass.isLive) {
-                            if (liveClass.isUserLocked) {
-                              NavigationService.pushNamed(
-                                RouteName.zoomWebView,
-                                extra: {'url': liveClass.meetingUrl},
-                              );
-                            } else {
-                              EnrollmentDialogWidget.show(
-                                context,
-                                forVideo: false,
+                          //TODO: LiveClass enrollment dialog
+                          // if (liveClass.isLive) {
+                          //   if (liveClass.isUserLocked) {
+                          //     NavigationService.pushNamed(
+                          //       RouteName.zoomWebView,
+                          //       extra: {'url': liveClass.meetingUrl},
+                          //     );
+                          //   } else {
+                          // EnrollmentDialogWidget.show(
+                          //   context,
+                          //   forVideo: false,
 
-                                onGoToCourse: () => NavigationService.pushNamed(
-                                  RouteName.detailScreen,
-                                  extra: liveClass.course,
-                                ),
-                              );
-                            }
-                          } else {
-                            NavigationService.pushNamed(
-                              RouteName.liveclassDetail,
-                              extra: liveClass.id,
-                            );
-                          }
+                          //   onGoToCourse: () => NavigationService.pushNamed(
+                          //     RouteName.detailScreen,
+                          //     extra: liveClass.course,
+                          //   ),
+                          // );
+                          // }
+                          // } else {
+                          NavigationService.pushNamed(
+                            RouteName.liveclassDetail,
+                            extra: liveClass.id,
+                          );
+                          // }
                         },
                         child: Container(
                           width: 260.w,

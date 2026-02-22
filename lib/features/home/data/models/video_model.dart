@@ -28,8 +28,7 @@ class VideoModel extends Equatable {
     title: json["title"],
     // teacher: json["teacher"],
     course: json["course"],
-    videoUrl:
-        'https://www.youtube.com/watch?v=vnHTrxV7TMc&list=RDGMEM_6azG-gbwFIpRtH6PATXiQVMvnHTrxV7TMc&start_radio=1',
+    videoUrl: 'https://www.youtube.com/watch?v=K5KVEU3aaeQ',
 
     //TODO: remove the url mathi ko get the url from the backend only
     // videoUrl: json["video_url"] ?? "",

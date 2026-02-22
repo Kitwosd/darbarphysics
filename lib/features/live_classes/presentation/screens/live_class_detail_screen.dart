@@ -64,29 +64,27 @@ class LiveClassDetailScreen extends StatelessWidget {
                         children: [
                           Expanded(
                             child: SingleChildScrollView(
-                              child: Expanded(
-                                child: Column(
-                                  children: [
-                                    TitleWidget(title: 'Live Classes Detail'),
-                                    10.verticalSpace,
-                                    ClassHeroCardWidget(
-                                      liveClass: state.liveClassDetail!,
-                                    ),
-                                    16.verticalSpace,
-                                    ScheduleInfoCardWidget(
-                                      liveClass: state.liveClassDetail!,
-                                    ),
-                                    16.verticalSpace,
-                                    ClassInfoCardWidget(
-                                      liveClass: state.liveClassDetail!,
-                                    ),
-                                    16.verticalSpace,
-                                    DescriptionCardWidget(
-                                      liveClass: state.liveClassDetail!,
-                                    ),
-                                    100.verticalSpace,
-                                  ],
-                                ),
+                              child: Column(
+                                children: [
+                                  TitleWidget(title: 'Live Classes Detail'),
+                                  10.verticalSpace,
+                                  ClassHeroCardWidget(
+                                    liveClass: state.liveClassDetail!,
+                                  ),
+                                  16.verticalSpace,
+                                  ScheduleInfoCardWidget(
+                                    liveClass: state.liveClassDetail!,
+                                  ),
+                                  16.verticalSpace,
+                                  ClassInfoCardWidget(
+                                    liveClass: state.liveClassDetail!,
+                                  ),
+                                  16.verticalSpace,
+                                  DescriptionCardWidget(
+                                    liveClass: state.liveClassDetail!,
+                                  ),
+                                  100.verticalSpace,
+                                ],
                               ),
                             ),
                           ),

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:durbar_physics/core/app_config/app_config.dart';
 import 'package:durbar_physics/core/di/injection.dart';
@@ -7,12 +8,18 @@ import 'package:durbar_physics/core/logger/app_logger.dart';
 import 'package:durbar_physics/core/network/api_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:hive/hive.dart';
 
 Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   runZonedGuarded(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
+
+      // ⬇️ Enable WebView debugging
+      if (Platform.isAndroid) {
+        await InAppWebViewController.setWebContentsDebuggingEnabled(true);
+      }
 
       // Initialize Hive (local storage)
       await HiveServices.init();

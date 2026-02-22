@@ -93,9 +93,7 @@ class CourseLessonsTab extends StatelessWidget {
             ),
             Icon(
               !canAccess ? Icons.lock : Icons.play_circle_fill,
-              color: lesson.isUserLocked
-                  ? Colors.grey
-                  : Theme.of(context).primaryColor,
+              color: !canAccess ? Colors.grey : Theme.of(context).primaryColor,
             ),
           ],
         ),

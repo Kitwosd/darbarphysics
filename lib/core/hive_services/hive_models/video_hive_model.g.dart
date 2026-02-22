@@ -1,3 +1,6 @@
+//So just paste this code in the video_hive_model.g.dart cause dart build runner is not registering the required fields and not generating what we want
+
+// video_hive_model.g.dart
 part of 'video_hive_model.dart';
 
 class VideoHiveModelAdapter extends TypeAdapter<VideoHiveModel> {

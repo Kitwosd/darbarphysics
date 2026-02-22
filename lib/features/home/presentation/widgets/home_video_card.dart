@@ -19,6 +19,7 @@ class HomeVideoCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    bool canAccess = !(video.isLocked && video.isUserLocked);
     return InkWell(
       onTap: onTap,
       child: Padding(
@@ -44,11 +45,11 @@ class HomeVideoCardWidget extends StatelessWidget {
           ),
           child: Row(
             children: [
-              _thumbnailWidget(video, videoIndex, context, isDark),
+              _thumbnailWidget(video, videoIndex, context, isDark, canAccess),
               12.horizontalSpace,
               Expanded(child: _titleWidget(video, context)),
               8.horizontalSpace,
-              _lockedIconWidget(video, context),
+              _lockedIconWidget(video, context, canAccess),
             ],
           ),
         ),
@@ -56,23 +57,25 @@ class HomeVideoCardWidget extends StatelessWidget {
     );
   }
 
-  Widget _lockedIconWidget(VideoModel video, BuildContext context) {
+  Widget _lockedIconWidget(
+    VideoModel video,
+    BuildContext context,
+    bool canAccess,
+  ) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
           padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
           decoration: BoxDecoration(
-            color: video.isUserLocked ? Colors.yellow[100] : Colors.green[100],
+            color: !canAccess ? Colors.yellow[100] : Colors.green[100],
             borderRadius: BorderRadius.circular(12.r),
           ),
           child: TextWidget(
-            word: video.isUserLocked || video.isLocked ? 'LOCKED' : 'UNLOCKED',
+            word: !canAccess ? 'LOCKED' : 'UNLOCKED',
             weight: FontWeight.bold,
             size: 10,
-            textColor: video.isUserLocked
-                ? Colors.yellow[900]
-                : Colors.green[900],
+            textColor: !canAccess ? Colors.yellow[900] : Colors.green[900],
           ),
         ),
         4.verticalSpace,
@@ -122,6 +125,7 @@ class HomeVideoCardWidget extends StatelessWidget {
     int videoIndex,
     BuildContext context,
     bool isDark,
+    bool canAccess,
   ) {
     return Container(
       width: 120.w,
@@ -166,7 +170,7 @@ class HomeVideoCardWidget extends StatelessWidget {
                 ),
               ),
 
-            if (video.isUserLocked)
+            if (!canAccess)
               Positioned.fill(
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8.r),
@@ -188,7 +192,7 @@ class HomeVideoCardWidget extends StatelessWidget {
                 ),
               ),
             // Play button overlay for unlocked videos
-            if (!video.isUserLocked)
+            if (canAccess)
               Positioned.fill(
                 child: Container(
                   decoration: BoxDecoration(

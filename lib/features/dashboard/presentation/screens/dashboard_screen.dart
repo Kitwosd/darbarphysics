@@ -1,3 +1,4 @@
+import 'package:durbar_physics/core/services/app_globals.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -17,7 +18,7 @@ class DashboardScreen extends StatelessWidget {
           ? null
           : Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.surface,
                 boxShadow: [
                   BoxShadow(
                     blurRadius: 20,
@@ -32,7 +33,8 @@ class DashboardScreen extends StatelessWidget {
                     vertical: 8.h,
                   ),
                   child: GNav(
-                    rippleColor: Colors.grey[300]!,
+                    rippleColor: appColors.primary,
+                    // Colors.grey[300]!,
                     hoverColor: Colors.grey[100]!,
                     gap: 8.w,
                     activeColor: Colors.blueAccent, // Or your primary color
@@ -45,7 +47,7 @@ class DashboardScreen extends StatelessWidget {
                     tabBackgroundColor: Colors.blueAccent.withValues(
                       alpha: 0.1,
                     ),
-                    color: Colors.black,
+                    color: Theme.of(context).colorScheme.onSurface,
                     tabs: const [
                       GButton(icon: Icons.home_rounded, text: 'Home'),
                       GButton(

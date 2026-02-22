@@ -1,3 +1,4 @@
+import 'package:durbar_physics/core/di/injection.dart';
 import 'package:durbar_physics/core/routing/navigation_service.dart';
 import 'package:durbar_physics/core/routing/route_name.dart';
 import 'package:durbar_physics/features/auth/presentation/forgot_password/cubit/forgot_password/forgot_password_cubit.dart';
@@ -21,6 +22,7 @@ import 'package:durbar_physics/features/live_classes/presentation/screens/live_c
 import 'package:durbar_physics/features/live_classes/presentation/screens/live_classes_list_screen.dart';
 import 'package:durbar_physics/features/live_classes/presentation/screens/zoom_web_view_screen.dart';
 import 'package:durbar_physics/features/on_boarding/presentation/screens/on_boarding_screen.dart';
+import 'package:durbar_physics/features/payment/presentation/bloc/payment_bloc.dart';
 import 'package:durbar_physics/features/profile/data/models/profile_model.dart';
 import 'package:durbar_physics/features/profile/presentation/screens/edit_profile_screen.dart';
 import 'package:durbar_physics/features/profile/presentation/screens/profile_screen.dart';
@@ -122,7 +124,10 @@ final GoRouter appRouter = GoRouter(
       name: RouteName.detailScreen,
       builder: (context, state) {
         final courseId = state.extra as int;
-        return CourseDetailScreen(courseId: courseId);
+        return BlocProvider(
+          create: (context) => getIt<PaymentBloc>(),
+          child: CourseDetailScreen(courseId: courseId),
+        );
       },
     ),
     GoRoute(

@@ -1,5 +1,5 @@
 
-
+//  course_hive_model.g.dart
 part of 'course_hive_model.dart';
 
 class CourseHiveModelAdapter extends TypeAdapter<CourseHiveModel> {

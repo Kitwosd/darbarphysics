@@ -52,7 +52,9 @@ import '../../features/payment/data/repo_impl.dart/payment_repo_impl.dart'
     as _i93;
 import '../../features/payment/data/services/khalti_payment_service.dart'
     as _i912;
+import '../../features/payment/data/services/khalti_service.dart' as _i123;
 import '../../features/payment/domain/repo/payment_repo.dart' as _i50;
+import '../../features/payment/presentation/bloc/payment_bloc.dart' as _i206;
 import '../../features/profile/data/models/profile_model.dart' as _i36;
 import '../../features/profile/data/repo_impl/profile_repository_impl.dart'
     as _i301;
@@ -80,6 +82,7 @@ extension GetItInjectableX on _i174.GetIt {
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final registerModule = _$RegisterModule();
+    gh.factory<_i123.KhaltiService>(() => _i123.KhaltiService());
     gh.singleton<_i557.ApiClient>(() => registerModule.apiClient);
     gh.lazySingleton<_i963.HiveCourseService>(() => _i963.HiveCourseService());
     gh.lazySingleton<_i143.HiveVideoService>(() => _i143.HiveVideoService());
@@ -136,6 +139,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i912.KhaltiPaymentService>(
       () => _i912.KhaltiPaymentService(gh<_i50.PaymentRepo>()),
+    );
+    gh.factory<_i206.PaymentBloc>(
+      () => _i206.PaymentBloc(gh<_i50.PaymentRepo>()),
     );
     gh.factory<_i356.ProfileState>(
       () => _i356.ProfileState(

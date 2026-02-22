@@ -23,6 +23,7 @@ class VideoThumbnailWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool canAccess = !(video.isLocked && video.isUserLocked);
     return Container(
       width: width ?? 120.w,
       height: height ?? 80.h,
@@ -66,7 +67,7 @@ class VideoThumbnailWidget extends StatelessWidget {
                 ),
               ),
 
-            if (video.isUserLocked)
+            if (!canAccess)
               Positioned.fill(
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8.r),
@@ -88,7 +89,7 @@ class VideoThumbnailWidget extends StatelessWidget {
                 ),
               ),
             // Play button overlay for unlocked videos
-            if (!video.isUserLocked)
+            if (canAccess)
               Positioned.fill(
                 child: Container(
                   decoration: BoxDecoration(

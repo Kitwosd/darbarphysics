@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 
-part 'video_hive_model.g.dart';
+ part 'video_hive_model.g.dart';
 
 @HiveType(typeId: 1)
 class VideoHiveModel {
@@ -54,6 +54,7 @@ class VideoHiveModel {
     );
   }
 }
+
 ////So just paste this code in the video_hive_model.g.dart cause dart build runner is not registering the required fields and not generating what we want
 
 // video_hive_model.g.dart
