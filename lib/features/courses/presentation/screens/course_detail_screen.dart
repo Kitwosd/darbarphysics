@@ -205,7 +205,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen>
                             indicatorColor: appColors.primary,
                             tabs: const [
                               Tab(text: 'Overview'),
-                              Tab(text: 'Lessons'),
+                              Tab(text: 'Lesson'),
                               Tab(text: 'Live'),
                             ],
                           ),

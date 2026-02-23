@@ -1,4 +1,5 @@
 import 'package:durbar_physics/core/network/api_client.dart';
+import 'package:durbar_physics/features/courses/data/model/banner_model.dart';
 import 'package:durbar_physics/features/courses/data/model/course_model.dart';
 import 'package:durbar_physics/features/courses/domain/repo/courses_repo.dart';
 import 'package:injectable/injectable.dart';
@@ -15,5 +16,14 @@ class CoursesRepoImpl implements CoursesRepo {
       method: ApiMethod.get,
     );
     return (response as List).map((e) => CourseModel.fromJson(e)).toList();
+  }
+
+  @override
+  Future<List<BannerModel>> getBannerItems() async {
+    final response = await apiClient.request(
+      path: 'course-ads/',
+      method: ApiMethod.get,
+    );
+    return (response as List).map((e) => BannerModel.fromJson(e)).toList();
   }
 }

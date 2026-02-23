@@ -18,7 +18,7 @@ class HomeBanner extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 10.h),
       child: CarouselSlider(
         options: CarouselOptions(
-          height: 200.h,
+          height: 200.h,  
           autoPlay: true,
           enlargeCenterPage: true,
           viewportFraction: 0.8,

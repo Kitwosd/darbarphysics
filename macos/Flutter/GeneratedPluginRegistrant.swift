@@ -10,7 +10,6 @@ import device_info_plus
 import file_selector_macos
 import flutter_inappwebview_macos
 import flutter_localization
-import flutter_zoom_meeting_sdk
 import package_info_plus
 import path_provider_foundation
 import screen_brightness_macos
@@ -25,7 +24,6 @@ func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
   FileSelectorPlugin.register(with: registry.registrar(forPlugin: "FileSelectorPlugin"))
   InAppWebViewFlutterPlugin.register(with: registry.registrar(forPlugin: "InAppWebViewFlutterPlugin"))
   FlutterLocalizationPlugin.register(with: registry.registrar(forPlugin: "FlutterLocalizationPlugin"))
-  FlutterZoomMeetingSdkPlugin.register(with: registry.registrar(forPlugin: "FlutterZoomMeetingSdkPlugin"))
   FPPPackageInfoPlusPlugin.register(with: registry.registrar(forPlugin: "FPPPackageInfoPlusPlugin"))
   PathProviderPlugin.register(with: registry.registrar(forPlugin: "PathProviderPlugin"))
   ScreenBrightnessMacosPlugin.register(with: registry.registrar(forPlugin: "ScreenBrightnessMacosPlugin"))

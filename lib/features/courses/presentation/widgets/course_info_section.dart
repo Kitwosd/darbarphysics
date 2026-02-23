@@ -52,7 +52,9 @@ class CourseInfoSection extends StatelessWidget {
                 Icon(Icons.person, size: 16.sp, color: Colors.grey),
                 SizedBox(width: 5.w),
                 TextWidget(
-                  word: "${course.studentCount} Students",
+                  word: (double.tryParse(course.cost) ?? 0) == 0
+                      ? 'Free Course'
+                      : "${course.studentCount} Students",
                   textColor: Colors.grey,
                   size: 12,
                 ),

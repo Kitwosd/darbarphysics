@@ -85,9 +85,7 @@ dependencies:
   pinput: ^6.0.1
   youtube_player_flutter: ^9.1.3
 
-  //for zoom sdk
-  flutter_zoom_meeting_sdk: ^0.0.11
-  dart_jsonwebtoken: ^3.3.1
+
 
  
 

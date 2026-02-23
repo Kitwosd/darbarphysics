@@ -61,7 +61,8 @@ class AllVideosScreen extends StatelessWidget {
                                       video: video,
                                       videoIndex: index,
                                       onTap: () {
-                                        if (video.isUserLocked) {
+                                        if ((video.isLocked &&
+                                            video.isUserLocked)) {
                                           //TODO: course id not available so can't go to the course detail page.
                                           EnrollmentDialogWidget.show(
                                             context,

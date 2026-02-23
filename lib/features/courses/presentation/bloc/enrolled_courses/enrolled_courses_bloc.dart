@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:durbar_physics/common/enums/enums.dart';
-import 'package:durbar_physics/core/logger/app_logger.dart';
+
 import 'package:durbar_physics/features/courses/data/model/course_model.dart';
 import 'package:durbar_physics/features/courses/domain/repo/courses_repo.dart';
 import 'package:equatable/equatable.dart';
@@ -29,7 +29,6 @@ class EnrolledCoursesBloc
       emit(
         state.copyWith(enrolledCourses: data, status: ApiDataStatus.success),
       );
-      logger.i(data);
     } catch (e) {
       emit(
         state.copyWith(

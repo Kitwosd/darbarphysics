@@ -7,7 +7,6 @@ list(APPEND FLUTTER_PLUGIN_LIST
   file_selector_windows
   flutter_inappwebview_windows
   flutter_localization
-  flutter_zoom_meeting_sdk
   permission_handler_windows
   screen_brightness_windows
   url_launcher_windows

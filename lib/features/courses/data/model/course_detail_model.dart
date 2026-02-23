@@ -21,78 +21,102 @@ class CourseDetailModel extends Equatable {
   final int liveClassCount;
   final bool isUserLocked;
 
+  // ✅ Newly added
+  final bool hasRated;
+  final double? userRating;
+  final List<dynamic> allReviews;
+
   const CourseDetailModel({
     required this.id,
     required this.title,
     required this.description,
     required this.cost,
-    this.startTime,
-    this.endTime,
+    required this.startTime,
+    required this.endTime,
     required this.image,
     required this.createdAt,
-    this.rating = 0.0,
-    this.reviewCount = 0,
-    this.studentCount = 0,
-    this.totalDuration = "0h 0m",
-    this.lessonCount = 0,
-    this.lessons = const [],
-    this.liveClasses = const [],
-    this.liveClassCount = 0,
+    required this.rating,
+    required this.reviewCount,
+    required this.studentCount,
+    required this.totalDuration,
+    required this.lessonCount,
+    required this.lessons,
+    required this.liveClasses,
+    required this.liveClassCount,
     required this.isUserLocked,
+    required this.hasRated,
+    this.userRating,
+    required this.allReviews,
   });
 
-  factory CourseDetailModel.fromJson(
-    Map<String, dynamic> json,
-  ) => CourseDetailModel(
-    id: json["id"],
-    title: json["title"],
-    description: json["description"],
-    cost: json["cost"],
-    startTime: json["start_time"] != null
-        ? DateTime.parse(json["start_time"])
-        : null,
+  factory CourseDetailModel.fromJson(Map<String, dynamic> json) {
+    return CourseDetailModel(
+      id: json["id"] ?? 0,
+      title: json["title"] ?? "",
+      description: json["description"] ?? "",
+      cost: json["cost"] ?? "0",
+      startTime: json["start_time"] != null
+          ? DateTime.parse(json["start_time"])
+          : null,
+      endTime: json["end_time"] != null
+          ? DateTime.parse(json["end_time"])
+          : null,
+      image: json["image"] ?? "",
+      createdAt: DateTime.parse(json["created_at"]),
+      rating: (json["rating"] as num?)?.toDouble() ?? 0.0,
 
-    endTime: json["end_time"] != null ? DateTime.parse(json["end_time"]) : null,
+      // ✅ Fixed camelCase keys
+      reviewCount: json["reviewCount"] ?? 0,
+      studentCount: json["studentCount"] ?? 0,
+      totalDuration: json["totalDuration"] ?? "0 mins",
+      lessonCount: json["lessonCount"] ?? 0,
 
-    image: json["image"],
-    createdAt: DateTime.parse(json["created_at"]),
-    rating: (json["rating"] as num?)?.toDouble() ?? 0.0,
-    reviewCount: json["review_count"] ?? 0,
-    studentCount: json["student_count"] ?? 0,
-    totalDuration: json["total_duration"] ?? "0h 0m",
-    lessonCount: json["lesson_count"] ?? 0,
-    lessons: json["lessons"] == null
-        ? []
-        : List<VideoModel>.from(
-            json["lessons"].map((x) => VideoModel.fromJson(x)),
-          ),
-    liveClasses: json["liveclasses"] == null
-        ? []
-        : List<LiveClassDetailModel>.from(
-            json["liveclasses"].map((x) => LiveClassDetailModel.fromJson(x)),
-          ),
-    liveClassCount: json["liveclassCount"],
-    isUserLocked: json["is_user_locked"],
-  );
+      lessons: json["lessons"] == null
+          ? []
+          : List<VideoModel>.from(
+              json["lessons"].map((x) => VideoModel.fromJson(x)),
+            ),
 
-  Map<String, dynamic> toJson() => {
-    "id": id,
-    "title": title,
-    "description": description,
-    "cost": cost,
-    "start_time": startTime?.toIso8601String(),
-    "end_time": endTime?.toIso8601String(),
-    "image": image,
-    "created_at": createdAt.toIso8601String(),
-    "rating": rating,
-    "review_count": reviewCount,
-    "student_count": studentCount,
-    "total_duration": totalDuration,
-    "lesson_count": lessonCount,
-    "lessons": List<dynamic>.from(lessons.map((x) => x.toJson())),
-    "liveclassCount": liveClassCount,
-    "is_user_locked": isUserLocked,
-  };
+      liveClasses: json["liveclasses"] == null
+          ? []
+          : List<LiveClassDetailModel>.from(
+              json["liveclasses"].map((x) => LiveClassDetailModel.fromJson(x)),
+            ),
+
+      liveClassCount: json["liveclassCount"] ?? 0,
+      isUserLocked: json["is_user_locked"] ?? false,
+
+      // ✅ Newly parsed
+      hasRated: json["hasRated"] ?? false,
+      userRating: (json["userRating"] as num?)?.toDouble(),
+      allReviews: json["all_reviews"] ?? [],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "id": id,
+      "title": title,
+      "description": description,
+      "cost": cost,
+      "start_time": startTime?.toIso8601String(),
+      "end_time": endTime?.toIso8601String(),
+      "image": image,
+      "created_at": createdAt.toIso8601String(),
+      "rating": rating,
+      "reviewCount": reviewCount,
+      "studentCount": studentCount,
+      "totalDuration": totalDuration,
+      "lessonCount": lessonCount,
+      "lessons": lessons.map((x) => x.toJson()).toList(),
+      "liveclasses": liveClasses.map((x) => x.toJson()).toList(),
+      "liveclassCount": liveClassCount,
+      "is_user_locked": isUserLocked,
+      "hasRated": hasRated,
+      "userRating": userRating,
+      "all_reviews": allReviews,
+    };
+  }
 
   @override
   List<Object?> get props => [
@@ -113,5 +137,8 @@ class CourseDetailModel extends Equatable {
     liveClasses,
     liveClassCount,
     isUserLocked,
+    hasRated,
+    userRating,
+    allReviews,
   ];
 }

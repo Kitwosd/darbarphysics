@@ -1,5 +1,6 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:durbar_physics/core/logger/app_logger.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class LiveClassModel extends Equatable {
   final int id;
@@ -28,23 +29,30 @@ class LiveClassModel extends Equatable {
     required this.course,
   });
 
-  factory LiveClassModel.fromJson(Map<String, dynamic> json) => LiveClassModel(
-    id: json["id"] ?? 0,
-    title: json["title"] ?? '',
-    thumbnail:
-        json["thumbnail"] ??
-        'https://img.freepik.com/free-vector/online-tutorials-concept_52683-37480.jpg',
-    teacherName: json["teacherName"] ?? 'Unknown Teacher',
-    startTime: json["startTime"] != null
-        ? DateTime.parse(json["startTime"])
-        : DateTime.now(),
-    isLive: json["is_live"],
-    meetingUrl: json["meetingUrl"] ?? '',
-    password: json["password"],
-    isUserLocked: json["is_user_locked"] ?? false,
-    status: json["status"],
-    course: json["course"],
-  );
+  factory LiveClassModel.fromJson(Map<String, dynamic> json) {
+    final baseUrl = dotenv.env['BASE_THUMBNAIL_URL'];
+    String thumbnailPath = json['thumbnail'];
+    if (thumbnailPath.isNotEmpty && !thumbnailPath.startsWith('http')) {
+      thumbnailPath = '$baseUrl$thumbnailPath';
+      logger.d(dotenv.env['BASE_THUMBNAIL_URL']);
+    }
+
+    return LiveClassModel(
+      id: json["id"] ?? 0,
+      title: json["title"] ?? '',
+      thumbnail: thumbnailPath,
+      teacherName: json["teacherName"] ?? 'Unknown Teacher',
+      startTime: json["startTime"] != null
+          ? DateTime.parse(json["startTime"])
+          : DateTime.now(),
+      isLive: json["is_live"],
+      meetingUrl: json["meetingUrl"] ?? '',
+      password: json["password"],
+      isUserLocked: json["is_user_locked"] ?? false,
+      status: json["status"],
+      course: json["course"],
+    );
+  }
 
   Map<String, dynamic> toJson() => {
     "id": id,

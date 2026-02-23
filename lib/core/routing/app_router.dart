@@ -20,7 +20,7 @@ import 'package:durbar_physics/features/home/presentation/screens/home_screen.da
 import 'package:durbar_physics/features/home/presentation/screens/saved_screen.dart';
 import 'package:durbar_physics/features/live_classes/presentation/screens/live_class_detail_screen.dart';
 import 'package:durbar_physics/features/live_classes/presentation/screens/live_classes_list_screen.dart';
-import 'package:durbar_physics/features/live_classes/presentation/screens/zoom_web_view_screen.dart';
+// import 'package:durbar_physics/features/live_classes/presentation/screens/zoom_web_view_screens.dart';
 import 'package:durbar_physics/features/on_boarding/presentation/screens/on_boarding_screen.dart';
 import 'package:durbar_physics/features/payment/presentation/bloc/payment_bloc.dart';
 import 'package:durbar_physics/features/profile/data/models/profile_model.dart';
@@ -28,6 +28,7 @@ import 'package:durbar_physics/features/profile/presentation/screens/edit_profil
 import 'package:durbar_physics/features/profile/presentation/screens/profile_screen.dart';
 import 'package:durbar_physics/features/settings/screens/reset_password_screen.dart';
 import 'package:durbar_physics/features/settings/screens/settings_screen.dart';
+import 'package:durbar_physics/features/zoom/presentation/zoom_web_view_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -114,8 +115,8 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: RoutePath.zoomWebView,
       name: RouteName.zoomWebView,
-      builder: (context, state) => const ZoomWebViewScreen(
-        url:
+      builder: (context, state) =>  ZoomWebViewPage(
+        zoomUrl:
             'https://us04web.zoom.us/j/3117772972?pwd=oQOKC681rjGaeyA8ZiixJe8T2sW9pN.1',
       ),
     ),

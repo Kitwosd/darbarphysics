@@ -19,6 +19,7 @@ class LiveClassThumbnailWidget extends StatelessWidget {
         Container(
           width: 100.w,
           height: 75.h,
+
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8.r),
             gradient: LinearGradient(
@@ -28,11 +29,12 @@ class LiveClassThumbnailWidget extends StatelessWidget {
             ),
           ),
           child: ClipRRect(
+            clipBehavior: Clip.antiAlias,
             borderRadius: BorderRadius.circular(8.r),
             child: liveClass.thumbnail.isNotEmpty
                 ? Image.network(
                     liveClass.thumbnail,
-                    fit: BoxFit.cover,
+                    fit: BoxFit.fill,
                     errorBuilder: (_, __, ___) => _buildPlaceholder(),
                   )
                 : _buildPlaceholder(),

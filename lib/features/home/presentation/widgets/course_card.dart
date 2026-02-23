@@ -16,8 +16,11 @@ class CourseCard extends StatelessWidget {
         NavigationService.pushNamed(RouteName.detailScreen, extra: course.id);
       },
       child: Card(
-        margin: EdgeInsets.only(bottom: 16.h),
+        margin: EdgeInsets.only(),
+        borderOnForeground: true,
+
         elevation: 4,
+        clipBehavior: Clip.antiAlias,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.r),
         ),
