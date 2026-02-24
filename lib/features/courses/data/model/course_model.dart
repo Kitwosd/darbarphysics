@@ -1,3 +1,4 @@
+import 'package:durbar_physics/core/logger/app_logger.dart';
 import 'package:equatable/equatable.dart';
 
 class CourseModel extends Equatable {
@@ -25,19 +26,22 @@ class CourseModel extends Equatable {
     required this.isUserLocked,
   });
 
-  factory CourseModel.fromJson(Map<String, dynamic> json) => CourseModel(
-    id: json["id"] as int,
-    title: json["title"] ?? '',
-    description: json["description"] ?? '',
-    cost: json["cost"] ?? '0.00',
-    image: json["image"] ?? '',
-    rating: (json["rating"] as num?)?.toDouble() ?? 0.0,
+  factory CourseModel.fromJson(Map<String, dynamic> json) {
+    logger.d("ID: ${json["id"]}, Rating: ${json["rating"]}");
+    return CourseModel(
+      id: json["id"] as int,
+      title: json["title"] ?? '',
+      description: json["description"] ?? '',
+      cost: json["cost"] ?? '0.00',
+      image: json["image"] ?? '',
+      rating: (json["rating"] as num?)?.toDouble() ?? 0.0,
 
-    studentCount: json["studentCount"] ?? 0,
-    lessonCount: json["lessonCount"] ?? 0,
-    liveClassCount: json["liveclassCount"] ?? 0,
-    isUserLocked: json["is_user_locked"] ?? false,
-  );
+      studentCount: json["studentCount"] ?? 0,
+      lessonCount: json["lessonCount"] ?? 0,
+      liveClassCount: json["liveclassCount"] ?? 0,
+      isUserLocked: json["is_user_locked"] ?? false,
+    );
+  }
 
   Map<String, dynamic> toJson() => {
     "id": id,

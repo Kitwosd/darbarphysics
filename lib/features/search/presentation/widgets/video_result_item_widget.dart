@@ -17,17 +17,19 @@ class VideoResultItemWidget extends StatelessWidget {
     return InkWell(
       onTap: () {
         if (video.isUserLocked) {
-          EnrollmentDialogWidget.show(
-            context,
-            forVideo: true,
-            onGoToCourse: () => {
-              NavigationService.pushNamedReplacement(
-                RouteName.detailScreen,
-                //TODO: yeha course id dinu parxa sab video haru ma dinu  parne hola do check other video player routes as well
-                extra: 42, //extra: video.courseId,
-              ),
-            },
-          );
+          if (video.course != null) {
+            EnrollmentDialogWidget.show(
+              context,
+              forVideo: true,
+              onGoToCourse: () => {
+                NavigationService.pushNamedReplacement(
+                  RouteName.detailScreen,
+                  //TODO: yeha course id dinu parxa sab video haru ma dinu  parne hola do check other video player routes as well
+                  extra: video.course, //extra: video.courseId,
+                ),
+              },
+            );
+          }
 
           return;
         }

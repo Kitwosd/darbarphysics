@@ -1,5 +1,6 @@
 import 'package:durbar_physics/core/routing/navigation_service.dart';
 import 'package:durbar_physics/core/routing/route_name.dart';
+import 'package:durbar_physics/core/services/app_globals.dart';
 import 'package:durbar_physics/features/courses/data/model/course_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,6 +12,7 @@ class CourseCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isFree = (double.tryParse(course.cost) ?? 0) == 0;
     return GestureDetector(
       onTap: () {
         NavigationService.pushNamed(RouteName.detailScreen, extra: course.id);
@@ -31,7 +33,7 @@ class CourseCard extends StatelessWidget {
               borderRadius: BorderRadius.vertical(top: Radius.circular(12.r)),
               child: Image.network(
                 course.image,
-                height: 100.h,
+                height: 120.h,
                 width: double.infinity,
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) => SizedBox(
@@ -41,7 +43,7 @@ class CourseCard extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(8.w),
+              padding: EdgeInsets.symmetric(vertical: 4.h, horizontal: 8.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -49,20 +51,21 @@ class CourseCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Design", // Mock Category
+                        isFree ? "Free" : 'Paid', // Mock Category
                         style: TextStyle(
-                          color: Colors.orange,
-                          fontSize: 10.sp,
+                          color: isFree ? appColors.primary : Colors.orange,
+                          fontSize: 12.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Row(
                         children: [
                           Icon(Icons.star, size: 12.sp, color: Colors.amber),
+                          4.horizontalSpace,
                           Text(
-                            " 4.5",
+                            '${course.rating}',
                             style: TextStyle(
-                              fontSize: 10.sp,
+                              fontSize: 12.sp,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -70,20 +73,25 @@ class CourseCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: 5.h),
-                  Text(
-                    course.title,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14.sp,
+
+                  SizedBox(
+                    height: 55.h,
+                    child: Center(
+                      child: Text(
+                        course.title,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14.sp,
+                        ),
+                      ),
                     ),
                   ),
-                  SizedBox(height: 5.h),
+
                   Text(
-                    "Generator on there Internet tend", // Mock Description
-                    maxLines: 1,
+                    course.description,
+                    maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(fontSize: 10.sp, color: Colors.grey),
                   ),

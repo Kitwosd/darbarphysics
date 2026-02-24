@@ -21,10 +21,11 @@ class HomeCoursesList extends StatelessWidget {
           );
         } else if (state.status == ApiDataStatus.success) {
           return SizedBox(
-            height: 240.h,
+            height: 244.h,
             child: ListView.separated(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
               scrollDirection: Axis.horizontal,
+              clipBehavior: Clip.none,
               itemCount: state.coursesList.length + 1,
               separatorBuilder: (context, index) => SizedBox(width: 15.w),
               itemBuilder: (context, index) {

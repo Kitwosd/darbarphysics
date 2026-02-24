@@ -1,10 +1,12 @@
 import 'package:durbar_physics/common/widgets/numbering_widget.dart';
 import 'package:durbar_physics/common/widgets/text_widget.dart';
+import 'package:durbar_physics/core/logger/app_logger.dart';
 import 'package:durbar_physics/core/routing/navigation_service.dart';
 import 'package:durbar_physics/core/routing/route_name.dart';
 import 'package:durbar_physics/core/services/app_globals.dart';
 import 'package:durbar_physics/features/courses/data/model/course_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CourseResultItemWidget extends StatelessWidget {
@@ -72,21 +74,26 @@ class CourseResultItemWidget extends StatelessWidget {
                           ),
                           4.horizontalSpace,
                           TextWidget(
-                            word: course.rating.toString(),
+                            word: '${course.rating}',
                             size: 12,
                             weight: FontWeight.w600,
                           ),
                           16.horizontalSpace,
+                          Spacer(),
                           Icon(
                             Icons.people,
                             size: 14.sp,
                             color: Theme.of(context).hintColor,
                           ),
                           4.horizontalSpace,
+
                           TextWidget(
-                            word: '${course.studentCount} students',
+                            word: (double.tryParse(course.cost) ?? 0) == 0
+                                ? 'All Students'
+                                : '${course.studentCount} students',
                             size: 14,
                           ),
+                          10.horizontalSpace,
                         ],
                       ),
                       4.verticalSpace,
@@ -96,6 +103,7 @@ class CourseResultItemWidget extends StatelessWidget {
                           4.horizontalSpace,
                           TextWidget(word: '${course.lessonCount}', size: 14),
                           8.horizontalSpace,
+                          Spacer(),
                           Container(
                             padding: EdgeInsets.all(8.w),
                             decoration: BoxDecoration(
@@ -103,13 +111,14 @@ class CourseResultItemWidget extends StatelessWidget {
                               borderRadius: BorderRadius.circular(8.r),
                             ),
                             child: TextWidget(
-                              word: course.cost == '0.00'
+                              word: (double.tryParse(course.cost) ?? 0) == 0
                                   ? 'Free'
                                   : 'NRs. ${course.cost}',
                               size: 14,
                               textColor: appColors.primary,
                             ),
                           ),
+                          10.horizontalSpace,
                         ],
                       ),
                     ],
@@ -130,6 +139,10 @@ class CourseResultItemWidget extends StatelessWidget {
     required double height,
     required double width,
   }) {
+    String imagePath = course.image;
+    if (!imagePath.startsWith('http')) {
+      imagePath = '${dotenv.env['BASE_THUMBNAIL_URL']}$imagePath';
+    }
     return Container(
       width: width,
       height: height,
@@ -145,11 +158,13 @@ class CourseResultItemWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.r),
         child: course.image.isNotEmpty
             ? Image.network(
-                course.image,
+                imagePath,
                 fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) => Center(
-                  child: Icon(Icons.school, size: 32.sp, color: Colors.white),
-                ),
+                errorBuilder: (context, error, ___) {
+                  return Center(
+                    child: Icon(Icons.school, size: 32.sp, color: Colors.white),
+                  );
+                },
               )
             : Center(
                 child: Icon(Icons.school, size: 32.sp, color: Colors.white),

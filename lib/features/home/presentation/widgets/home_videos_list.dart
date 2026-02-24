@@ -28,6 +28,7 @@ class HomeVideosList extends StatelessWidget {
                 child: ListView.separated(
                   padding: EdgeInsets.symmetric(horizontal: 20.w),
                   scrollDirection: Axis.horizontal,
+                  clipBehavior: Clip.none,
                   itemCount: state.videos.length + 1,
                   separatorBuilder: (context, index) => SizedBox(width: 15.w),
                   itemBuilder: (context, index) {

@@ -34,7 +34,6 @@ class LiveClassModel extends Equatable {
     String thumbnailPath = json['thumbnail'];
     if (thumbnailPath.isNotEmpty && !thumbnailPath.startsWith('http')) {
       thumbnailPath = '$baseUrl$thumbnailPath';
-      logger.d(dotenv.env['BASE_THUMBNAIL_URL']);
     }
 
     return LiveClassModel(

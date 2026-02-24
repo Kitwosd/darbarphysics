@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class VideoModel extends Equatable {
   final int id;
@@ -23,20 +24,27 @@ class VideoModel extends Equatable {
     required this.isUserLocked,
   });
 
-  factory VideoModel.fromJson(Map<String, dynamic> json) => VideoModel(
-    id: json["id"],
-    title: json["title"],
-    // teacher: json["teacher"],
-    course: json["course"],
-    videoUrl: 'https://www.youtube.com/watch?v=K5KVEU3aaeQ',
+  factory VideoModel.fromJson(Map<String, dynamic> json) {
+    final baseUrl = dotenv.env['BASE_THUMBNAIL_URL'];
+    String thumbnailPath = json['thumbnail'] ?? '';
+    if (thumbnailPath.isNotEmpty && !thumbnailPath.startsWith('http')) {
+      thumbnailPath = '$baseUrl$thumbnailPath';
+    }
+    return VideoModel(
+      id: json["id"],
+      title: json["title"],
+      // teacher: json["teacher"],
+      course: json["course"],
+      videoUrl: 'https://www.youtube.com/watch?v=K5KVEU3aaeQ',
 
-    //TODO: remove the url mathi ko get the url from the backend only
-    // videoUrl: json["video_url"] ?? "",
-    thumbnail: json["thumbnail"] ?? "",
-    duration: json["duration"] ?? "00:00",
-    isLocked: json["isLocked"] ?? true,
-    isUserLocked: json["is_user_locked"] ?? true,
-  );
+      //TODO: remove the url mathi ko get the url from the backend only
+      // videoUrl: json["video_url"] ?? "",
+      thumbnail: thumbnailPath,
+      duration: json["duration"] ?? "00:00",
+      isLocked: json["isLocked"] ?? true,
+      isUserLocked: json["is_user_locked"] ?? true,
+    );
+  }
 
   Map<String, dynamic> toJson() => {
     "id": id,

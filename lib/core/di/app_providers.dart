@@ -1,6 +1,8 @@
 import 'package:durbar_physics/core/di/injection.dart';
 import 'package:durbar_physics/core/localization/bloc/localization_bloc.dart';
 import 'package:durbar_physics/core/theme/theme_cubit.dart';
+import 'package:durbar_physics/features/courses/presentation/bloc/banner/banner_bloc.dart';
+
 import 'package:durbar_physics/features/courses/presentation/bloc/courses/courses_bloc.dart';
 import 'package:durbar_physics/features/courses/presentation/bloc/enrolled_courses/enrolled_courses_bloc.dart';
 import 'package:durbar_physics/features/home/presentation/bloc/bookmark/courses_book_bloc/course_bookmark_bloc.dart';
@@ -16,6 +18,11 @@ List<BlocProvider> get providers => [
   // Feature Providers (Global)
   BlocProvider<CoursesBloc>(
     create: (_) => getIt<CoursesBloc>()..add(GetCoursesEvent()),
+  ),
+
+  //For banners on home screen
+  BlocProvider<BannerBloc>(
+    create: (_) => getIt<BannerBloc>()..add(GetBannerItems()),
   ),
 
   // For the bookmark to save the state of the bookmarks

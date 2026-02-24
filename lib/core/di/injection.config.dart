@@ -28,6 +28,8 @@ import '../../features/auth/presentation/signup/cubit/sign_up_cubit.dart'
     as _i408;
 import '../../features/courses/data/repo_impl/courses_repo_impl.dart' as _i801;
 import '../../features/courses/domain/repo/courses_repo.dart' as _i652;
+import '../../features/courses/presentation/bloc/banner/banner_bloc.dart'
+    as _i427;
 import '../../features/courses/presentation/bloc/courses/courses_bloc.dart'
     as _i518;
 import '../../features/courses/presentation/bloc/enrolled_courses/enrolled_courses_bloc.dart'
@@ -131,6 +133,9 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i552.SearchBloc(gh<_i1033.SearchRepo>()),
     );
     gh.factory<_i202.HomeBloc>(() => _i202.HomeBloc(gh<_i130.HomeRepo>()));
+    gh.factory<_i427.BannerBloc>(
+      () => _i427.BannerBloc(gh<_i652.CoursesRepo>()),
+    );
     gh.factory<_i878.EnrolledCoursesBloc>(
       () => _i878.EnrolledCoursesBloc(gh<_i652.CoursesRepo>()),
     );

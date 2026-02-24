@@ -44,6 +44,7 @@ class CourseOverviewTab extends StatelessWidget {
               SizedBox(width: 10.w),
               _buildStatCard(
                 context,
+                //TODO: to check if course is free not with cost zero
                 (double.tryParse(course.cost) ?? 0) == 0
                     ? 'Free Course'
                     : course.studentCount.toString(),

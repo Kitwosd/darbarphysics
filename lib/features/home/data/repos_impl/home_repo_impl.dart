@@ -60,7 +60,7 @@ class HomeRepoImpl implements HomeRepo {
   @override
   Future<PaginatedResponseModel<CourseModel>> getCourses({int page = 1}) async {
     final response = await apiClient.request(
-      path: 'courses/',
+      path: 'course/',
       method: ApiMethod.get,
       queryParameters: {'page': page},
     );

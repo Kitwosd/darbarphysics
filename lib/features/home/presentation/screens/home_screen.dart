@@ -2,6 +2,7 @@ import 'package:durbar_physics/core/di/injection.dart';
 import 'package:durbar_physics/core/routing/navigation_service.dart';
 import 'package:durbar_physics/core/routing/route_name.dart';
 import 'package:durbar_physics/core/services/app_refresh_indicator.dart';
+import 'package:durbar_physics/features/courses/presentation/bloc/banner/banner_bloc.dart';
 import 'package:durbar_physics/features/courses/presentation/bloc/courses/courses_bloc.dart';
 import 'package:durbar_physics/features/home/presentation/bloc/home_bloc.dart';
 import 'package:durbar_physics/features/home/presentation/bloc/streams/streams_bloc.dart';
@@ -23,10 +24,12 @@ class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   Future<void> _handleRefresh(BuildContext context) async {
+    context.read<BannerBloc>().add(GetBannerItems());
     context.read<HomeBloc>().add(GetHomeData());
     context.read<LiveClassesBloc>().add(GetLiveClassesEvent());
     context.read<CoursesBloc>().add(GetCoursesEvent());
     context.read<VideosBloc>().add(GetVideosEvent());
+
     // await Future.delayed(const Duration(seconds: 2));
   }
 

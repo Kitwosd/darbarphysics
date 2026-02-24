@@ -4,6 +4,8 @@ import 'package:durbar_physics/common/widgets/overlay_toast_widget.dart';
 import 'package:durbar_physics/common/widgets/text_widget.dart';
 import 'package:durbar_physics/common/widgets/thumbnail_widget.dart';
 import 'package:durbar_physics/core/logger/app_logger.dart';
+import 'package:durbar_physics/core/routing/navigation_service.dart';
+import 'package:durbar_physics/core/routing/route_name.dart';
 import 'package:durbar_physics/core/services/app_globals.dart';
 import 'package:durbar_physics/features/live_classes/data/models/live_class_detail_model.dart';
 import 'package:flutter/material.dart';
@@ -246,17 +248,17 @@ class CourseLiveClassCardWidget extends StatelessWidget {
     }
     if (isLive) {
       //Navigate to liveClassScreen
-      // NavigationService.pushNamed(
-      //   RouteName.zoomWebView,
-      //   extra: liveClass.meetingUrl,
-      // );
+      NavigationService.pushNamed(
+        RouteName.zoomWebView,
+        extra: liveClass.meetingUrl,
+      );
       logger.d('Navigated to LiveScreen: ${liveClass.meetingUrl}');
     } else {
       //Navigate to liveDetailScreen
-      // NavigationService.pushNamed(
-      //   RouteName.liveclassDetail,
-      //   extra: liveClass.id,
-      // );
+      NavigationService.pushNamed(
+        RouteName.liveclassDetail,
+        extra: liveClass.id,
+      );
     }
   }
 

@@ -45,6 +45,7 @@ class HomeLiveClassesList extends StatelessWidget {
                 height: 240.h,
                 child: ListView.separated(
                   padding: EdgeInsets.symmetric(horizontal: 20.w),
+                  clipBehavior: Clip.none,
                   scrollDirection: Axis.horizontal,
                   itemCount: state.liveClasses.length + 1,
                   separatorBuilder: (context, index) => SizedBox(width: 15.w),
@@ -208,17 +209,23 @@ class HomeLiveClassesList extends StatelessWidget {
                               ],
                             ),
                             Padding(
-                              padding: EdgeInsets.all(12.w),
+                              padding: EdgeInsets.symmetric(horizontal: 12.w),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   10.verticalSpace,
-                                  TextWidget(
-                                    word: liveClass.title,
-                                    size: 14,
-                                    weight: FontWeight.bold,
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
+                                  SizedBox(
+                                    height: 50.h,
+                                    child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: TextWidget(
+                                        word: liveClass.title,
+                                        size: 14,
+                                        weight: FontWeight.bold,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
                                   ),
                                   SizedBox(height: 4.h),
                                   Row(
