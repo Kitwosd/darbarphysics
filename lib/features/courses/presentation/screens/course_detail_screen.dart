@@ -187,43 +187,46 @@ class _CourseDetailScreenState extends State<CourseDetailScreen>
           final course = state.course!;
 
           return Scaffold(
-            body: SafeArea(
-              child: Column(
-                children: [
-                  CourseDetailHeader(course: course),
-                  Expanded(
-                    child: NestedScrollView(
-                      headerSliverBuilder: (context, innerBoxIsScrolled) => [
-                        CourseInfoSection(course: course),
-                      ],
-                      body: Column(
-                        children: [
-                          TabBar(
-                            controller: _tabController,
-                            labelColor: appColors.primary,
-                            unselectedLabelColor: Colors.grey,
-                            indicatorColor: appColors.primary,
-                            tabs: const [
-                              Tab(text: 'Overview'),
-                              Tab(text: 'Lesson'),
-                              Tab(text: 'Live'),
-                            ],
-                          ),
-                          Expanded(
-                            child: TabBarView(
+            body: GestureDetector(
+              onTap: () => FocusScope.of(context).unfocus(),
+              child: SafeArea(
+                child: Column(
+                  children: [
+                    CourseDetailHeader(course: course),
+                    Expanded(
+                      child: NestedScrollView(
+                        headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                          CourseInfoSection(course: course),
+                        ],
+                        body: Column(
+                          children: [
+                            TabBar(
                               controller: _tabController,
-                              children: [
-                                CourseOverviewTab(course: course),
-                                CourseLessonsTab(course: course),
-                                CourseLiveTab(course: course),
+                              labelColor: appColors.primary,
+                              unselectedLabelColor: Colors.grey,
+                              indicatorColor: appColors.primary,
+                              tabs: const [
+                                Tab(text: 'Overview'),
+                                Tab(text: 'Lesson'),
+                                Tab(text: 'Live'),
                               ],
                             ),
-                          ),
-                        ],
+                            Expanded(
+                              child: TabBarView(
+                                controller: _tabController,
+                                children: [
+                                  CourseOverviewTab(course: course),
+                                  CourseLessonsTab(course: course),
+                                  CourseLiveTab(course: course),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             bottomNavigationBar: state.course!.isUserLocked

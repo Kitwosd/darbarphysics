@@ -60,21 +60,24 @@ class _ScrollBarWrapperWidgetState extends State<ScrollBarWrapperWidget> {
         Positioned(
           bottom: 20.h,
           right: 20.w,
-          child: AnimatedOpacity(
-            opacity: _showScrollToTop ? 1 : 0,
-            duration: Duration(milliseconds: 200),
-            child: FloatingActionButton(
-              mini: true,
-              backgroundColor: appColors.primary,
+          child: IgnorePointer(
+            ignoring: !_showScrollToTop,
+            child: AnimatedOpacity(
+              opacity: _showScrollToTop ? 1 : 0,
+              duration: Duration(milliseconds: 200),
+              child: FloatingActionButton(
+                mini: true,
+                backgroundColor: appColors.primary,
 
-              onPressed: () {
-                _scrollController.animateTo(
-                  0,
-                  duration: Duration(milliseconds: 400),
-                  curve: Curves.easeOut,
-                );
-              },
-              child: Icon(Icons.arrow_upward, size: 20.sp),
+                onPressed: () {
+                  _scrollController.animateTo(
+                    0,
+                    duration: Duration(milliseconds: 400),
+                    curve: Curves.easeOut,
+                  );
+                },
+                child: Icon(Icons.arrow_upward, size: 20.sp),
+              ),
             ),
           ),
         ),

@@ -45,6 +45,7 @@ class HomeVideosList extends StatelessWidget {
                     final video = state.videos[index];
                     bool isDark =
                         Theme.of(context).brightness == Brightness.dark;
+                    bool canAccess = !(video.isLocked && video.isUserLocked);
 
                     return InkWell(
                       child: Container(
@@ -93,7 +94,7 @@ class HomeVideosList extends StatelessWidget {
                         ),
                       ),
                       onTap: () {
-                        if (video.isUserLocked || video.isLocked) {
+                        if (!canAccess) {
                           EnrollmentDialogWidget.show(
                             context,
                             onGoToCourse: () {

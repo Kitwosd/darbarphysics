@@ -6,7 +6,7 @@ class AppTheme {
   static ThemeData lightTheme = FlexThemeData.light(
     colors: const FlexSchemeColor(
       primary: Color(0xFF3787FF), //Brand primary
-      secondary: Color(0xFFFF9D42), //brand   
+      secondary: Color(0xFFFF9D42), //brand
       secondaryLightRef: Colors.white, // white in light
     ),
 
@@ -18,6 +18,7 @@ class AppTheme {
         greyWhite: Colors.grey,
         blackWhite: Colors.black,
         whiteBlack: Colors.white,
+        logoColor: Color(0xFFFF6600),
       ),
     ],
 
@@ -65,6 +66,7 @@ class AppTheme {
         greyWhite: Colors.white,
         blackWhite: Colors.white,
         whiteBlack: Colors.black,
+        logoColor: Color(0xFFFF6600),
       ),
     ],
     surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,

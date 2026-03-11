@@ -15,6 +15,7 @@ import 'package:durbar_physics/features/home/presentation/widgets/home_section_h
 import 'package:durbar_physics/features/home/presentation/widgets/home_videos_list.dart';
 import 'package:durbar_physics/features/live_classes/presentation/bloc/live_classes_bloc.dart';
 import 'package:durbar_physics/features/live_classes/presentation/widgets/home_live_classes_list.dart';
+import 'package:durbar_physics/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -29,7 +30,7 @@ class HomeScreen extends StatelessWidget {
     context.read<LiveClassesBloc>().add(GetLiveClassesEvent());
     context.read<CoursesBloc>().add(GetCoursesEvent());
     context.read<VideosBloc>().add(GetVideosEvent());
-
+    context.read<ProfileCubit>().getProfile();
     // await Future.delayed(const Duration(seconds: 2));
   }
 

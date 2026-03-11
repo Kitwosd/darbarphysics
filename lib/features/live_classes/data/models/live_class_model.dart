@@ -1,4 +1,3 @@
-import 'package:durbar_physics/core/logger/app_logger.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 

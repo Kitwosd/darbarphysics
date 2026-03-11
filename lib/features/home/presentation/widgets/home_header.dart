@@ -21,8 +21,12 @@ class HomeHeader extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(8.w),
             decoration: BoxDecoration(
-              color: Theme.of(context).cardColor,
+              color: Color(0xFFFF6600),
               borderRadius: BorderRadius.circular(12.r),
+              gradient: LinearGradient(colors: [
+                 Color(0xFFFF6600), // main orange
+        Color(0xFFFF7F33).withValues(alpha:0.85), 
+              ]),
               boxShadow: [
                 BoxShadow(
                   color: Theme.of(context).shadowColor.withValues(alpha: 0.1),
@@ -32,7 +36,7 @@ class HomeHeader extends StatelessWidget {
               ],
             ),
             child: Image.asset(
-              'assets/images/logo_with_name.png',
+              'assets/images/finalLogo.png',
               fit: BoxFit.cover,
               height: 32.h,
               width: 32.w,

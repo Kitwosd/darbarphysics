@@ -34,6 +34,8 @@ import '../../features/courses/presentation/bloc/courses/courses_bloc.dart'
     as _i518;
 import '../../features/courses/presentation/bloc/enrolled_courses/enrolled_courses_bloc.dart'
     as _i878;
+import '../../features/courses/presentation/bloc/review/review_bloc.dart'
+    as _i710;
 import '../../features/home/data/repos_impl/home_repo_impl.dart' as _i386;
 import '../../features/home/domain/repos/home_repo.dart' as _i130;
 import '../../features/home/presentation/bloc/bookmark/courses_book_bloc/course_bookmark_bloc.dart'
@@ -138,6 +140,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i878.EnrolledCoursesBloc>(
       () => _i878.EnrolledCoursesBloc(gh<_i652.CoursesRepo>()),
+    );
+    gh.factory<_i710.ReviewBloc>(
+      () => _i710.ReviewBloc(gh<_i652.CoursesRepo>()),
     );
     gh.factory<_i280.LiveClassesBloc>(
       () => _i280.LiveClassesBloc(gh<_i1021.LiveClassesRepo>()),

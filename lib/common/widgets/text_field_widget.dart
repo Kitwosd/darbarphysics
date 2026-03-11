@@ -17,6 +17,9 @@ class TextFieldWidget extends StatelessWidget {
   final bool? obscureIcon;
   final bool obscureText; // NEW PARAMETER
   final double? borderRadius;
+  final int? maxLines; //New
+  final double? verticalPadding;
+  final double? horizontalPadding;
 
   TextFieldWidget({
     super.key,
@@ -34,6 +37,9 @@ class TextFieldWidget extends StatelessWidget {
     this.obscureIcon = false,
     this.obscureText = false,
     this.borderRadius, // default false
+    this.maxLines,
+    this.verticalPadding,
+    this.horizontalPadding,
   });
 
   final ValueNotifier<bool> _obscurePassword = ValueNotifier(true);
@@ -69,6 +75,7 @@ class TextFieldWidget extends StatelessWidget {
       initialValue: initialValue,
       obscureText: isObscure,
       keyboardType: inputType,
+      maxLines: maxLines ?? 1,
 
       enabled: enabled,
       onChanged: (value) => onChanged?.call(value),
@@ -77,7 +84,10 @@ class TextFieldWidget extends StatelessWidget {
         hintText: hintText,
         hintStyle: TextStyle(fontSize: 16.sp, color: Colors.grey[500]),
 
-        contentPadding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 0.h),
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: 8.w,
+          vertical: verticalPadding ?? 0.h,
+        ),
         border: OutlineInputBorder(
           borderSide: BorderSide(
             color: effectiveBorderColor,

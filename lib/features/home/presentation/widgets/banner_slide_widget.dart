@@ -25,7 +25,7 @@ class BannerSlideWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(20.r),
           boxShadow: [
             BoxShadow(
-              color: colorScheme.shadow.withOpacity(0.25),
+              color: colorScheme.shadow.withValues(alpha: 0.25),
               blurRadius: 12,
               spreadRadius: 0,
               offset: const Offset(0, 4),
@@ -49,14 +49,14 @@ class BannerSlideWidget extends StatelessWidget {
                       Icon(
                         Icons.broken_image_rounded,
                         size: 40.sp,
-                        color: colorScheme.onSurfaceVariant.withOpacity(0.5),
+                        color: colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
                       ),
                       SizedBox(height: 8.h),
                       Text(
                         'Image unavailable',
                         style: TextStyle(
                           fontSize: 12.sp,
-                          color: colorScheme.onSurfaceVariant.withOpacity(0.5),
+                          color: colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
                         ),
                       ),
                     ],
@@ -137,7 +137,7 @@ class BannerSlideWidget extends StatelessWidget {
                           'Tap to explore',
                           style: TextStyle(
                             fontSize: 11.sp,
-                            color: Colors.white.withOpacity(0.75),
+                            color: Colors.white.withValues(alpha: 0.75),
                             fontWeight: FontWeight.w400,
                           ),
                         ),
@@ -145,7 +145,7 @@ class BannerSlideWidget extends StatelessWidget {
                         Icon(
                           Icons.arrow_forward_rounded,
                           size: 12.sp,
-                          color: Colors.white.withOpacity(0.75),
+                          color: Colors.white.withValues(alpha: 0.75),
                         ),
                       ],
                     ),

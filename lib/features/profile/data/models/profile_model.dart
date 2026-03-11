@@ -18,7 +18,6 @@ class ProfileModel {
   final String? bio;
   final String? profilePicture;
   final String? academicLevel;
-  final String? course;
 
   ProfileModel({
     required this.id,
@@ -29,7 +28,6 @@ class ProfileModel {
     this.bio,
     this.profilePicture,
     this.academicLevel,
-    this.course,
   });
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) => ProfileModel(
@@ -41,7 +39,6 @@ class ProfileModel {
     bio: json["bio"],
     profilePicture: json["profile_picture"],
     academicLevel: json["academic_level"],
-    course: json["course"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -53,7 +50,6 @@ class ProfileModel {
     "bio": bio,
     "profile_picture": profilePicture,
     "academic_level": academicLevel,
-    "course": course,
   };
 
   ProfileModel copyWith({
@@ -65,7 +61,6 @@ class ProfileModel {
     String? bio,
     String? profilePicture,
     String? academicLevel,
-    String? course,
   }) {
     return ProfileModel(
       id: id ?? this.id,

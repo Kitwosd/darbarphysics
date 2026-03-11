@@ -38,7 +38,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       text: widget.profile.academicLevel,
     );
     context.read<ProfileCubit>().clearErrors();
-    
   }
 
   @override
@@ -235,7 +234,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       bio: _bioController.text,
       profilePicture: widget.profile.profilePicture,
       academicLevel: _academicLevelController.text,
-      course: widget.profile.course,
     );
     cubit.updateProfile(updatedModel);
   }

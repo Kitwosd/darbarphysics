@@ -1,9 +1,8 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:image_picker/image_picker.dart';
-import 'package:injectable/injectable.dart';
 
 import 'package:durbar_physics/common/enums/enums.dart';
 import 'package:durbar_physics/features/profile/data/models/profile_model.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:injectable/injectable.dart';
 
 @injectable
 class ProfileState {

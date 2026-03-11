@@ -135,7 +135,7 @@ class _ZoomWebViewViewState extends State<_ZoomWebViewView> {
     _triggerZoomLeaveButton();
 
     // Fallback: if Zoom hasn't navigated away within 8 seconds, force pop.
-    Future.delayed(const Duration(seconds: 8), () {
+    Future.delayed(const Duration(milliseconds: 1500), () {
       if (mounted) Navigator.of(context).pop();
     });
   }

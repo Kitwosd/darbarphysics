@@ -5,6 +5,7 @@ import 'package:durbar_physics/common/widgets/scroll_bar_wrapper_widget.dart';
 import 'package:durbar_physics/core/di/injection.dart';
 import 'package:durbar_physics/core/routing/navigation_service.dart';
 import 'package:durbar_physics/core/routing/route_name.dart';
+import 'package:durbar_physics/core/services/app_refresh_indicator.dart';
 import 'package:durbar_physics/features/courses/presentation/bloc/enrolled_courses/enrolled_courses_bloc.dart';
 import 'package:durbar_physics/features/courses/presentation/widgets/enrolled_course_card_widget.dart';
 import 'package:durbar_physics/features/courses/presentation/widgets/enrolled_screen_header_widget.dart';
@@ -54,34 +55,40 @@ class _EnrolledCourseScreenState extends State<EnrolledCourseScreen> {
                       Expanded(
                         child: ScrollBarWrapperWidget(
                           controller: scrollController,
-                          child: ListView.separated(
-                            controller: scrollController,
-                            padding: EdgeInsets.all(16.w),
-                            // gridDelegate:
-                            //     const SliverGridDelegateWithFixedCrossAxisCount(
-                            //       crossAxisCount: 1,
-                            //       childAspectRatio: 0.68,
-                            //       crossAxisSpacing: 16,
-                            //       mainAxisSpacing: 16,
-                            //     ),
-                            itemCount: state.enrolledCourses.length,
-                            itemBuilder: (context, index) {
-                              final course = state.enrolledCourses[index];
-                              return EnrolledCourseCardWidget(
-                                courseIndex: index,
-                                course: course,
-                                onTap: () {
-                                  NavigationService.pushNamed(
-                                    RouteName.detailScreen,
-                                    extra: course.id,
-                                  );
-                                },
-                              );
-                            },
-                            separatorBuilder:
-                                (BuildContext context, int index) {
-                                  return 16.verticalSpace;
-                                },
+                          child: AppRefreshIndicator(
+                            onRefresh: () async => context
+                                .read<EnrolledCoursesBloc>()
+                                .add(GetEnrolledCoursesEvent()),
+                            child: ListView.separated(
+                              controller: scrollController,
+                              physics: AlwaysScrollableScrollPhysics(),
+                              padding: EdgeInsets.all(16.w),
+                              // gridDelegate:
+                              //     const SliverGridDelegateWithFixedCrossAxisCount(
+                              //       crossAxisCount: 1,
+                              //       childAspectRatio: 0.68,
+                              //       crossAxisSpacing: 16,
+                              //       mainAxisSpacing: 16,
+                              //     ),
+                              itemCount: state.enrolledCourses.length,
+                              itemBuilder: (context, index) {
+                                final course = state.enrolledCourses[index];
+                                return EnrolledCourseCardWidget(
+                                  courseIndex: index,
+                                  course: course,
+                                  onTap: () {
+                                    NavigationService.pushNamed(
+                                      RouteName.detailScreen,
+                                      extra: course.id,
+                                    );
+                                  },
+                                );
+                              },
+                              separatorBuilder:
+                                  (BuildContext context, int index) {
+                                    return 16.verticalSpace;
+                                  },
+                            ),
                           ),
                         ),
                       ),

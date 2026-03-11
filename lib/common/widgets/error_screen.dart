@@ -60,6 +60,8 @@ class _ErrorScreenState extends State<ErrorScreen>
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 32.w),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   180.verticalSpace,
                   //Broken Robot Showing
@@ -72,6 +74,7 @@ class _ErrorScreenState extends State<ErrorScreen>
                     size: 32,
                     weight: FontWeight.w700,
                     textColor: const Color(0xFF333333),
+                    overflow: TextOverflow.visible,
                   ),
                   16.verticalSpace,
 

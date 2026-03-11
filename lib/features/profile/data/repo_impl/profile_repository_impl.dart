@@ -17,6 +17,7 @@ class ProfileRepositoryImpl implements ProfileRepo {
       path: 'profile/',
       method: ApiMethod.get,
     );
+    print(response);
     return ProfileModel.fromJson(response);
   }
 
@@ -53,7 +54,6 @@ class ProfileRepositoryImpl implements ProfileRepo {
     }
 
     dynamic data = FormData.fromMap(formDataMap); //always multipart
-
 
     final response = await _apiClient.request(
       path: 'profile/',

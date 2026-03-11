@@ -1,3 +1,4 @@
+import 'package:durbar_physics/common/widgets/error_screen.dart';
 import 'package:durbar_physics/common/widgets/overlay_toast_widget.dart';
 import 'package:durbar_physics/common/widgets/text_widget.dart';
 import 'package:durbar_physics/features/home/data/models/video_model.dart';
@@ -19,6 +20,7 @@ class YoutubeVideoPlayerScreen extends StatefulWidget {
 class _YoutubeVideoPlayerScreenState extends State<YoutubeVideoPlayerScreen> {
   late YoutubePlayerController _controller;
   late String _videoId;
+  bool _hasError = false;
 
   @override
   void initState() {
@@ -27,7 +29,8 @@ class _YoutubeVideoPlayerScreenState extends State<YoutubeVideoPlayerScreen> {
     _videoId = YoutubePlayer.convertUrlToId(widget.video.videoUrl) ?? '';
 
     if (_videoId.isEmpty) {
-      throw Exception('Invalid Youtube URL');
+      _hasError = true;
+      return;
     }
 
     _controller = YoutubePlayerController(
@@ -45,12 +48,20 @@ class _YoutubeVideoPlayerScreenState extends State<YoutubeVideoPlayerScreen> {
 
   @override
   void dispose() {
-    _controller.dispose();
+    if (!_hasError) _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    if (_hasError) {
+      return ErrorScreen(
+        errorTitle: 'Video is unavailable',
+        errorMessage: 'The video URL is invalid or unsupported',
+        homeButtonText: 'Go back',
+        onGoHome: () => Navigator.pop(context),
+      );
+    }
     return YoutubePlayerBuilder(
       player: YoutubePlayer(
         controller: _controller,
@@ -120,10 +131,12 @@ class _YoutubeVideoPlayerScreenState extends State<YoutubeVideoPlayerScreen> {
   }
 
   Widget _buildVideoInfo() {
-    return Padding(
+    return Container(
       padding: EdgeInsets.all(16.w),
+      width: double.infinity,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           TextWidget(
             word: widget.video.title,

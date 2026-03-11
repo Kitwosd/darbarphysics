@@ -68,20 +68,44 @@ class SavedVideosListWidget extends StatelessWidget {
                         width: 80.w,
                         fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) => Center(
-                          child: Icon(
-                            Icons.play_circle_filled,
-                            size: 40.sp,
-                            color: Colors.red[300],
+                          child: Container(
+                            height: 80.h,
+                            width: 80.w,
+
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                width: 0.5,
+                                color: Theme.of(context).cardColor,
+                              ),
+                            ),
+                            child: Center(
+                              child: Icon(
+                                Icons.play_circle_filled,
+                                size: 40.sp,
+                                color: Colors.red[300],
+                              ),
+                            ),
                           ),
                         ),
                       ),
                     )
                   else
-                    Center(
-                      child: Icon(
-                        Icons.play_circle_filled,
-                        size: 40.sp,
-                        color: Colors.red[600],
+                    Container(
+                      height: 80.h,
+                      width: 80.w,
+
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 0.5,
+                          color: Theme.of(context).cardColor,
+                        ),
+                      ),
+                      child: Center(
+                        child: Icon(
+                          Icons.play_circle_filled,
+                          size: 40.sp,
+                          color: Colors.red[600],
+                        ),
                       ),
                     ),
 
