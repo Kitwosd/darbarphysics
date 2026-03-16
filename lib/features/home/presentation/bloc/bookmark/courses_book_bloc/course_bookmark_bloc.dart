@@ -22,6 +22,7 @@ class CourseBookmarkBloc
     on<LoadBookmarkCoursesEvent>(_onLoadBookmarkCoursesEvent);
     on<CheckBookmarkStatus>(_onCheckBookmarkStatus);
     on<ResetBookmarkToastResultEvent>(_onResetBookmarkToastResultEvent);
+    on<ClearAllCoursesBookmarkEvent>(_onClearAllCoursesBookmarkEvent); // ADDED: Clear event listener
   }
 
   FutureOr<void> _onAddCourseEvent(
@@ -99,5 +100,13 @@ class CourseBookmarkBloc
     Emitter<CourseBookmarkState> emit,
   ) {
     emit(state.copyWith(showToast: false, wasAdded: true));
+  }
+
+  // ADDED: Handler to clear state on logout
+  FutureOr<void> _onClearAllCoursesBookmarkEvent(
+    ClearAllCoursesBookmarkEvent event,
+    Emitter<CourseBookmarkState> emit,
+  ) {
+    emit(state.copyWith(courses: [], bookmarkIds: {}, showToast: false));
   }
 }

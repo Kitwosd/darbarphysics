@@ -2,6 +2,7 @@ import 'package:durbar_physics/core/network/api_client.dart';
 import 'package:durbar_physics/core/network/paginated_response_model.dart';
 import 'package:durbar_physics/features/courses/data/model/banner_model.dart';
 import 'package:durbar_physics/features/courses/data/model/course_model.dart';
+import 'package:durbar_physics/features/courses/data/model/document_model.dart';
 import 'package:durbar_physics/features/courses/domain/repo/courses_repo.dart';
 import 'package:durbar_physics/features/courses/data/model/course_review/post_review_model.dart';
 import 'package:durbar_physics/features/courses/data/model/course_review/review_model.dart';
@@ -54,5 +55,22 @@ class CoursesRepoImpl implements CoursesRepo {
       data: model.toJson(),
     );
     return response['message']?.toString() ?? 'Sucessfully reviewed';
+  }
+
+  @override
+  Future<PaginatedResponseModel<DocumentModel>> getDocuments(
+    int courseId, {
+    int page = 1,
+  }) async {
+    final response = await apiClient.request(
+      path: 'course/$courseId/notes',
+      method: ApiMethod.get,
+      queryParameters: {'page': page},
+    );
+
+    return PaginatedResponseModel.fromJson(
+      response,
+      (json) => DocumentModel.fromJson(json),
+    );
   }
 }

@@ -15,6 +15,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
+import 'package:durbar_physics/features/home/presentation/bloc/bookmark/courses_book_bloc/course_bookmark_bloc.dart'; // ADDED: import for course bookmark bloc
+import 'package:durbar_physics/features/home/presentation/bloc/bookmark/videos_bookmark/videos_bookmark_bloc.dart'; // ADDED: import for video bookmark bloc
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -145,6 +147,10 @@ class SettingsScreen extends StatelessWidget {
 
                 await hiveCourseService.clearAll();
                 await hiveVideoService.clearAll();
+
+                // ADDED: Dispatch clear events to reset BLoC state
+                context.read<CourseBookmarkBloc>().add(ClearAllCoursesBookmarkEvent());
+                context.read<VideosBookmarkBloc>().add(ClearAllVideosBookmarkEvent());
 
                 NavigationService.pushNamedReplacement(RouteName.login);
               }),

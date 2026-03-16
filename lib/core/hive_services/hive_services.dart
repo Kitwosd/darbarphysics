@@ -8,13 +8,13 @@ class HiveServices {
     await Hive.initFlutter();
 
     //Register adapters
-    if (!Hive.isAdapterRegistered(2)) {
+   if (!Hive.isAdapterRegistered(2)) {
       //TODO: Hive uncomment when everything is finished
       Hive.registerAdapter(CourseHiveModelAdapter());
     }
     if (!Hive.isAdapterRegistered(1)) {
       Hive.registerAdapter(VideoHiveModelAdapter());
-    }
+    } 
 
     //Open boxes
     await Hive.openBox('authBox');

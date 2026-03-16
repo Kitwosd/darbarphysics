@@ -28,7 +28,9 @@ extension HiveToCourse on CourseHiveModel {
     studentCount: studentCount,
     lessonCount: lessonCount,
     liveClassCount: liveClassCount,
-    isUserLocked: isUserLocked
+    isUserLocked: isUserLocked,
+    streams: [],
+    streamNames: [],
   );
 }
 
@@ -44,6 +46,6 @@ extension CourseDetailToHive on CourseDetailModel {
     studentCount: studentCount,
     lessonCount: lessonCount,
     liveClassCount: liveClassCount,
-    isUserLocked: isUserLocked
+    isUserLocked: isUserLocked,
   );
 }

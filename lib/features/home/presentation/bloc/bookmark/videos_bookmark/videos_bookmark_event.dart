@@ -18,3 +18,6 @@ class RemoveVideoEvent extends VideosBookmarkEvent {
 }
 
 class LoadVideosEvent extends VideosBookmarkEvent {}
+
+// ADDED: clear state event
+class ClearAllVideosBookmarkEvent extends VideosBookmarkEvent {}

@@ -1,3 +1,4 @@
+import 'package:durbar_physics/common/widgets/enrollment_dialog_widget.dart';
 import 'package:durbar_physics/common/widgets/text_widget.dart';
 import 'package:durbar_physics/core/routing/navigation_service.dart';
 import 'package:durbar_physics/core/routing/route_name.dart';
@@ -43,6 +44,18 @@ class LiveClassActionButtonWidget extends StatelessWidget {
   Widget _buildJoinLiveButton(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
+        if (liveClass.isUserLocked) {
+          EnrollmentDialogWidget.show(
+            context,
+            onGoToCourse: () => {
+              NavigationService.pushNamed(
+                RouteName.detailScreen,
+                extra: liveClass.course,
+              ),
+            },
+          );
+          return;
+        }
         NavigationService.pushNamed(
           RouteName.zoomWebView,
           extra: {'url': liveClass.meetingUrl},
@@ -57,7 +70,7 @@ class LiveClassActionButtonWidget extends StatelessWidget {
         ),
         elevation: 0,
       ),
-      child: Row(  
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(Icons.videocam, size: 20.sp),

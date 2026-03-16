@@ -25,3 +25,6 @@ class CheckBookmarkStatus extends CourseBookmarkEvent {
 }
 
 class ResetBookmarkToastResultEvent extends CourseBookmarkEvent {}
+
+// ADDED: clear state event 
+class ClearAllCoursesBookmarkEvent extends CourseBookmarkEvent {}

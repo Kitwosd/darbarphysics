@@ -22,6 +22,7 @@ class VideosBookmarkBloc
     on<AddVideoEvent>(_onAddVideoEvent);
     on<RemoveVideoEvent>(_onRemoveVideoEvent);
     on<LoadVideosEvent>(_onLoadVideosEvent);
+    on<ClearAllVideosBookmarkEvent>(_onClearAllVideosBookmarkEvent); // ADDED: Clear event listener
   }
 
   FutureOr<void> _onAddVideoEvent(
@@ -66,5 +67,13 @@ class VideosBookmarkBloc
       );
       emit(state.copyWith(videoIds: {}, videos: []));
     }
+  }
+
+  // ADDED: Handler to clear state on logout
+  FutureOr<void> _onClearAllVideosBookmarkEvent(
+    ClearAllVideosBookmarkEvent event,
+    Emitter<VideosBookmarkState> emit,
+  ) {
+    emit(state.copyWith(videos: [], videoIds: {}));
   }
 }

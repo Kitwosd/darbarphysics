@@ -45,6 +45,7 @@ class HomeVideosList extends StatelessWidget {
                     final video = state.videos[index];
                     bool isDark =
                         Theme.of(context).brightness == Brightness.dark;
+                        //TODO:video video.isLocked && video.isUserLocked
                     bool canAccess = !(video.isLocked && video.isUserLocked);
 
                     return InkWell(

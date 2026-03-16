@@ -14,9 +14,10 @@ class VideoResultItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool canAccess = !(video.isLocked && video.isUserLocked);
     return InkWell(
       onTap: () {
-        if (video.isUserLocked) {
+        if (!canAccess) {
           if (video.course != null) {
             EnrollmentDialogWidget.show(
               context,
@@ -35,12 +36,8 @@ class VideoResultItemWidget extends StatelessWidget {
         }
 
         NavigationService.pushNamed(
-          RouteName.videoPlayer,
-          extra: VideoPlayerArgs(
-            video: video,
-            videoUrl: video.videoUrl,
-            videoTitle: video.title,
-          ),
+          RouteName.youtubeVideoPlayerScreen,
+          extra: video,
         );
       },
       borderRadius: BorderRadius.circular(12.r),
@@ -97,22 +94,30 @@ class VideoResultItemWidget extends StatelessWidget {
                             vertical: 2.h,
                           ),
                           decoration: BoxDecoration(
-                            color: Colors.orange.shade50,
+                            color: !canAccess
+                                ? Colors.orange[50]
+                                : Colors.green[100],
                             borderRadius: BorderRadius.circular(10.r),
                           ),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Icon(
-                                Icons.lock,
+                                !canAccess
+                                    ? Icons.face_unlock_outlined
+                                    : Icons.lock,
                                 size: 10.sp,
-                                color: Colors.orange.shade700,
+                                color: !canAccess
+                                    ? Colors.orange[900]
+                                    : Colors.green[900],
                               ),
                               SizedBox(width: 4.w),
                               TextWidget(
-                                word: 'Locked',
+                                word: !canAccess ? 'LOCKED' : 'UNLOCKED',
                                 size: 10,
-                                textColor: Colors.orange.shade700,
+                                textColor: !canAccess
+                                    ? Colors.orange[900]
+                                    : Colors.green[900],
                               ),
                             ],
                           ),

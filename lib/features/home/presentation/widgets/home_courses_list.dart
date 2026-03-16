@@ -21,7 +21,7 @@ class HomeCoursesList extends StatelessWidget {
           );
         } else if (state.status == ApiDataStatus.success) {
           return SizedBox(
-            height: 244.h,
+            height: 285.h,
             child: ListView.separated(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
               scrollDirection: Axis.horizontal,

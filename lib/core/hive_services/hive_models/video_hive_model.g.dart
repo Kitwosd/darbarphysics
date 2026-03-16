@@ -1,3 +1,4 @@
+
 part of 'video_hive_model.dart';
 
 class VideoHiveModelAdapter extends TypeAdapter<VideoHiveModel> {
