@@ -1,6 +1,7 @@
 import 'package:durbar_physics/common/widgets/scroll_bar_wrapper_widget.dart';
 import 'package:durbar_physics/common/widgets/text_widget.dart';
 import 'package:durbar_physics/features/courses/data/model/course_detail_model.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 import 'package:durbar_physics/features/courses/presentation/widgets/course_review/review_section.dart';
 
@@ -18,6 +19,8 @@ class CourseOverviewTab extends StatefulWidget {
 
 class _CourseOverviewTabState extends State<CourseOverviewTab> {
   late final ScrollController _controller;
+  bool _isExpanded = false;
+
   @override
   void initState() {
     super.initState();
@@ -50,11 +53,7 @@ class _CourseOverviewTabState extends State<CourseOverviewTab> {
             weight: FontWeight.bold,
           ),
           10.verticalSpace,
-          TextWidget(
-            word: widget.course.description,
-            textColor: Theme.of(context).textTheme.bodyMedium?.color,
-            maxLines: 50,
-          ),
+          _buildDescription(context),
           24.verticalSpace,
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -92,6 +91,80 @@ class _CourseOverviewTabState extends State<CourseOverviewTab> {
           24.verticalSpace,
         ],
       ),
+    );
+  }
+
+  Widget _buildDescription(BuildContext context) {
+    // Determine if description is long enough to warrant show more
+    final bool isLong = widget.course.description.length > 300;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Stack(
+          children: [
+            Container(
+              constraints:
+                  !_isExpanded && isLong ? BoxConstraints(maxHeight: 150.h) : null,
+              child: ClipRect(
+                child: HtmlWidget(
+                  widget.course.description,
+                  textStyle: TextStyle(
+                    fontSize: 14.sp,
+                    color: Theme.of(context).textTheme.bodyMedium?.color,
+                    height: 1.5,
+                  ),
+                ),
+              ),
+            ),
+            if (!_isExpanded && isLong)
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  height: 60.h,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0),
+                        Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.9),
+                        Theme.of(context).scaffoldBackgroundColor,
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        ),
+        if (isLong)
+          GestureDetector(
+            onTap: () => setState(() => _isExpanded = !_isExpanded),
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.h),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextWidget(
+                    word: _isExpanded ? "Show Less" : "Show More",
+                    weight: FontWeight.bold,
+                    textColor: Theme.of(context).primaryColor,
+                    size: 14,
+                  ),
+                  Icon(
+                    _isExpanded
+                        ? Icons.keyboard_arrow_up_rounded
+                        : Icons.keyboard_arrow_down_rounded,
+                    color: Theme.of(context).primaryColor,
+                    size: 20.sp,
+                  ),
+                ],
+              ),
+            ),
+          ),
+      ],
     );
   }
 

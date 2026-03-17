@@ -5,4 +5,6 @@ abstract class ProfileRepo {
   Future<ProfileModel> getProfile();
 
   Future<ProfileModel> updateProfile(ProfileModel profile, {XFile? imageFile});
+
+  Future<void> deleteAccount();
 }

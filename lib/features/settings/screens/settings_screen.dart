@@ -1,6 +1,7 @@
 import 'package:durbar_physics/common/widgets/text_widget.dart';
 import 'package:durbar_physics/common/widgets/user_avatar_widget.dart';
 import 'package:durbar_physics/core/di/injection.dart';
+import 'package:durbar_physics/common/enums/enums.dart';
 import 'package:durbar_physics/core/hive_services/services/hive_course_service.dart';
 import 'package:durbar_physics/core/hive_services/services/hive_video_service.dart';
 import 'package:durbar_physics/core/logger/app_logger.dart';
@@ -14,6 +15,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart' as fluttertoast;
 import 'package:hive/hive.dart';
 import 'package:durbar_physics/features/home/presentation/bloc/bookmark/courses_book_bloc/course_bookmark_bloc.dart'; // ADDED: import for course bookmark bloc
 import 'package:durbar_physics/features/home/presentation/bloc/bookmark/videos_bookmark/videos_bookmark_bloc.dart'; // ADDED: import for video bookmark bloc
@@ -58,7 +60,20 @@ class SettingsScreen extends StatelessWidget {
           const SizedBox(width: 8),
         ],
       ),
-      body: SingleChildScrollView(
+      body: BlocListener<ProfileCubit, ProfileState>(
+        listener: (context, state) {
+          if (state.status == ApiDataStatus.success && state.error.isEmpty && !state.justUpdated) {
+            // This is likely after a successful delete account call
+            // We need to double check if we really want to logout here
+            // But since getProfile also sets success, we need to be careful.
+            // However, after deleteAccount, we set status success and justUpdated false.
+            // Let's assume for now.
+          }
+          if (state.status == ApiDataStatus.error && state.error.isNotEmpty) {
+            fluttertoast.Fluttertoast.showToast(msg: state.error);
+          }
+        },
+        child: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Column(
@@ -119,13 +134,21 @@ class SettingsScreen extends StatelessWidget {
               ),
               _buildSettingItem(
                 context,
+                Icons.policy_outlined,
+                'Privacy Policy',
+                () => NavigationService.pushNamed(RouteName.privacyPolicy),
+              ),
+              _buildSettingItem(
+                context,
+                Icons.person_remove_outlined,
+                'Delete Account',
+                () => _showDeleteAccountDialog(context),
+              ),
+              _buildSettingItem(
+                context,
                 Icons.analytics,
                 'Terms & Conditions',
-                null,
-                // () => Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => ZoomTestScreen()),
-                // ),
+                () => NavigationService.pushNamed(RouteName.termsAndConditions),
               ),
               // _buildSettingItem(
               //   context,
@@ -136,28 +159,13 @@ class SettingsScreen extends StatelessWidget {
               // _buildSettingItem(context, Icons.send, 'Invite Friends', null),
               _buildSettingItem(context, Icons.logout, 'Logout', () async {
                 logger.d('Button Pressed');
-                final authBox = Hive.box('authBox');
-                await authBox.delete('accessToken');
-                await authBox.delete('refreshToken');
-
-                ApiClient().clearAccessToken();
-
-                final hiveCourseService = getIt<HiveCourseService>();
-                final hiveVideoService = getIt<HiveVideoService>();
-
-                await hiveCourseService.clearAll();
-                await hiveVideoService.clearAll();
-
-                // ADDED: Dispatch clear events to reset BLoC state
-                context.read<CourseBookmarkBloc>().add(ClearAllCoursesBookmarkEvent());
-                context.read<VideosBookmarkBloc>().add(ClearAllVideosBookmarkEvent());
-
-                NavigationService.pushNamedReplacement(RouteName.login);
+                await _handleLogout(context);
               }),
             ],
           ),
         ),
       ),
+    ),
     );
   }
 
@@ -216,6 +224,56 @@ class SettingsScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _showDeleteAccountDialog(BuildContext context) {
+    showCupertinoDialog(
+      context: context,
+      builder: (context) => CupertinoAlertDialog(
+        title: const Text('Delete Account'),
+        content: const Text(
+          'Are you sure you want to delete your account? This action is irreversible and all your data will be permanently deleted.',
+        ),
+        actions: [
+          CupertinoDialogAction(
+            child: const Text('Cancel'),
+            onPressed: () => Navigator.pop(context),
+          ),
+          CupertinoDialogAction(
+            isDestructiveAction: true,
+            onPressed: () async {
+              Navigator.pop(context);
+              await context.read<ProfileCubit>().deleteAccount();
+              if (context.mounted) {
+                await _handleLogout(context);
+              }
+            },
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _handleLogout(BuildContext context) async {
+    final authBox = Hive.box('authBox');
+    await authBox.delete('accessToken');
+    await authBox.delete('refreshToken');
+
+    ApiClient().clearAccessToken();
+
+    final hiveCourseService = getIt<HiveCourseService>();
+    final hiveVideoService = getIt<HiveVideoService>();
+
+    await hiveCourseService.clearAll();
+    await hiveVideoService.clearAll();
+
+    // Dispatch clear events to reset BLoC state
+    if (context.mounted) {
+      context.read<CourseBookmarkBloc>().add(ClearAllCoursesBookmarkEvent());
+      context.read<VideosBookmarkBloc>().add(ClearAllVideosBookmarkEvent());
+      NavigationService.pushNamedReplacement(RouteName.login);
+    }
   }
 
   Widget _buildSettingItem(

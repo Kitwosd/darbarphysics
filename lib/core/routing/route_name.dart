@@ -25,6 +25,8 @@ class RouteName {
   static const String changePasswordScreen = 'changePasswordScreen';
   static const String youtubeVideoPlayerScreen = 'youtubeVideoScreen';
   static const String resetPassword = 'resetPasswordScreen';
+  static const String privacyPolicy = 'privacyPolicy';
+  static const String termsAndConditions = 'termsAndConditions';
 }
 
 class RoutePath {
@@ -55,4 +57,6 @@ class RoutePath {
   static const String changePasswordScreen = '/changePasswordScreen';
   static const String youtubeVideoPlayerScreen = '/youtubeVideoScreen';
   static const String resetPassword = '/resetPasswordScreen';
+  static const String privacyPolicy = '/privacyPolicy';
+  static const String termsAndConditions = '/termsAndConditions';
 }

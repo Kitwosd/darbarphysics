@@ -1,4 +1,4 @@
-package com.example.durbar_physics
+package com.durbarphysics.app
 
 import io.flutter.embedding.android.FlutterActivity
 

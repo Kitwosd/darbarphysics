@@ -28,6 +28,8 @@ import 'package:durbar_physics/features/profile/presentation/screens/edit_profil
 import 'package:durbar_physics/features/profile/presentation/screens/profile_screen.dart';
 import 'package:durbar_physics/features/settings/screens/reset_password_screen.dart';
 import 'package:durbar_physics/features/settings/screens/settings_screen.dart';
+import 'package:durbar_physics/features/settings/screens/legal_content_screen.dart';
+import 'package:durbar_physics/core/constants/legal_constants.dart';
 import 'package:durbar_physics/features/zoom/presentation/zoom_web_view_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -222,6 +224,26 @@ final GoRouter appRouter = GoRouter(
       name: RouteName.resetPassword,
       builder: (context, state) {
         return ResetPasswordScreen();
+      },
+    ),
+    GoRoute(
+      path: RoutePath.privacyPolicy,
+      name: RouteName.privacyPolicy,
+      builder: (context, state) {
+        return const LegalContentScreen(
+          title: LegalConstants.privacyPolicyTitle,
+          content: LegalConstants.privacyPolicyContent,
+        );
+      },
+    ),
+    GoRoute(
+      path: RoutePath.termsAndConditions,
+      name: RouteName.termsAndConditions,
+      builder: (context, state) {
+        return const LegalContentScreen(
+          title: LegalConstants.termsAndConditionsTitle,
+          content: LegalConstants.termsAndConditionsContent,
+        );
       },
     ),
   ],

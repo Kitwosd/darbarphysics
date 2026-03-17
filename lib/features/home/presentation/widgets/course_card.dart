@@ -49,14 +49,12 @@ class CourseCard extends StatelessWidget {
               child: Stack(
                 fit: StackFit.expand,
                 children: [
-                  course.image != null
-                      ? Image.network(
-                          course.image!,
+                  Image.network(
+                          course.image,
                           fit: BoxFit.cover,
                           errorBuilder: (_, __, ___) =>
                               _buildPlaceholder(colorScheme),
-                        )
-                      : _buildPlaceholder(colorScheme),
+                        ),
 
                   // Gradient overlay
                   DecoratedBox(
@@ -255,8 +253,9 @@ class CourseCard extends StatelessWidget {
   Color _accentColor(String? levelName) {
     if (levelName == null) return const Color(0xFF9CA3AF);
     final name = levelName.toLowerCase();
-    if (name.contains('10') || name.contains('see'))
+    if (name.contains('10') || name.contains('see')) {
       return const Color(0xFF6366F1);
+    }
     if (name.contains('11')) return const Color(0xFFDB2777);
     if (name.contains('12')) return const Color(0xFF059669);
     if (name.contains('bachelor')) return const Color(0xFF0EA5E9);

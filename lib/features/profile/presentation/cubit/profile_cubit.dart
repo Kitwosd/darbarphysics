@@ -209,4 +209,24 @@ class ProfileCubit extends Cubit<ProfileState> {
         norm(updated.bio) == norm(current.bio) &&
         norm(updated.academicLevel) == norm(current.academicLevel);
   }
+
+  Future<void> deleteAccount() async {
+    emit(state.copyWith(status: ApiDataStatus.loading, justUpdated: false));
+    try {
+      await _profileRepository.deleteAccount();
+      emit(
+        state.copyWith(
+          status: ApiDataStatus.success,
+          justUpdated: false,
+        ),
+      );
+    } catch (e) {
+      logger.e("Delete Account Error: $e");
+      String errorMessage = "Failed to delete account";
+      if (e is ApiException) {
+        errorMessage = e.errorMessage;
+      }
+      emit(state.copyWith(status: ApiDataStatus.error, error: errorMessage));
+    }
+  }
 }

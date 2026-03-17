@@ -62,6 +62,14 @@ class ProfileRepositoryImpl implements ProfileRepo {
     );
     return ProfileModel.fromJson(response);
   }
+
+  @override
+  Future<void> deleteAccount() async {
+    await _apiClient.request(
+      path: 'user/delete/',
+      method: ApiMethod.delete,
+    );
+  }
 }
 
 

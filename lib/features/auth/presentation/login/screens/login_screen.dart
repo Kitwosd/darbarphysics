@@ -61,7 +61,7 @@ class LoginScreen extends StatelessWidget {
                                 child: Align(
                                   alignment: Alignment.center,
                                   child: Image.asset(
-                                    'assets/images/logo_with_name.png', 
+                                    'assets/images/finalLogo1.png',
 
                                     colorBlendMode: BlendMode.srcATop,
                                   ),
