@@ -1,27 +1,46 @@
 import 'package:durbar_physics/common/widgets/overlay_toast_widget.dart';
+import 'package:durbar_physics/common/widgets/tab_scroll_wrapper_widget.dart';
 import 'package:durbar_physics/common/widgets/text_widget.dart';
 import 'package:durbar_physics/core/services/app_globals.dart';
 import 'package:durbar_physics/features/courses/data/model/course_detail_model.dart';
-
 import 'package:durbar_physics/features/courses/presentation/screens/youtube_video_player_screen.dart';
 import 'package:durbar_physics/features/home/data/models/video_model.dart';
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class CourseLessonsTab extends StatelessWidget {
+class CourseLessonsTab extends StatefulWidget {
   final CourseDetailModel course;
 
   const CourseLessonsTab({super.key, required this.course});
 
   @override
+  State<CourseLessonsTab> createState() => _CourseLessonsTabState();
+}
+
+class _CourseLessonsTabState extends State<CourseLessonsTab>
+    with AutomaticKeepAliveClientMixin {
+  @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: course.lessons.length,
-      padding: EdgeInsets.all(20.w),
-      itemBuilder: (context, index) {
-        final lesson = course.lessons[index];
-        return _buildLessonItem(context, lesson, index);
-      },
+    super.build(context);
+    return TabScrollWrapperWidget(
+      child: CustomScrollView(
+        primary: true,
+        slivers: [
+          SliverOverlapInjector(
+            handle: ExtendedNestedScrollView.sliverOverlapAbsorberHandleFor(context),
+          ),
+          SliverPadding(
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+            sliver: SliverList(
+              delegate: SliverChildBuilderDelegate((context, index) {
+                final lesson = widget.course.lessons[index];
+                return _buildLessonItem(context, lesson, index);
+              }, childCount: widget.course.lessons.length),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -100,4 +119,7 @@ class CourseLessonsTab extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

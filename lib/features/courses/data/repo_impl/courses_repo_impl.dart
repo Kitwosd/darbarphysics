@@ -2,10 +2,10 @@ import 'package:durbar_physics/core/network/api_client.dart';
 import 'package:durbar_physics/core/network/paginated_response_model.dart';
 import 'package:durbar_physics/features/courses/data/model/banner_model.dart';
 import 'package:durbar_physics/features/courses/data/model/course_model.dart';
-import 'package:durbar_physics/features/courses/data/model/document_model.dart';
-import 'package:durbar_physics/features/courses/domain/repo/courses_repo.dart';
 import 'package:durbar_physics/features/courses/data/model/course_review/post_review_model.dart';
 import 'package:durbar_physics/features/courses/data/model/course_review/review_model.dart';
+import 'package:durbar_physics/features/courses/data/model/document_model.dart';
+import 'package:durbar_physics/features/courses/domain/repo/courses_repo.dart';
 import 'package:injectable/injectable.dart';
 
 @Injectable(as: CoursesRepo)

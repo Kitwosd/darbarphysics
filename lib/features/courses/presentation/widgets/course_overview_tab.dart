@@ -1,12 +1,11 @@
-import 'package:durbar_physics/common/widgets/scroll_bar_wrapper_widget.dart';
+import 'package:durbar_physics/common/widgets/tab_scroll_wrapper_widget.dart';
 import 'package:durbar_physics/common/widgets/text_widget.dart';
 import 'package:durbar_physics/features/courses/data/model/course_detail_model.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-
 import 'package:durbar_physics/features/courses/presentation/widgets/course_review/review_section.dart';
-
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 class CourseOverviewTab extends StatefulWidget {
   final CourseDetailModel course;
@@ -17,78 +16,83 @@ class CourseOverviewTab extends StatefulWidget {
   State<CourseOverviewTab> createState() => _CourseOverviewTabState();
 }
 
-class _CourseOverviewTabState extends State<CourseOverviewTab> {
-  late final ScrollController _controller;
+class _CourseOverviewTabState extends State<CourseOverviewTab>
+    with AutomaticKeepAliveClientMixin {
   bool _isExpanded = false;
 
   @override
-  void initState() {
-    super.initState();
-
-    _controller = ScrollController();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return ScrollBarWrapperWidget(
-      controller: _controller,
-      child: ListView(
-        controller: _controller,
-        // crossAxisAlignment: CrossAxisAlignment.start,
-        padding: EdgeInsets.all(20.w),
-        children: [
-          !widget.course.isUserLocked
-              ? _userAlreadyEnrolledCard(context)
-              : SizedBox.shrink(),
-          24.verticalSpace,
-          const TextWidget(
-            word: "Introduction",
-            size: 18,
-            weight: FontWeight.bold,
-          ),
-          10.verticalSpace,
-          _buildDescription(context),
-          24.verticalSpace,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _buildStatCard(
-                context,
-                widget.course.rating.toString(),
-                "Reviews",
-                Icons.star,
-                Colors.amber,
-              ),
-              SizedBox(width: 10.w),
-              _buildStatCard(
-                context,
-                //TODO: to check if course is free not with cost zero
-                (double.tryParse(widget.course.cost) ?? 0) == 0
-                    ? 'Free Course'
-                    : widget.course.studentCount.toString(),
-                "Students",
-                Icons.people,
-                Colors.blue,
-              ),
-            ],
+    super.build(context);
+    return TabScrollWrapperWidget(
+      child: CustomScrollView(
+        primary: true,
+        // physics: const BouncingScrollPhysics(
+        //   parent: AlwaysScrollableScrollPhysics(),
+        // ),
+        slivers: [
+          //1. Inject the space of the pinned TabBar
+          SliverOverlapInjector(
+            handle: ExtendedNestedScrollView.sliverOverlapAbsorberHandleFor(
+              context,
+            ),
           ),
 
-          24.verticalSpace,
-          Divider(
-            color: Theme.of(context).dividerColor.withValues(alpha: 0.3),
-            thickness: 1,
+          SliverPadding(
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+
+            sliver: SliverList(
+              delegate: SliverChildListDelegate([
+                !widget.course.isUserLocked
+                    ? _userAlreadyEnrolledCard(context)
+                    : SizedBox.shrink(),
+                24.verticalSpace,
+                const TextWidget(
+                  word: "Introduction",
+                  size: 18,
+                  weight: FontWeight.bold,
+                ),
+                10.verticalSpace,
+                _buildDescription(context),
+                24.verticalSpace,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _buildStatCard(
+                      context,
+                      widget.course.rating.toString(),
+                      "Reviews",
+                      Icons.star,
+                      Colors.amber,
+                    ),
+                    SizedBox(width: 10.w),
+                    _buildStatCard(
+                      context,
+                      //TODO: to check if course is free not with cost zero
+                      (double.tryParse(widget.course.cost) ?? 0) == 0
+                          ? 'Free Course'
+                          : widget.course.studentCount.toString(),
+                      "Students",
+                      Icons.people,
+                      Colors.blue,
+                    ),
+                  ],
+                ),
+
+                24.verticalSpace,
+                Divider(
+                  color: Theme.of(context).dividerColor.withValues(alpha: 0.3),
+                  thickness: 1,
+                ),
+                24.verticalSpace,
+                ReviewSection(
+                  courseId: widget.course.id,
+                  isUserLocked: widget.course.isUserLocked,
+                ),
+
+                24.verticalSpace,
+              ]),
+            ),
           ),
-          24.verticalSpace,
-
-          ReviewSection(courseId: widget.course.id),
-
-          24.verticalSpace,
         ],
       ),
     );
@@ -104,8 +108,9 @@ class _CourseOverviewTabState extends State<CourseOverviewTab> {
         Stack(
           children: [
             Container(
-              constraints:
-                  !_isExpanded && isLong ? BoxConstraints(maxHeight: 150.h) : null,
+              constraints: !_isExpanded && isLong
+                  ? BoxConstraints(maxHeight: 150.h)
+                  : null,
               child: ClipRect(
                 child: HtmlWidget(
                   widget.course.description,
@@ -129,8 +134,12 @@ class _CourseOverviewTabState extends State<CourseOverviewTab> {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0),
-                        Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.9),
+                        Theme.of(
+                          context,
+                        ).scaffoldBackgroundColor.withValues(alpha: 0),
+                        Theme.of(
+                          context,
+                        ).scaffoldBackgroundColor.withValues(alpha: 0.9),
                         Theme.of(context).scaffoldBackgroundColor,
                       ],
                     ),
@@ -271,4 +280,7 @@ class _CourseOverviewTabState extends State<CourseOverviewTab> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

@@ -20,21 +20,31 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ReviewSection extends StatelessWidget {
   final int courseId;
-  const ReviewSection({super.key, required this.courseId});
+  final bool isUserLocked;
+  const ReviewSection({
+    super.key,
+    required this.courseId,
+    required this.isUserLocked,
+  });
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
           getIt<ReviewBloc>()..add(GetReviewsEvent(courseId: courseId)),
-      child: ReviewScreenView(courseId: courseId),
+      child: ReviewScreenView(courseId: courseId, isUserLocked: isUserLocked),
     );
   }
 }
 
 class ReviewScreenView extends StatelessWidget {
   final int courseId;
-  const ReviewScreenView({super.key, required this.courseId});
+  final bool isUserLocked;
+  const ReviewScreenView({
+    super.key,
+    required this.courseId,
+    required this.isUserLocked,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +74,52 @@ class ReviewScreenView extends StatelessWidget {
           if (state.reviewsListStatus == ApiDataStatus.success) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [_ratingInputSection(context), 24.verticalSpace],
+              children: [
+                if (isUserLocked)
+                  _enrollmentRequiredBanner(context)
+                else
+                  _ratingInputSection(context),
+
+                24.verticalSpace,
+                // ADDED: divider before reviews list
+                Divider(
+                  color: Theme.of(context).dividerColor.withValues(alpha: 0.3),
+                  thickness: 1,
+                ),
+                24.verticalSpace,
+                // END ADDED
+                ReviewsHeaderWidget(),
+                16.verticalSpace,
+
+                BlocSelector<ReviewBloc, ReviewState, List<ReviewModel>>(
+                  selector: (state) {
+                    return state.reviewsList;
+                  },
+                  builder: (context, reviewsList) {
+                    if (reviewsList.isEmpty) {
+                      return NoReviewsWidget();
+                    }
+                    return ReviewsListWidget(reviews: reviewsList);
+                  },
+                ),
+                10.verticalSpace,
+                BlocSelector<ReviewBloc, ReviewState, bool>(
+                  selector: (state) => state.hasReachedMax,
+                  builder: (context, hasReachedMax) {
+                    if (!hasReachedMax) {
+                      return ViewMoreCardWidget(
+                        onTap: () {
+                          context.read<ReviewBloc>().add(
+                            LoadMoreReviewsEvent(courseId: courseId),
+                          );
+                        },
+                      );
+                    }
+                    return const SizedBox.shrink();
+                  },
+                ),
+                24.verticalSpace,
+              ],
             );
           }
           if (state.reviewsListStatus == ApiDataStatus.loading) {
@@ -75,6 +130,58 @@ class ReviewScreenView extends StatelessWidget {
           }
           return SizedBox.shrink();
         },
+      ),
+    );
+  }
+
+  // Banner for unenrolled users
+  Widget _enrollmentRequiredBanner(BuildContext context) {
+    final primary = Theme.of(context).primaryColor;
+
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.all(20.w),
+      decoration: BoxDecoration(
+        color: primary.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(16.r),
+        border: Border.all(color: primary.withValues(alpha: 0.3), width: 1.5),
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: EdgeInsets.all(12.w),
+            decoration: BoxDecoration(
+              color: primary.withValues(alpha: 0.15),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              Icons.lock_outline_rounded,
+              color: primary,
+              size: 24.sp,
+            ),
+          ),
+          SizedBox(width: 16.w),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextWidget(
+                  word: "Enroll to Leave a Review",
+                  weight: FontWeight.bold,
+                  size: 16,
+                ),
+                SizedBox(height: 6.h),
+                TextWidget(
+                  word:
+                      "Join this course to share your experience and help others",
+                  size: 13,
+                  textColor: Theme.of(context).textTheme.bodyMedium?.color,
+                  maxLines: 3,
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -219,45 +326,6 @@ class ReviewScreenView extends StatelessWidget {
             //   size: 16,
             //   textColor: isSubmitEnabled ? Colors.green : Colors.red,
             // ),
-          },
-        ),
-
-        24.verticalSpace,
-        // ADDED: divider before reviews list
-        Divider(
-          color: Theme.of(context).dividerColor.withValues(alpha: 0.3),
-          thickness: 1,
-        ),
-        24.verticalSpace,
-        // END ADDED
-        ReviewsHeaderWidget(),
-        16.verticalSpace,
-
-        BlocSelector<ReviewBloc, ReviewState, List<ReviewModel>>(
-          selector: (state) {
-            return state.reviewsList;
-          },
-          builder: (context, reviewsList) {
-            if (reviewsList.isEmpty) {
-              return NoReviewsWidget();
-            }
-            return ReviewsListWidget(reviews: reviewsList);
-          },
-        ),
-        10.verticalSpace,
-        BlocSelector<ReviewBloc, ReviewState, bool>(
-          selector: (state) => state.hasReachedMax,
-          builder: (context, hasReachedMax) {
-            if (!hasReachedMax) {
-              return ViewMoreCardWidget(
-                onTap: () {
-                  context.read<ReviewBloc>().add(
-                    LoadMoreReviewsEvent(courseId: courseId),
-                  );
-                },
-              );
-            }
-            return const SizedBox.shrink();
           },
         ),
       ],

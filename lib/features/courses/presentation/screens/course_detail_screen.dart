@@ -16,6 +16,7 @@ import 'package:durbar_physics/features/payment/data/services/khalti_service.dar
 import 'package:durbar_physics/features/payment/presentation/bloc/payment_bloc.dart';
 import 'package:durbar_physics/features/payment/presentation/widget/payment_status_dialog_widget.dart';
 import 'package:durbar_physics/features/payment/presentation/widget/verifying_dialog_widget.dart';
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -190,42 +191,79 @@ class _CourseDetailScreenState extends State<CourseDetailScreen>
             body: GestureDetector(
               onTap: () => FocusScope.of(context).unfocus(),
               child: SafeArea(
-                child: Column(
-                  children: [
-                    CourseDetailHeader(course: course),
-                    Expanded(
-                      child: NestedScrollView(
-                        headerSliverBuilder: (context, innerBoxIsScrolled) => [
-                          CourseInfoSection(course: course),
-                        ],
-                        body: Column(
-                          children: [
-                            TabBar(
-                              controller: _tabController,
-                              labelColor: appColors.primary,
-                              unselectedLabelColor: Colors.grey,
-                              indicatorColor: appColors.primary,
-                              tabs: const [
-                                Tab(text: 'Overview'),
-                                Tab(text: 'Lesson'),
-                                Tab(text: 'Live'),
-                              ],
-                            ),
-                            Expanded(
-                              child: TabBarView(
+                child: ExtendedNestedScrollView(
+                  headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                    SliverToBoxAdapter(
+                      child: RepaintBoundary(
+                        child: CourseDetailHeader(course: course),
+                      ),
+                    ),
+
+                    // SliverOverlapAbsorber(
+                    //   handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                    //     context,
+                    //   ),
+                    //   sliver: SliverPersistentHeader(
+                    //     pinned: true,
+                    //     delegate: _CourseInfoDelegate(
+                    //       child: SafeArea(
+                    //         top: true,
+                    //         child: CourseInfoSection(course: course),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+                    SliverToBoxAdapter(
+                      child: RepaintBoundary(
+                        child: CourseInfoSection(course: course),
+                      ),
+                    ),
+                    SliverOverlapAbsorber(
+                      handle: ExtendedNestedScrollView.sliverOverlapAbsorberHandleFor(
+                        context,
+                      ),
+                      sliver: SliverPersistentHeader(
+                        pinned: true,
+                        delegate: _TabBarDelegate(
+                          child: SafeArea(
+                            top: true,
+                            child: Container(
+                              color: Theme.of(context).scaffoldBackgroundColor,
+                              child: TabBar(
                                 controller: _tabController,
-                                children: [
-                                  CourseOverviewTab(course: course),
-                                  CourseLessonsTab(course: course),
-                                  CourseLiveTab(course: course),
+                                labelColor: appColors.primary,
+                                unselectedLabelColor: Colors.grey,
+                                indicatorColor: appColors.primary,
+                                labelStyle: TextStyle(
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.w900,
+                                ),
+                                unselectedLabelStyle: TextStyle(
+                                  fontSize: 15.sp,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                tabs: const [
+                                  Tab(text: 'Overview'),
+                                  Tab(text: 'Lesson'),
+                                  Tab(text: 'Live'),
                                 ],
                               ),
                             ),
-                          ],
+                          ),
                         ),
                       ),
                     ),
                   ],
+                  body: SafeArea(
+                    child: TabBarView(
+                      controller: _tabController,
+                      children: [
+                        CourseOverviewTab(course: course),
+                        CourseLessonsTab(course: course),
+                        CourseLiveTab(course: course),
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -305,307 +343,56 @@ class _CourseDetailScreenState extends State<CourseDetailScreen>
   }
 }
 
+class _TabBarDelegate extends SliverPersistentHeaderDelegate {
+  final Widget child;
 
+  _TabBarDelegate({required this.child});
 
+  @override
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
+    return child;
+  }
 
+  @override
+  double get maxExtent => 48.0.h;
 
+  @override
+  double get minExtent => 48.0.h;
 
+  @override
+  bool shouldRebuild(_TabBarDelegate oldDelegate) {
+    return false;
+  }
+}
 
+// ignore: unused_element
+class _CourseInfoDelegate extends SliverPersistentHeaderDelegate {
+  final Widget child;
+  _CourseInfoDelegate({required this.child});
 
+  @override
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
+    return child;
+  }
 
+  @override
+  double get maxExtent => 225.h;
 
+  @override
+  double get minExtent => 225.h;
 
+  @override
+  bool shouldRebuild(_CourseInfoDelegate oldDelegate) {
+    return child != oldDelegate.child;
+  }
+}
 
-
-
-//Talw to chai paila ko working khalti ko code
-
-
-// import 'package:durbar_physics/common/enums/enums.dart';
-// import 'package:durbar_physics/common/widgets/text_widget.dart';
-// import 'package:durbar_physics/core/di/injection.dart';
-// import 'package:durbar_physics/core/routing/navigation_service.dart';
-// import 'package:durbar_physics/core/services/app_globals.dart';
-// import 'package:durbar_physics/features/courses/presentation/bloc/courses/courses_bloc.dart';
-// import 'package:durbar_physics/features/courses/presentation/widgets/course_detail_header.dart';
-// import 'package:durbar_physics/features/courses/presentation/widgets/course_info_section.dart';
-// import 'package:durbar_physics/features/courses/presentation/widgets/course_lessons_tab.dart';
-// import 'package:durbar_physics/features/courses/presentation/widgets/course_live_tab.dart';
-// import 'package:durbar_physics/features/courses/presentation/widgets/course_overview_tab.dart';
-// import 'package:durbar_physics/features/courses/presentation/widgets/verifying_dialog_widget.dart';
-// import 'package:durbar_physics/features/payment/data/services/khalti_payment_service.dart';
-// import 'package:durbar_physics/features/payment/presentation/widget/payment_status_dialog_widget.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-// class CourseDetailScreen extends StatefulWidget {
-//   final int courseId;
-//   const CourseDetailScreen({super.key, required this.courseId});
-//   @override
-//   State<CourseDetailScreen> createState() => _CourseDetailScreenState();
-// }
-
-// class _CourseDetailScreenState extends State<CourseDetailScreen>
-//     with SingleTickerProviderStateMixin {
-//   late TabController _tabController;
-//   final KhaltiPaymentService _paymentService = getIt<KhaltiPaymentService>();
-//   bool _isProcessing = false;
-//   @override
-//   void initState() {
-//     super.initState();
-//     context.read<CoursesBloc>().add(
-//       GetCourseDetailEvent(courseId: widget.courseId),
-//     );
-//     _tabController = TabController(length: 3, vsync: this);
-//   }
-
-//   @override
-//   void dispose() {
-//     _tabController.dispose();
-//     super.dispose();
-//   }
-
-//   // Future<void> _handleEnrollment() async {
-//   //   if (_isProcessing) return;
-//   //   final course = context.read<CoursesBloc>().state.course;
-//   //   if (course == null) return;
-//   //   setState(() {
-//   //     _isProcessing = true;
-//   //   });
-//   //   try {
-//   //     //Step 2: Get pidx from Khalti API (using real API call)
-//   //     final initiateReponse = await _paymentService.initializePayment(
-//   //       courseId: widget.courseId,
-//   //     );
-//   //     if (!initiateReponse.success || initiateReponse.pidx == null) {
-//   //       throw Exception(
-//   //         initiateReponse.errorMessage ?? 'Failed to initialize the payment',
-//   //       );
-//   //     }
-//   //     if (!mounted) return;
-//   //     //step 3: Process payment with khalti
-//   //     final paymentResult = await _paymentService.processPayment(
-//   //       context: context,
-//   //       pidx: initiateReponse.pidx!,
-//   //     );
-//   //     if (!mounted) return;
-//   //     //Step 4: Handle payment result
-//   //     if (paymentResult.success) {
-//   //       // Verify payment on backend
-
-//   //       /// 'Verifying ... 'dialog
-
-//   //       showDialog(
-//   //         context: context,
-//   //         barrierDismissible: false,
-//   //         builder: (context) => VerifyingDialogWidget(),
-//   //       );
-
-//   //       //Verify paymement(with retry logic -may take 10-30 seconds)
-//   //       final verified = await _paymentService.verifyPaymentOnBackend(
-//   //         pidx:
-//   //             initiateReponse.pidx!, // Use the pidx that initiated the payment
-//   //       );
-//   //       if (!mounted) return;
-
-//   //       //close verifying dialog
-//   //       Navigator.of(context).pop();
-
-//   //       //show result
-//   //       if (verified.isSucess) {
-//   //         await PaymentStatusDialogWidget.show(
-//   //           context: context,
-//   //           isSuccess: true,
-//   //           message: verified.status ?? 'Enrollment succesful',
-//   //           details:
-//   //               'You can now access all course content. \n Transaction ID: ${paymentResult.transactionId ?? 'N/A'}',
-//   //           onContinue: () {
-//   //             // Refresh the course details to update UI (remove lock, hide enroll, etc.)
-//   //             context.read<CoursesBloc>().add(
-//   //               GetCourseDetailEvent(courseId: widget.courseId),
-//   //             );
-//   //             // Close the dialog
-//   //             NavigationService.pop();
-//   //           },
-//   //         );
-//   //       } else {
-//   //         // ❌ FAILED or TIMEOUT
-//   //         await PaymentStatusDialogWidget.show(
-//   //           context: context,
-//   //           isSuccess: false,
-//   //           message: verified.errorMessage ?? 'Payment verification failed',
-//   //           details:
-//   //               '${verified.errorMessage ?? "Could not verify payment"}\n\n'
-//   //               'If money was deducted, please contact support with:\n'
-//   //               'Transaction ID: ${paymentResult.transactionId ?? "N/A"}',
-//   //         );
-//   //       }
-//   //     } else {
-//   //       await PaymentStatusDialogWidget.show(
-//   //         context: context,
-//   //         isSuccess: false,
-//   //         message: paymentResult.errorMessage ?? 'Payment Failed ',
-//   //       );
-//   //     }
-//   //   } catch (e) {
-//   //     if (mounted) {
-//   //       await PaymentStatusDialogWidget.show(
-//   //         context: context,
-//   //         isSuccess: false,
-//   //         message: 'An error occured',
-//   //         details: e.toString(),
-//   //       );
-//   //     }
-//   //   } finally {
-//   //     if (mounted) {
-//   //       setState(() {
-//   //         _isProcessing = false;
-//   //       });
-//   //     }
-//   //   }
-//   // }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocBuilder<CoursesBloc, CoursesState>(
-//       builder: (context, state) {
-//         if (state.courseDetailStatus == ApiDataStatus.loading ||
-//             state.courseDetailStatus == ApiDataStatus.initial) {
-//           return const Scaffold(
-//             body: Center(child: CircularProgressIndicator()),
-//           );
-//         }
-
-//         if (state.courseDetailStatus == ApiDataStatus.error) {
-//           return Scaffold(
-//             body: Center(
-//               child: Column(
-//                 mainAxisAlignment: MainAxisAlignment.center,
-//                 children: [
-//                   TextWidget(
-//                     word: state.error.isNotEmpty
-//                         ? state.error
-//                         : 'Failed to load course details',
-//                   ),
-//                   const SizedBox(height: 16),
-//                   ElevatedButton(
-//                     onPressed: () {
-//                       context.read<CoursesBloc>().add(
-//                         GetCourseDetailEvent(courseId: widget.courseId),
-//                       );
-//                     },
-//                     child: const Text('Retry'),
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           );
-//         }
-
-//         if (state.course == null) {
-//           return const Scaffold(
-//             body: Center(child: TextWidget(word: 'Course not found')),
-//           );
-//         }
-
-//         final course = state.course!;
-//         //         return BlocListener<BookmarkBloc, BookmarkState>(
-//         // listener: (context, state) {
-//         //   final isBookmarked = state.bookmarkIds.contains(course.id);
-//         //   ScaffoldMessenger.of(context).showSnackBar(
-//         //     SnackBar(
-//         //       content: Text(
-//         //         isBookmarked ? 'Added to Bookmark' : 'Removed from bookmark',
-//         //       ),
-//         //     ),
-//         //   );
-//         // },
-//         return Scaffold(
-//           body: SafeArea(
-//             child: Column(
-//               children: [
-//                 CourseDetailHeader(course: course),
-//                 Expanded(
-//                   child: NestedScrollView(
-//                     headerSliverBuilder: (context, innerBoxIsScrolled) => [
-//                       CourseInfoSection(course: course),
-//                     ],
-//                     body: Column(
-//                       children: [
-//                         TabBar(
-//                           controller: _tabController,
-//                           labelColor: appColors.primary,
-//                           unselectedLabelColor: Colors.grey,
-//                           indicatorColor: appColors.primary,
-//                           tabs: const [
-//                             Tab(text: "Overview"),
-//                             Tab(text: "Lessons"),
-//                             Tab(text: 'Live'),
-//                           ],
-//                         ),
-//                         Expanded(
-//                           child: TabBarView(
-//                             controller: _tabController,
-//                             children: [
-//                               CourseOverviewTab(course: course),
-//                               CourseLessonsTab(course: course),
-//                               CourseLiveTab(course: course),
-//                             ],
-//                           ),
-//                         ),
-//                       ],
-//                     ),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//           bottomNavigationBar: Padding(
-//             padding: EdgeInsets.all(20.w),
-//             child: (double.tryParse(course.cost) ?? 0) <= 0
-//                 ? const SizedBox.shrink() // Hide button if free
-//                 : ElevatedButton(
-//                     onPressed: _isProcessing ? null : _handleEnrollment,
-//                     style: ElevatedButton.styleFrom(
-//                       backgroundColor: Theme.of(context).primaryColor,
-//                       padding: EdgeInsets.symmetric(vertical: 15.h),
-//                       shape: RoundedRectangleBorder(
-//                         borderRadius: BorderRadius.circular(30.r),
-//                       ),
-//                     ),
-//                     child: _isProcessing
-//                         ? SizedBox(
-//                             height: 20.h,
-//                             width: 20.w,
-//                             child: CircularProgressIndicator(
-//                               strokeWidth: 2,
-//                               valueColor: AlwaysStoppedAnimation<Color>(
-//                                 customColors.whiteBlack,
-//                               ),
-//                             ),
-//                           )
-//                         : Row(
-//                             mainAxisAlignment: MainAxisAlignment.center,
-//                             children: [
-//                               const TextWidget(
-//                                 word: "Enroll Now - Rs. ",
-//                                 size: 18,
-//                                 textColor: Colors.white,
-//                                 weight: FontWeight.bold,
-//                               ),
-//                               TextWidget(
-//                                 word: course.cost,
-//                                 size: 18,
-//                                 textColor: Colors.white,
-//                                 weight: FontWeight.bold,
-//                               ),
-//                             ],
-//                           ),
-//                   ),
-//           ),
-//         );
-//       },
-//     );
-//   }
-// }
+//

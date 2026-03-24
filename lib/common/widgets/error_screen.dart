@@ -140,7 +140,10 @@ class _ErrorScreenState extends State<ErrorScreen>
         // Go Home Button
         if (widget.onGoHome != null)
           OutlinedButton(
-            onPressed: widget.onGoHome,
+            onPressed: () {
+              _controller.stop();
+              widget.onGoHome;
+            },
             style: OutlinedButton.styleFrom(
               foregroundColor: const Color(0xFF4FACFE),
               side: BorderSide(color: const Color(0xFF4FACFE), width: 2.w),

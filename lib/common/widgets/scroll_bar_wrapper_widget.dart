@@ -66,6 +66,7 @@ class _ScrollBarWrapperWidgetState extends State<ScrollBarWrapperWidget> {
               opacity: _showScrollToTop ? 1 : 0,
               duration: Duration(milliseconds: 200),
               child: FloatingActionButton(
+                heroTag: null,
                 mini: true,
                 backgroundColor: appColors.primary,
 
