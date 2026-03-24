@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:durbar_physics/core/network/api_client.dart';
 import 'package:durbar_physics/core/network/api_exception.dart';
+import 'package:durbar_physics/features/profile/data/models/academic_model.dart';
+
 import 'package:durbar_physics/features/profile/data/models/profile_model.dart';
 import 'package:durbar_physics/features/profile/domain/repo/profile_repo.dart';
 import 'package:image_picker/image_picker.dart';
@@ -65,10 +67,16 @@ class ProfileRepositoryImpl implements ProfileRepo {
 
   @override
   Future<void> deleteAccount() async {
-    await _apiClient.request(
-      path: 'user/delete/',
-      method: ApiMethod.delete,
+    await _apiClient.request(path: 'user/delete/', method: ApiMethod.delete);
+  }
+
+  @override
+  Future<List<AcademicModel>> getAcademicLevel() async {
+    final response = await _apiClient.request(
+      path: 'classes',
+      method: ApiMethod.get,
     );
+    return (response as List).map((e) => AcademicModel.fromJson(e)).toList();
   }
 }
 

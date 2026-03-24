@@ -31,8 +31,12 @@ class LiveClassDetailScreen extends StatelessWidget {
                 return const Center(child: CircularProgressIndicator());
               } else if (state.liveClassDetailStatus == ApiDataStatus.error) {
                 return ErrorScreen(
-                  onGoHome: () =>
-                      NavigationService.pushNamedReplacement(RouteName.home),
+                  onGoHome: () {
+                    if (!context.mounted) return;
+                    return NavigationService.pushNamedReplacement(
+                      RouteName.home,
+                    );
+                  },
                   onRetry: () => context.read<LiveClassesBloc>().add(
                     GetDetailLiveClassEvent(id: id),
                   ),

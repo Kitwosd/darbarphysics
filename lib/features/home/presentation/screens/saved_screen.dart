@@ -86,6 +86,7 @@ class _SavedScreenState extends State<SavedScreen>
         width: 150.w,
 
         child: FloatingActionButton(
+          heroTag: null,
           onPressed: () {
             NavigationService.pushNamedReplacement(RouteName.home);
           },

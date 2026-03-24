@@ -1,7 +1,8 @@
+import 'package:durbar_physics/common/enums/enums.dart';
+import 'package:durbar_physics/common/widgets/overlay_toast_widget.dart';
 import 'package:durbar_physics/common/widgets/text_widget.dart';
 import 'package:durbar_physics/common/widgets/user_avatar_widget.dart';
 import 'package:durbar_physics/core/di/injection.dart';
-import 'package:durbar_physics/common/enums/enums.dart';
 import 'package:durbar_physics/core/hive_services/services/hive_course_service.dart';
 import 'package:durbar_physics/core/hive_services/services/hive_video_service.dart';
 import 'package:durbar_physics/core/logger/app_logger.dart';
@@ -9,16 +10,15 @@ import 'package:durbar_physics/core/network/api_client.dart';
 import 'package:durbar_physics/core/routing/navigation_service.dart';
 import 'package:durbar_physics/core/routing/route_name.dart';
 import 'package:durbar_physics/core/theme/theme_extension.dart';
+import 'package:durbar_physics/features/home/presentation/bloc/bookmark/courses_book_bloc/course_bookmark_bloc.dart'; // ADDED: import for course bookmark bloc
+import 'package:durbar_physics/features/home/presentation/bloc/bookmark/videos_bookmark/videos_bookmark_bloc.dart'; // ADDED: import for video bookmark bloc
 import 'package:durbar_physics/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:durbar_physics/features/profile/presentation/cubit/profile_state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart' as fluttertoast;
 import 'package:hive/hive.dart';
-import 'package:durbar_physics/features/home/presentation/bloc/bookmark/courses_book_bloc/course_bookmark_bloc.dart'; // ADDED: import for course bookmark bloc
-import 'package:durbar_physics/features/home/presentation/bloc/bookmark/videos_bookmark/videos_bookmark_bloc.dart'; // ADDED: import for video bookmark bloc
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -62,7 +62,9 @@ class SettingsScreen extends StatelessWidget {
       ),
       body: BlocListener<ProfileCubit, ProfileState>(
         listener: (context, state) {
-          if (state.status == ApiDataStatus.success && state.error.isEmpty && !state.justUpdated) {
+          if (state.status == ApiDataStatus.success &&
+              state.error.isEmpty &&
+              !state.justUpdated) {
             // This is likely after a successful delete account call
             // We need to double check if we really want to logout here
             // But since getProfile also sets success, we need to be careful.
@@ -70,102 +72,108 @@ class SettingsScreen extends StatelessWidget {
             // Let's assume for now.
           }
           if (state.status == ApiDataStatus.error && state.error.isNotEmpty) {
-            fluttertoast.Fluttertoast.showToast(msg: state.error);
+            OverlayToastWidget.show(
+              message: state.error,
+              bgColor: Colors.red.shade400,
+            );
           }
         },
         child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            children: [
-              // Avatar
-              Center(
-                child: Column(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(4),
-                      decoration: const BoxDecoration(
-                        color: Color(0xFFFFF3CA), // Light yellow bg from image
-                        shape: BoxShape.circle,
-                      ),
-                      child: BlocBuilder<ProfileCubit, ProfileState>(
-                        builder: (context, state) {
-                          if (state.profile != null) {
-                            final profile = state.profile!;
-                            return UserAvatarWidget(
-                              name: profile.username,
-                              imageUrl: profile.profilePicture,
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              children: [
+                // Avatar
+                Center(
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: const BoxDecoration(
+                          color: Color(
+                            0xFFFFF3CA,
+                          ), // Light yellow bg from image
+                          shape: BoxShape.circle,
+                        ),
+                        child: BlocBuilder<ProfileCubit, ProfileState>(
+                          builder: (context, state) {
+                            if (state.profile != null) {
+                              final profile = state.profile!;
+                              return UserAvatarWidget(
+                                name: profile.username,
+                                imageUrl: profile.profilePicture,
 
+                                radius: 60,
+                              );
+                            }
+                            return const CircleAvatar(
                               radius: 60,
+                              backgroundImage: NetworkImage(
+                                'https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg',
+                              ), // Placeholder 3D avatar
                             );
-                          }
-                          return const CircleAvatar(
-                            radius: 60,
-                            backgroundImage: NetworkImage(
-                              'https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg',
-                            ), // Placeholder 3D avatar
-                          );
-                        },
+                          },
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              20.verticalSpace,
+                20.verticalSpace,
 
-              // Menu Items
-              _buildSettingItem(
-                context,
-                Icons.person,
-                'View Profile',
-                () => NavigationService.pushNamed(RouteName.profile),
-              ),
+                // Menu Items
+                _buildSettingItem(
+                  context,
+                  Icons.person,
+                  'View Profile',
+                  () => NavigationService.pushNamed(RouteName.profile),
+                ),
 
-              _buildSettingItemWithToggle(
-                context,
-                Icons.dark_mode,
-                'Dark Mode',
-              ),
-              _buildSettingItem(
-                context,
-                Icons.grid_view,
-                'Reset Password',
-                () => NavigationService.pushNamed(RouteName.resetPassword),
-              ),
-              _buildSettingItem(
-                context,
-                Icons.policy_outlined,
-                'Privacy Policy',
-                () => NavigationService.pushNamed(RouteName.privacyPolicy),
-              ),
-              _buildSettingItem(
-                context,
-                Icons.person_remove_outlined,
-                'Delete Account',
-                () => _showDeleteAccountDialog(context),
-              ),
-              _buildSettingItem(
-                context,
-                Icons.analytics,
-                'Terms & Conditions',
-                () => NavigationService.pushNamed(RouteName.termsAndConditions),
-              ),
-              // _buildSettingItem(
-              //   context,
-              //   Icons.headset_mic,
-              //   'Help Center',
-              //   null,
-              // ),
-              // _buildSettingItem(context, Icons.send, 'Invite Friends', null),
-              _buildSettingItem(context, Icons.logout, 'Logout', () async {
-                logger.d('Button Pressed');
-                await _handleLogout(context);
-              }),
-            ],
+                _buildSettingItemWithToggle(
+                  context,
+                  Icons.dark_mode,
+                  'Dark Mode',
+                ),
+                _buildSettingItem(
+                  context,
+                  Icons.grid_view,
+                  'Reset Password',
+                  () => NavigationService.pushNamed(RouteName.resetPassword),
+                ),
+                _buildSettingItem(
+                  context,
+                  Icons.policy_outlined,
+                  'Privacy Policy',
+                  () => NavigationService.pushNamed(RouteName.privacyPolicy),
+                ),
+                _buildSettingItem(
+                  context,
+                  Icons.person_remove_outlined,
+                  'Delete Account',
+                  () => _showDeleteAccountDialog(context),
+                ),
+                _buildSettingItem(
+                  context,
+                  Icons.analytics,
+                  'Terms & Conditions',
+                  () =>
+                      NavigationService.pushNamed(RouteName.termsAndConditions),
+                ),
+                // _buildSettingItem(
+                //   context,
+                //   Icons.headset_mic,
+                //   'Help Center',
+                //   null,
+                // ),
+                // _buildSettingItem(context, Icons.send, 'Invite Friends', null),
+                _buildSettingItem(context, Icons.logout, 'Logout', () async {
+                  logger.d('Button Pressed');
+                  await _handleLogout(context);
+                }),
+              ],
+            ),
           ),
         ),
       ),
-    ),
     );
   }
 

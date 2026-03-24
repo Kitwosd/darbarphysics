@@ -1,13 +1,20 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:async';
+
 import 'package:durbar_physics/features/search/presentation/bloc/search_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class SearchFieldWidget extends StatelessWidget {
+class SearchFieldWidget extends StatefulWidget {
   final TextEditingController searchController;
   const SearchFieldWidget({super.key, required this.searchController});
 
+  @override
+  State<SearchFieldWidget> createState() => _SearchFieldWidgetState();
+}
+
+class _SearchFieldWidgetState extends State<SearchFieldWidget> {
+  Timer? _debounce;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -50,11 +57,22 @@ class SearchFieldWidget extends StatelessWidget {
                   12.horizontalSpace,
                   Expanded(
                     child: TextField(
-                      controller: searchController,
+                      controller: widget.searchController,
                       autofocus: true,
                       onChanged: (value) {
-                        context.read<SearchBloc>().add(
-                          GetSearchedDataEvent(query: value),
+                        if (_debounce != null) {
+                          if (_debounce!.isActive) {
+                            _debounce!.cancel();
+                          }
+                        }
+
+                        _debounce = Timer(
+                          const Duration(milliseconds: 600),
+                          () {
+                            context.read<SearchBloc>().add(
+                              GetSearchedDataEvent(query: value),
+                            );
+                          },
                         );
                       },
                       decoration: InputDecoration(
@@ -82,7 +100,7 @@ class SearchFieldWidget extends StatelessWidget {
                       if (query.isEmpty) return const SizedBox.shrink();
                       return IconButton(
                         onPressed: () {
-                          searchController.clear();
+                          widget.searchController.clear();
                           context.read<SearchBloc>().add(
                             GetSearchedDataEvent(query: ''),
                           );

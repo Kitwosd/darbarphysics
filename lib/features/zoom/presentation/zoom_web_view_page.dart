@@ -175,6 +175,7 @@ class _ZoomWebViewViewState extends State<_ZoomWebViewView> {
               // meetingEnded is fired when /wc/leave is detected by onLoadStart
               // or shouldOverrideUrlLoading. Just pop — Zoom already notified the server.
               if (state.status == ZoomStatus.meetingEnded && mounted) {
+                // ignore: use_build_context_synchronously
                 Navigator.of(context).pop();
               }
             },

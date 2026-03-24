@@ -9,6 +9,7 @@ import 'package:durbar_physics/core/services/app_globals.dart';
 import 'package:durbar_physics/features/profile/data/models/profile_model.dart';
 import 'package:durbar_physics/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:durbar_physics/features/profile/presentation/cubit/profile_state.dart';
+import 'package:durbar_physics/features/profile/presentation/widget/grade_selection_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,7 +27,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   late TextEditingController _usernameController;
   late TextEditingController _phoneController;
   late TextEditingController _bioController;
-  late TextEditingController _academicLevelController;
+  // ADDED: Local state to track selected academic level ID
+  // This is simpler than adding to ProfileState
+  int? _selectedAcademicId;
 
   @override
   void initState() {
@@ -34,10 +37,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     _usernameController = TextEditingController(text: widget.profile.username);
     _phoneController = TextEditingController(text: widget.profile.phone);
     _bioController = TextEditingController(text: widget.profile.bio);
-    _academicLevelController = TextEditingController(
-      text: widget.profile.academicLevel,
-    );
+
+    _selectedAcademicId = widget.profile.academicLevel;
+
     context.read<ProfileCubit>().clearErrors();
+
+    //getting the academics
+    context.read<ProfileCubit>().getAcademicLevels();
   }
 
   @override
@@ -45,8 +51,32 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     _usernameController.dispose();
     _phoneController.dispose();
     _bioController.dispose();
-    _academicLevelController.dispose();
+
     super.dispose();
+  }
+
+  // ADDED: Show grade selection bottom sheet
+  void _showGradeSelectionBottomSheet(
+    BuildContext context,
+    ProfileState state,
+  ) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => GradeSelectionBottomSheet(
+        grades: state.academics,
+        currentGradeId: _selectedAcademicId, // Pass current selected ID
+        onGradeSelected: (selectedGrade) {
+          // ADDED: Update local state when grade is selected
+          setState(() {
+            _selectedAcademicId = selectedGrade.id;
+          });
+          // Clear any previous errors
+          context.read<ProfileCubit>().onAcademicChange('');
+        },
+      ),
+    );
   }
 
   @override
@@ -178,15 +208,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       context.read<ProfileCubit>().onPhoneChanged(value),
                 ),
                 SizedBox(height: 16.h),
-                _buildTextField(
-                  "Academic Level",
-                  _academicLevelController,
-                  error: state.academicError.isEmpty
-                      ? null
-                      : state.academicError,
-                  onChanged: (value) =>
-                      context.read<ProfileCubit>().onAcademicChange(value),
-                ),
+
+                _buildGradeSelectionField(state),
                 SizedBox(height: 16.h),
                 _buildTextField(
                   "Bio",
@@ -222,6 +245,93 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
+  // ADDED: Grade selection field widget
+  Widget _buildGradeSelectionField(ProfileState state) {
+    // Get the display name from the selected ID using helper method
+    final displayName = state.getAcademicNameById(_selectedAcademicId);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TextWidget(
+          word: "Academic Level",
+          size: 14.sp,
+          textColor: Colors.grey[700],
+          weight: FontWeight.w500,
+        ),
+        SizedBox(height: 8.h),
+        InkWell(
+          onTap: () {
+            if (state.academicStatus == ApiDataStatus.loading) {
+              // Show loading message if grades are still being fetched
+              OverlayToastWidget.show(
+                message: "Loading grades...",
+                bgColor: Colors.blue.shade300,
+              );
+            } else if (state.academics.isEmpty) {
+              // Show error if no grades available
+              OverlayToastWidget.show(
+                message: "No grades available",
+                bgColor: Colors.orange.shade300,
+              );
+            } else {
+              // Show bottom sheet
+              _showGradeSelectionBottomSheet(context, state);
+            }
+          },
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: state.academicError.isEmpty
+                    ? Colors.grey[300]!
+                    : Colors.red.shade400,
+              ),
+              borderRadius: BorderRadius.circular(12.r),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: TextWidget(
+                    // Display grade name, or placeholder if none selected
+                    word: displayName ?? 'Select Grade',
+                    size: 18.sp,
+                    weight: FontWeight.w500,
+                    textColor: displayName != null
+                        ? Colors.black87
+                        : Colors.grey[500],
+                  ),
+                ),
+                if (state.academicStatus == ApiDataStatus.loading)
+                  SizedBox(
+                    width: 20.w,
+                    height: 20.h,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                else
+                  Icon(
+                    Icons.arrow_drop_down,
+                    color: Colors.grey[600],
+                    size: 24.sp,
+                  ),
+              ],
+            ),
+          ),
+        ),
+        if (state.academicError.isNotEmpty)
+          Padding(
+            padding: EdgeInsets.only(top: 8.h, left: 12.w),
+            child: TextWidget(
+              word: state.academicError,
+              size: 12.sp,
+              textColor: Colors.red.shade700,
+            ),
+          ),
+      ],
+    );
+  }
+
   void _saveProfile(BuildContext context) {
     final cubit = context.read<ProfileCubit>();
 
@@ -233,7 +343,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       role: widget.profile.role,
       bio: _bioController.text,
       profilePicture: widget.profile.profilePicture,
-      academicLevel: _academicLevelController.text,
+      academicLevel: _selectedAcademicId,
     );
     cubit.updateProfile(updatedModel);
   }

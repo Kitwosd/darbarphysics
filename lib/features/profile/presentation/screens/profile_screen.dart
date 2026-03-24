@@ -1,3 +1,4 @@
+
 import 'package:durbar_physics/common/enums/enums.dart';
 import 'package:durbar_physics/common/widgets/user_avatar_widget.dart';
 import 'package:durbar_physics/core/routing/navigation_service.dart';
@@ -18,8 +19,19 @@ class ProfileScreen extends StatelessWidget {
   }
 }
 
-class ProfileView extends StatelessWidget {
+class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
+
+  @override
+  State<ProfileView> createState() => _ProfileViewState();
+}
+
+class _ProfileViewState extends State<ProfileView> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<ProfileCubit>().getAcademicLevels();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +46,18 @@ class ProfileView extends StatelessWidget {
             );
           } else if (state.profile != null) {
             final profile = state.profile!;
+
+            //convert academic level id to real name
+
+            String academicLevelDisplay = 'Not provided';
+
+            if (profile.academicLevel != null) {
+              // user helper method to get name from the id
+              final academicName = state.getAcademicNameById(
+                profile.academicLevel,
+              );
+              academicLevelDisplay = academicName ?? 'Unknown Grade';
+            }
             return SafeArea(
               child: SingleChildScrollView(
                 child: Stack(
@@ -123,8 +147,7 @@ class ProfileView extends StatelessWidget {
                                   ProfileListTileWidget(
                                     icon: Icons.school_outlined,
                                     title: 'Academic Level',
-                                    subTitle:
-                                        profile.academicLevel ?? 'Not provided',
+                                    subTitle: academicLevelDisplay,
                                     onTap: () {},
                                   ),
                                   if (profile.role != null)

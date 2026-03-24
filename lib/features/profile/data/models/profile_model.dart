@@ -17,7 +17,7 @@ class ProfileModel {
   final String? role;
   final String? bio;
   final String? profilePicture;
-  final String? academicLevel;
+  final int? academicLevel;
 
   ProfileModel({
     required this.id,
@@ -60,7 +60,7 @@ class ProfileModel {
     String? role,
     String? bio,
     String? profilePicture,
-    String? academicLevel,
+    int? academicLevel,
   }) {
     return ProfileModel(
       id: id ?? this.id,
