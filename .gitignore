@@ -48,3 +48,4 @@ app.*.map.json
 #FILES THAT USER INCLUDED
 .env
 ./lib/features/practise
+GEMINI.md

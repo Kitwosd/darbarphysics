@@ -37,7 +37,9 @@ class AllVideosScreen extends StatelessWidget {
                         } else if (state.status == ApiDataStatus.error) {
                           return ErrorScreen(
                             onGoHome: () =>
-                                NavigationService.pushNamed(RouteName.home),
+                                NavigationService.pushNamedReplacement(
+                                  RouteName.home,
+                                ),
                             onRetry: () =>
                                 context.read<VideosBloc>()
                                   ..add(GetVideosEvent()),
@@ -63,7 +65,6 @@ class AllVideosScreen extends StatelessWidget {
                                       onTap: () {
                                         if ((video.isLocked &&
                                             video.isUserLocked)) {
-                                          //TODO: course id not available so can't go to the course detail page.
                                           EnrollmentDialogWidget.show(
                                             context,
                                             onGoToCourse: () {

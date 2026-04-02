@@ -11,6 +11,8 @@ class VideoModel extends Equatable {
   final String? thumbnail;
   final String duration;
   final bool isUserLocked;
+  final String? levelName;
+  final String? subjectName;
 
   const VideoModel({
     required this.id,
@@ -22,6 +24,8 @@ class VideoModel extends Equatable {
     this.duration = "00:00",
     required this.isLocked,
     required this.isUserLocked,
+    this.levelName,
+    this.subjectName,
   });
 
   factory VideoModel.fromJson(Map<String, dynamic> json) {
@@ -31,18 +35,28 @@ class VideoModel extends Equatable {
       thumbnailPath = '$baseUrl$thumbnailPath';
     }
     return VideoModel(
-      id: json["id"],
-      title: json["title"],
-      // teacher: json["teacher"],
-      course: json["course"],
-      // videoUrl: 'https://www.youtube.com/watch?v=K5KVEU3aaeQ',
+      // id: json["id"],
+      // title: json["title"],
+      // // teacher: json["teacher"],
+      // course: json["course"],
 
-      //TODO: remove the url mathi ko get the url from the backend only
+      // videoUrl: json["videoUrl"] ?? "",
+      // thumbnail: thumbnailPath,
+      // duration: json["duration"] ?? "00:00",
+      // isLocked: json["isLocked"] ?? true,
+      // isUserLocked: json["is_user_locked"] ?? true,
+      // levelName: json['level_name'],
+      // subjectName: json['subject_name'],
+      id: json["id"], // ✅ SAFE fallback
+      title: json["title"] ?? "No Title",
+      course: json["course"],
       videoUrl: json["videoUrl"] ?? "",
       thumbnail: thumbnailPath,
-      duration: json["duration"] ?? "00:00",
+      duration: json["duration"] ?? "",
       isLocked: json["isLocked"] ?? true,
       isUserLocked: json["is_user_locked"] ?? true,
+      levelName: json['level_name'],
+      subjectName: json['subject_name'],
     );
   }
 
@@ -59,7 +73,16 @@ class VideoModel extends Equatable {
   };
 
   @override
-  List<Object> get props {
-    return [id, title, videoUrl, duration, isLocked, isUserLocked];
+  List<Object?> get props {
+    return [
+      id,
+      title,
+      videoUrl,
+      duration,
+      isLocked,
+      isUserLocked,
+      levelName,
+      subjectName,
+    ];
   }
 }

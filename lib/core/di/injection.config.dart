@@ -54,6 +54,9 @@ import '../../features/live_classes/domain/repos/live_classes_repo.dart'
     as _i1021;
 import '../../features/live_classes/presentation/bloc/live_classes_bloc.dart'
     as _i280;
+import '../../features/package/data/repo_impl/packages_repo_impl.dart' as _i762;
+import '../../features/package/domain/repo/packages_repo.dart' as _i170;
+import '../../features/package/presentation/bloc/packages_bloc.dart' as _i232;
 import '../../features/payment/data/repo_impl.dart/payment_repo_impl.dart'
     as _i93;
 import '../../features/payment/data/services/khalti_payment_service.dart'
@@ -61,6 +64,7 @@ import '../../features/payment/data/services/khalti_payment_service.dart'
 import '../../features/payment/data/services/khalti_service.dart' as _i123;
 import '../../features/payment/domain/repo/payment_repo.dart' as _i50;
 import '../../features/payment/presentation/bloc/payment_bloc.dart' as _i206;
+import '../../features/profile/data/models/academic_model.dart' as _i813;
 import '../../features/profile/data/models/profile_model.dart' as _i36;
 import '../../features/profile/data/repo_impl/profile_repository_impl.dart'
     as _i301;
@@ -95,6 +99,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i1021.LiveClassesRepo>(
       () => _i816.LiveClassesRepoImpl(gh<_i557.ApiClient>()),
     );
+    gh.factory<_i170.PackageRepo>(
+      () => _i762.PackageRepoImpl(gh<_i557.ApiClient>()),
+    );
     gh.factory<_i652.CoursesRepo>(
       () => _i801.CoursesRepoImpl(gh<_i557.ApiClient>()),
     );
@@ -123,6 +130,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i1033.SearchRepo>(
       () => _i790.SearchRepoImpl(gh<_i557.ApiClient>()),
+    );
+    gh.factory<_i232.PackageBloc>(
+      () => _i232.PackageBloc(gh<_i170.PackageRepo>()),
     );
     gh.factory<_i208.ChangePasswordCubit>(
       () => _i208.ChangePasswordCubit(gh<_i550.ForgotPasswordRepo>()),
@@ -170,6 +180,8 @@ extension GetItInjectableX on _i174.GetIt {
         bioError: gh<String>(),
         academicError: gh<String>(),
         justUpdated: gh<bool>(),
+        academics: gh<List<_i813.AcademicModel>>(),
+        academicStatus: gh<_i202.ApiDataStatus>(),
       ),
     );
     gh.factory<_i518.CoursesBloc>(

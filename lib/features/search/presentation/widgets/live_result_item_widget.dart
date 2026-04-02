@@ -24,25 +24,6 @@ class LiveResultItemWidget extends StatelessWidget {
           RouteName.liveclassDetail,
           extra: liveClass.id,
         );
-        // if (liveClass.isUserLocked) {
-        //   NavigationService.pushNamed(
-        //     RouteName.liveclassDetail,
-        //     extra: liveClass.id,
-        //   );
-        //   logger.d('Is locked ?: courseID: ${liveClass.course}');
-        //   return;
-        // }
-        // if (liveClass.isLive) {
-        //   NavigationService.pushNamed(
-        //     RouteName.zoomWebView,
-        //     extra: {'url': liveClass.meetingUrl},
-        //   );
-        // } else {
-        //   NavigationService.pushNamed(
-        //     RouteName.liveclassDetail,
-        //     extra: liveClass.id,
-        //   );
-        // }
       },
       borderRadius: BorderRadius.circular(12.r),
       child: Container(
@@ -76,94 +57,89 @@ class LiveResultItemWidget extends StatelessWidget {
                   SizedBox(height: 6.h),
                   Row(
                     children: [
-                      Icon(
-                        Icons.person,
-                        size: 14.sp,
-                        color: Theme.of(context).hintColor,
-                      ),
-                      SizedBox(width: 4.w),
-                      TextWidget(
-                        word: _formatTeacherName(liveClass.teacherName),
-                        size: 12,
-                        textColor: Theme.of(context).hintColor,
+                      if (liveClass.levelName != null)
+                        Expanded(
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.school_rounded,
+                                size: 15.sp,
+                                color: const Color(0xFF6366F1),
+                              ),
+                              SizedBox(width: 4.w),
+                              Expanded(
+                                child: TextWidget(
+                                  word: liveClass.levelName!,
+                                  size: 12,
+                                  weight: FontWeight.w600,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  textColor: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurfaceVariant,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.person,
+                            size: 14.sp,
+                            color: Theme.of(context).hintColor,
+                          ),
+                          SizedBox(width: 4.w),
+                          TextWidget(
+                            word: _formatTeacherName(liveClass.teacherName),
+                            size: 12,
+                            textColor: Theme.of(context).hintColor,
+                          ),
+                        ],
                       ),
                     ],
                   ),
                   SizedBox(height: 4.h),
                   Row(
                     children: [
-                      TextWidget(
-                        word: DateFormat(
-                          'MMM d, h:mm a',
-                        ).format(liveClass.startTime),
-                        size: 11,
-                        textColor: Theme.of(context).hintColor,
-                      ),
-
-                      if (liveClass.isUserLocked) ...[
-                        Spacer(),
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 8.w,
-                            vertical: 2.h,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.orange.shade50,
-                            borderRadius: BorderRadius.circular(10.r),
-                          ),
+                      if (liveClass.subjectName != null)
+                        Expanded(
                           child: Row(
-                            mainAxisSize: MainAxisSize.min,
                             children: [
                               Icon(
-                                Icons.lock,
-                                size: 10.sp,
-                                color: Colors.orange.shade700,
+                                Icons.menu_book_rounded,
+                                size: 15.sp,
+                                color: const Color(0xFF10B981),
                               ),
                               SizedBox(width: 4.w),
-                              TextWidget(
-                                word: 'Locked',
-                                size: 10,
-                                textColor: Colors.orange.shade700,
+                              Expanded(
+                                child: TextWidget(
+                                  word: liveClass.subjectName!,
+                                  size: 12,
+                                  weight: FontWeight.w600,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  textColor: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurfaceVariant,
+                                ),
                               ),
                             ],
                           ),
                         ),
-                      ],
-                    ],
-                  ),
-                  if (liveClass.isLive) ...[
-                    SizedBox(height: 6.h),
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 8.w,
-                        vertical: 2.h,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.red.shade50,
-                        borderRadius: BorderRadius.circular(10.r),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
+                      Row(
                         children: [
-                          Container(
-                            width: 6.w,
-                            height: 6.w,
-                            decoration: const BoxDecoration(
-                              color: Colors.red,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                          SizedBox(width: 4.w),
                           TextWidget(
-                            word: 'LIVE NOW',
-                            size: 10,
-                            textColor: Colors.red,
-                            weight: FontWeight.bold,
+                            word: DateFormat(
+                              'MMM d, h:mm a',
+                            ).format(liveClass.startTime),
+                            size: 11,
+                            textColor: Theme.of(context).hintColor,
                           ),
                         ],
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ],
               ),
             ),

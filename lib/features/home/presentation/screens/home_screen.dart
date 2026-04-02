@@ -15,6 +15,10 @@ import 'package:durbar_physics/features/home/presentation/widgets/home_section_h
 import 'package:durbar_physics/features/home/presentation/widgets/home_videos_list.dart';
 import 'package:durbar_physics/features/live_classes/presentation/bloc/live_classes_bloc.dart';
 import 'package:durbar_physics/features/live_classes/presentation/widgets/home_live_classes_list.dart';
+import 'package:durbar_physics/features/package/presentation/bloc/packages_bloc.dart';
+import 'package:durbar_physics/features/package/presentation/bloc/packages_event.dart';
+import 'package:durbar_physics/features/package/presentation/screens/all_packages_screen.dart';
+import 'package:durbar_physics/features/package/presentation/widgets/package_bento_section.dart';
 import 'package:durbar_physics/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,6 +35,7 @@ class HomeScreen extends StatelessWidget {
     context.read<CoursesBloc>().add(GetCoursesEvent());
     context.read<VideosBloc>().add(GetVideosEvent());
     context.read<ProfileCubit>().getProfile();
+    context.read<PackageBloc>().add(GetPackagesEvent());
     // await Future.delayed(const Duration(seconds: 2));
   }
 
@@ -83,6 +88,18 @@ class HomeScreen extends StatelessWidget {
                                 },
                               ),
                               const HomeCoursesList(),
+                              HomeSectionHeader(
+                                title: '🎁 Course Packages',
+                                onSeeAll: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute<void>(
+                                      builder: (context) => AllPackagesScreen(),
+                                    ),
+                                  );
+                                },
+                              ),
+                              PackagesBentoSection(),
 
                               HomeSectionHeader(
                                 title: 'Live Classes',

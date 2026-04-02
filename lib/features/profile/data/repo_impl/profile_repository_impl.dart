@@ -19,7 +19,7 @@ class ProfileRepositoryImpl implements ProfileRepo {
       path: 'profile/',
       method: ApiMethod.get,
     );
-    print(response);
+
     return ProfileModel.fromJson(response);
   }
 

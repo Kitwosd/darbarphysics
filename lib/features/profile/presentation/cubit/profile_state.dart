@@ -20,7 +20,7 @@ class ProfileState extends Equatable {
   final List<AcademicModel> academics;
   final ApiDataStatus academicStatus;
 
-  ProfileState({
+  const ProfileState({
     this.status = ApiDataStatus.initial,
     this.profile,
     this.error = '',

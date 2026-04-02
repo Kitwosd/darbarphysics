@@ -26,6 +26,10 @@ class _SavedScreenState extends State<SavedScreen>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+
+    // ✅ ADD THESE LINES:
+    context.read<VideosBookmarkBloc>().add(LoadVideosEvent());
+    context.read<CourseBookmarkBloc>().add(LoadBookmarkCoursesEvent());
   }
 
   @override
@@ -39,7 +43,7 @@ class _SavedScreenState extends State<SavedScreen>
     return Scaffold(
       appBar: AppBar(
         title: TextWidget(
-          word: "My save list",
+          word: "BOOKMARKS",
           weight: FontWeight.bold,
           size: 18,
           textColor:

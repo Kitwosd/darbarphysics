@@ -24,7 +24,7 @@ class HomeVideosList extends StatelessWidget {
           return Builder(
             builder: (context) {
               return SizedBox(
-                height: 190.h,
+                height: 220.h,
                 child: ListView.separated(
                   padding: EdgeInsets.symmetric(horizontal: 20.w),
                   scrollDirection: Axis.horizontal,
@@ -45,7 +45,7 @@ class HomeVideosList extends StatelessWidget {
                     final video = state.videos[index];
                     bool isDark =
                         Theme.of(context).brightness == Brightness.dark;
-                        //TODO:video video.isLocked && video.isUserLocked
+                    //TODO: Just for knowledge video video.isLocked && video.isUserLocked
                     bool canAccess = !(video.isLocked && video.isUserLocked);
 
                     return InkWell(
@@ -87,6 +87,59 @@ class HomeVideosList extends StatelessWidget {
                                       weight: FontWeight.bold,
                                       maxLines: 2,
                                     ),
+                                    8.verticalSpace,
+                                    // Level & Subject Row
+                                    if (video.levelName != null ||
+                                        video.subjectName != null)
+                                      Row(
+                                        children: [
+                                          // Level
+                                          if (video.levelName != null) ...[
+                                            Icon(
+                                              Icons.school_rounded,
+                                              size: 15.sp,
+                                              color: const Color(0xFF6366F1),
+                                            ),
+                                            SizedBox(width: 5.w),
+                                            Flexible(
+                                              child: TextWidget(
+                                                word: video.levelName!,
+                                                size: 12,
+                                                weight: FontWeight.w600,
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                textColor: Theme.of(
+                                                  context,
+                                                ).colorScheme.onSurfaceVariant,
+                                              ),
+                                            ),
+                                          ],
+                                          Spacer(),
+
+                                          // Subject
+                                          if (video.subjectName != null) ...[
+                                            Icon(
+                                              Icons.menu_book_rounded,
+                                              size: 15.sp,
+                                              color: const Color(0xFF10B981),
+                                            ),
+                                            SizedBox(width: 5.w),
+                                            Flexible(
+                                              child: TextWidget(
+                                                word: video.subjectName!,
+                                                size: 12,
+                                                textColor: Theme.of(
+                                                  context,
+                                                ).colorScheme.onSurfaceVariant,
+
+                                                weight: FontWeight.w600,
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ),
+                                          ],
+                                        ],
+                                      ),
                                   ],
                                 ),
                               ),

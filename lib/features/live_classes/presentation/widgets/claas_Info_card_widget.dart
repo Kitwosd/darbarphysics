@@ -49,14 +49,14 @@ class ClassInfoCardWidget extends StatelessWidget {
             context,
             Icons.subject,
             'Subject',
-            'Subject ID: ${liveClass.subject}',
+            '${liveClass.subjectName}',
           ),
           SizedBox(height: 12.h),
           _buildInfoRow(
             context,
             Icons.signal_cellular_alt,
-            'Level',
-            'Level ${liveClass.level}',
+            'Academic Level',
+            '${liveClass.levelName}',
           ),
           if (liveClass.course != null) ...[
             SizedBox(height: 12.h),

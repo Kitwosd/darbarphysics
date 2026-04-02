@@ -3,6 +3,7 @@ import 'package:durbar_physics/common/widgets/text_widget.dart';
 import 'package:durbar_physics/core/services/app_globals.dart';
 import 'package:durbar_physics/features/courses/data/model/course_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class EnrolledCourseCardWidget extends StatelessWidget {
@@ -39,6 +40,7 @@ class EnrolledCourseCardWidget extends StatelessWidget {
         children: [
           //Image
           courseImageHeader(
+            thumbnail: course.image,
             index: courseIndex,
             title: course.title,
             cost: course.cost,
@@ -167,8 +169,16 @@ class EnrolledCourseCardWidget extends StatelessWidget {
     required String title,
     required String cost,
     required double rating,
+    required String? thumbnail,
     required BuildContext context,
   }) {
+    // ✅ Fix thumbnail path
+    String imagePath = thumbnail ?? '';
+
+    if (imagePath.isNotEmpty && !imagePath.startsWith('http')) {
+      imagePath = '${dotenv.env['BASE_THUMBNAIL_URL']}$imagePath';
+    }
+
     return Container(
       height: 160.h,
       decoration: BoxDecoration(
@@ -188,20 +198,36 @@ class EnrolledCourseCardWidget extends StatelessWidget {
       ),
       child: Stack(
         children: [
-          //TODO: Yesma image xaina vane matra watermark aaune banaunu xa
-          //Letter WaterMark
-          Center(
-            child: TextWidget(
-              word: title.isNotEmpty ? title[0].toUpperCase() : '',
-              size: 54,
-              weight: FontWeight.w900,
-              textColor: customColors.whiteBlack,
+          // ✅ IMAGE + OVERLAY
+          ClipRRect(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(16.r),
+              topRight: Radius.circular(16.r),
+            ),
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                // Image or fallback
+                imagePath.isNotEmpty
+                    ? Image.network(
+                        imagePath,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return _buildFallback(title);
+                        },
+                      )
+                    : _buildFallback(title),
+
+                // ✅ Overlay for readability
+                Container(color: Colors.black.withValues(alpha: 0.2)),
+              ],
             ),
           ),
+
+          // ✅ INDEX TAG
           Positioned(
             top: 12,
             left: 12,
-
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
               decoration: BoxDecoration(
@@ -209,11 +235,9 @@ class EnrolledCourseCardWidget extends StatelessWidget {
                 gradient: LinearGradient(
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
-
                   colors: [Colors.black, Colors.black.withValues(alpha: 0.3)],
                 ),
               ),
-
               child: TextWidget(
                 word: '#${index + 1}',
                 textColor: Colors.white,
@@ -222,7 +246,7 @@ class EnrolledCourseCardWidget extends StatelessWidget {
             ),
           ),
 
-          //Price Tage
+          // ✅ PRICE TAG
           Positioned(
             bottom: 12,
             left: 12,
@@ -246,6 +270,8 @@ class EnrolledCourseCardWidget extends StatelessWidget {
               ),
             ),
           ),
+
+          // ✅ RATING TAG
           Positioned(
             bottom: 12,
             right: 12,
@@ -271,6 +297,17 @@ class EnrolledCourseCardWidget extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildFallback(String title) {
+    return Center(
+      child: TextWidget(
+        word: title.isNotEmpty ? title[0].toUpperCase() : '',
+        size: 54,
+        weight: FontWeight.w900,
+        textColor: customColors.whiteBlack,
       ),
     );
   }

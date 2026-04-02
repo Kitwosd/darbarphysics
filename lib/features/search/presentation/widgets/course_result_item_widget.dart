@@ -66,41 +66,75 @@ class CourseResultItemWidget extends StatelessWidget {
 
                       Row(
                         children: [
-                          Icon(
-                            Icons.star,
-                            color: Colors.amber.shade600,
-                            size: 14.sp,
+                          Row(
+                            children: [
+                              Icon(Icons.video_library, size: 14.sp),
+                              4.horizontalSpace,
+                              TextWidget(
+                                word: '${course.lessonCount} lessons',
+                                size: 13,
+                                weight: FontWeight.w500,
+                                textColor: Theme.of(context).hintColor,
+                              ),
+                            ],
                           ),
-                          4.horizontalSpace,
-                          TextWidget(
-                            word: '${course.rating}',
-                            size: 12,
-                            weight: FontWeight.w600,
-                          ),
-                          16.horizontalSpace,
-                          Spacer(),
-                          Icon(
-                            Icons.people,
-                            size: 14.sp,
-                            color: Theme.of(context).hintColor,
-                          ),
-                          4.horizontalSpace,
 
-                          TextWidget(
-                            word: (double.tryParse(course.cost) ?? 0) == 0
-                                ? 'All Students'
-                                : '${course.studentCount} students',
-                            size: 14,
-                          ),
+                          if (course.levelName != null)
+                            Expanded(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Icon(
+                                    Icons.school_rounded,
+                                    size: 15.sp,
+                                    color: const Color(0xFF6366F1),
+                                  ),
+                                  SizedBox(width: 4.w),
+                                  Flexible(
+                                    child: TextWidget(
+                                      word: course.levelName!,
+                                      size: 12,
+                                      weight: FontWeight.w600,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      textColor: Theme.of(context).hintColor,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           10.horizontalSpace,
                         ],
                       ),
                       4.verticalSpace,
                       Row(
                         children: [
-                          Icon(Icons.video_library, size: 14.sp),
-                          4.horizontalSpace,
-                          TextWidget(word: '${course.lessonCount}', size: 14),
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                              vertical: 4.h,
+                              horizontal: 8.w,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.yellow.shade100,
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.star,
+                                  color: Colors.amber.shade600,
+                                  size: 14.sp,
+                                ),
+                                4.horizontalSpace,
+                                TextWidget(
+                                  word: '${course.rating}',
+                                  size: 12,
+                                  weight: FontWeight.w600,
+                                  textColor: Theme.of(context).hintColor,
+                                ),
+                              ],
+                            ),
+                          ),
+
                           8.horizontalSpace,
                           Spacer(),
                           Container(

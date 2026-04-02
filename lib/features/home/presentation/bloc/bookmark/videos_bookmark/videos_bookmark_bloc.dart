@@ -57,6 +57,7 @@ class VideosBookmarkBloc
       final list = hiveServices.getAllVideos();
       final videos = list.map((e) => e.toVideo()).toList();
       final ids = list.map((e) => e.id).toSet();
+      //TODO: Log for debugging hive
       logger.d('Loaded: ${videos.length} videos from the hive');
       emit(state.copyWith(videoIds: ids, videos: videos));
     } catch (e, stackTrace) {

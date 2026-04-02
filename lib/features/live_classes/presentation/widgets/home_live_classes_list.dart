@@ -5,13 +5,11 @@ import 'package:durbar_physics/common/widgets/view_more_card_widget.dart';
 import 'package:durbar_physics/core/routing/navigation_service.dart';
 
 import 'package:durbar_physics/core/routing/route_name.dart';
-import 'package:durbar_physics/core/services/app_globals.dart';
 import 'package:durbar_physics/features/live_classes/presentation/bloc/live_classes_bloc.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
 
 class HomeLiveClassesList extends StatelessWidget {
   const HomeLiveClassesList({super.key});
@@ -42,7 +40,7 @@ class HomeLiveClassesList extends StatelessWidget {
             },
             builder: (ScrollController controller) {
               return SizedBox(
-                height: 240.h,
+                height: 235.h,
                 child: ListView.separated(
                   padding: EdgeInsets.symmetric(horizontal: 20.w),
                   clipBehavior: Clip.none,
@@ -65,25 +63,6 @@ class HomeLiveClassesList extends StatelessWidget {
                     final liveClass = state.liveClasses[index];
                     return GestureDetector(
                       onTap: () {
-                        //TODO: LiveClass enrollment dialog
-                        // if (liveClass.isLive) {
-                        //   if (liveClass.isUserLocked) {
-                        //     NavigationService.pushNamed(
-                        //       RouteName.zoomWebView,
-                        //       extra: {'url': liveClass.meetingUrl},
-                        //     );
-                        //   } else {
-                        // EnrollmentDialogWidget.show(
-                        //   context,
-                        //   forVideo: false,
-
-                        //   onGoToCourse: () => NavigationService.pushNamed(
-                        //     RouteName.detailScreen,
-                        //     extra: liveClass.course,
-                        //   ),
-                        // );
-                        // }
-                        // } else {
                         NavigationService.pushNamed(
                           RouteName.liveclassDetail,
                           extra: liveClass.id,
@@ -92,9 +71,8 @@ class HomeLiveClassesList extends StatelessWidget {
                       },
                       child: Container(
                         width: 260.w,
-
                         decoration: BoxDecoration(
-                          color: Theme.of(context).cardColor,
+                          color: Theme.of(context).colorScheme.surface,
                           borderRadius: BorderRadius.circular(12.r),
                           boxShadow: [
                             BoxShadow(
@@ -110,6 +88,7 @@ class HomeLiveClassesList extends StatelessWidget {
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            // Thumbnail Section
                             Stack(
                               children: [
                                 ClipRRect(
@@ -120,28 +99,26 @@ class HomeLiveClassesList extends StatelessWidget {
                                       ? Image.network(
                                           liveClass.thumbnail,
                                           height: 140.h,
-
                                           width: double.infinity,
-                                          fit: BoxFit.contain,
+                                          fit: BoxFit.cover,
                                           errorBuilder:
                                               (
                                                 context,
                                                 error,
                                                 stackTrace,
-                                              ) => Center(
-                                                child: Container(
-                                                  height: 140.h,
-                                                  width: 260.w,
+                                              ) => Container(
+                                                height: 140.h,
+                                                width: 260.w,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .surfaceContainerHighest,
+                                                child: Icon(
+                                                  Icons.videocam_off,
+                                                  size: 48.sp,
                                                   color: Theme.of(context)
                                                       .colorScheme
-                                                      .surfaceContainerHighest,
-                                                  child: Icon(
-                                                    Icons.videocam_off,
-                                                    size: 60.sp,
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .onSurfaceVariant,
-                                                  ),
+                                                      .onSurfaceVariant
+                                                      .withValues(alpha: 0.3),
                                                 ),
                                               ),
                                         )
@@ -158,16 +135,19 @@ class HomeLiveClassesList extends StatelessWidget {
                                               Icon(
                                                 Icons.videocam_off_outlined,
                                                 size: 40.sp,
-                                                color: Theme.of(
-                                                  context,
-                                                ).colorScheme.onSurfaceVariant,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .onSurfaceVariant
+                                                    .withValues(alpha: 0.4),
                                               ),
-                                              8.verticalSpace,
+                                              6.verticalSpace,
                                               TextWidget(
                                                 word: 'No preview',
-                                                textColor: Theme.of(
-                                                  context,
-                                                ).colorScheme.onSurfaceVariant,
+                                                size: 11,
+                                                textColor: Theme.of(context)
+                                                    .colorScheme
+                                                    .onSurfaceVariant
+                                                    .withValues(alpha: 0.5),
                                               ),
                                             ],
                                           ),
@@ -175,32 +155,46 @@ class HomeLiveClassesList extends StatelessWidget {
                                 ),
                                 if (liveClass.isLive)
                                   Positioned(
-                                    top: 8.h,
-                                    left: 8.w,
+                                    top: 10.h,
+                                    left: 10.w,
                                     child: Container(
                                       padding: EdgeInsets.symmetric(
-                                        horizontal: 8.w,
-                                        vertical: 4.h,
+                                        horizontal: 10.w,
+                                        vertical: 5.h,
                                       ),
                                       decoration: BoxDecoration(
-                                        color: Colors.red,
+                                        color: const Color(0xFFFF3B30),
                                         borderRadius: BorderRadius.circular(
-                                          4.r,
+                                          6.r,
                                         ),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: const Color(
+                                              0xFFFF3B30,
+                                            ).withValues(alpha: 0.3),
+                                            blurRadius: 8,
+                                            offset: const Offset(0, 2),
+                                          ),
+                                        ],
                                       ),
                                       child: Row(
+                                        mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          Icon(
-                                            Icons.circle,
-                                            size: 8.sp,
-                                            color: Colors.white,
+                                          Container(
+                                            width: 6.w,
+                                            height: 6.h,
+                                            decoration: const BoxDecoration(
+                                              color: Colors.white,
+                                              shape: BoxShape.circle,
+                                            ),
                                           ),
-                                          SizedBox(width: 4.w),
+                                          SizedBox(width: 5.w),
                                           TextWidget(
                                             word: "LIVE",
-                                            size: 10,
+                                            size: 11,
                                             textColor: Colors.white,
-                                            weight: FontWeight.bold,
+                                            weight: FontWeight.w700,
+                                            letterSpacing: 0.5,
                                           ),
                                         ],
                                       ),
@@ -208,46 +202,88 @@ class HomeLiveClassesList extends StatelessWidget {
                                   ),
                               ],
                             ),
+
+                            // Content Section
                             Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 12.w),
+                              padding: EdgeInsets.only(
+                                left: 14.w,
+                                top: 16.h,
+                                bottom: 16.h,
+                              ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  10.verticalSpace,
+                                  // Title
                                   SizedBox(
-                                    height: 50.h,
-                                    child: Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: TextWidget(
-                                        word: liveClass.title,
-                                        size: 14,
-                                        weight: FontWeight.bold,
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
+                                    // width: 180.w,
+                                    child: TextWidget(
+                                      word: liveClass.title,
+                                      size: 15,
+                                      weight: FontWeight.w600,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      height: 1.3,
                                     ),
                                   ),
-                                  SizedBox(height: 4.h),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      TextWidget(
-                                        word: liveClass.teacherName,
-                                        size: 12,
-                                        textColor: appColors.secondary,
+
+                                  12.verticalSpace,
+
+                                  // Level & Subject Row
+                                  if (liveClass.levelName != null ||
+                                      liveClass.subjectName != null)
+                                    Padding(
+                                      padding: EdgeInsets.only(bottom: 8.h),
+                                      child: Row(
+                                        children: [
+                                          // Level
+                                          if (liveClass.levelName != null) ...[
+                                            Icon(
+                                              Icons.school_rounded,
+                                              size: 15.sp,
+                                              color: const Color(0xFF6366F1),
+                                            ),
+                                            SizedBox(width: 5.w),
+                                            Flexible(
+                                              child: TextWidget(
+                                                word: liveClass.levelName!,
+                                                size: 12,
+                                                weight: FontWeight.w600,
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                textColor: Theme.of(
+                                                  context,
+                                                ).colorScheme.onSurfaceVariant,
+                                              ),
+                                            ),
+                                          ],
+                                          Spacer(),
+
+                                          // Subject
+                                          if (liveClass.subjectName !=
+                                              null) ...[
+                                            Icon(
+                                              Icons.menu_book_rounded,
+                                              size: 15.sp,
+                                              color: const Color(0xFF10B981),
+                                            ),
+                                            SizedBox(width: 5.w),
+                                            Flexible(
+                                              child: TextWidget(
+                                                word: liveClass.subjectName!,
+                                                size: 12,
+                                                textColor: Theme.of(
+                                                  context,
+                                                ).colorScheme.onSurfaceVariant,
+
+                                                weight: FontWeight.w600,
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ),
+                                          ],
+                                        ],
                                       ),
-                                      if (liveClass.status != 'live')
-                                        TextWidget(
-                                          word: DateFormat(
-                                            'MMM d, h:mm a',
-                                          ).format(liveClass.startTime),
-                                          size: 10,
-                                          textColor: Colors.grey,
-                                          weight: FontWeight.w500,
-                                        ),
-                                    ],
-                                  ),
+                                    ),
                                 ],
                               ),
                             ),

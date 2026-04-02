@@ -24,7 +24,7 @@ class VideoResultItemWidget extends StatelessWidget {
               onGoToCourse: () => {
                 NavigationService.pushNamedReplacement(
                   RouteName.detailScreen,
-                  //TODO: yeha course id dinu parxa sab video haru ma dinu  parne hola do check other video player routes as well
+
                   extra: video.course, //extra: video.courseId,
                 ),
               },
@@ -71,19 +71,42 @@ class VideoResultItemWidget extends StatelessWidget {
                   SizedBox(height: 6.h),
                   Row(
                     children: [
-                      Icon(
-                        Icons.play_circle_outline,
-                        size: 14.sp,
-                        color: Theme.of(context).hintColor,
-                      ),
-                      SizedBox(width: 4.w),
-                      TextWidget(
-                        word: video.duration.isNotEmpty
-                            ? video.duration
-                            : 'Video',
-                        size: 12,
-                        textColor: Theme.of(context).hintColor,
-                      ),
+                      // Icon(
+                      //   Icons.play_circle_outline,
+                      //   size: 14.sp,
+                      //   color: Theme.of(context).hintColor,
+                      // ),
+                      // SizedBox(width: 4.w),
+                      // TextWidget(
+                      //   word: video.duration.isNotEmpty
+                      //       ? video.duration
+                      //       : 'Video',
+                      //   size: 12,
+                      //   textColor: Theme.of(context).hintColor,
+                      // ),
+                      if (video.levelName != null)
+                        Expanded(
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.school_rounded,
+                                size: 15.sp,
+                                color: const Color(0xFF6366F1),
+                              ),
+                              SizedBox(width: 4.w),
+                              Expanded(
+                                child: TextWidget(
+                                  word: video.levelName!,
+                                  size: 12,
+                                  weight: FontWeight.w600,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  textColor: Theme.of(context).hintColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
 
                       if (video.isUserLocked) ...[
                         Spacer(),
@@ -122,6 +145,61 @@ class VideoResultItemWidget extends StatelessWidget {
                           ),
                         ),
                       ],
+                    ],
+                  ),
+                  5.verticalSpace,
+                  Row(
+                    children: [
+                      // Left side - Subject info
+                      if (video.subjectName != null)
+                        Expanded(
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.menu_book_rounded,
+                                size: 15.sp,
+                                color: const Color(0xFF10B981),
+                              ),
+                              SizedBox(width: 4.w),
+                              Expanded(
+                                child: TextWidget(
+                                  word: video.subjectName!,
+                                  size: 12,
+                                  weight: FontWeight.w600,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  textColor: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurfaceVariant,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                      // Right side - Duration (fixed size)
+                      SizedBox(width: 8.w),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.access_time,
+                            size: 14.sp,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurfaceVariant,
+                          ),
+                          SizedBox(width: 4.w),
+                          TextWidget(
+                            word: video.duration,
+                            size: 12,
+                            textColor: Theme.of(
+                              context,
+                            ).colorScheme.onSurfaceVariant,
+                          ),
+                          5.horizontalSpace,
+                        ],
+                      ),
                     ],
                   ),
                 ],

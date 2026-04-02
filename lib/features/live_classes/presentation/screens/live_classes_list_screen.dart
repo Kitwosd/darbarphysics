@@ -44,12 +44,6 @@ class LiveClassesListScreen extends StatelessWidget {
                   final liveClass = state.liveClasses[index];
                   return GestureDetector(
                     onTap: () {
-                      //TODO: live class enrollment
-                      // if (liveClass.isUserLocked) {
-                      //   EnrollmentDialogWidget.show(context, forVideo: false);
-                      //   return;
-                      // }
-
                       NavigationService.pushNamed(
                         RouteName.liveclassDetail,
                         extra: liveClass.id,

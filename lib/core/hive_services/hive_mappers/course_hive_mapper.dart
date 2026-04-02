@@ -14,6 +14,10 @@ extension CourseToHive on CourseModel {
     lessonCount: lessonCount,
     liveClassCount: liveClassCount,
     isUserLocked: isUserLocked,
+
+    // ✅ NEW
+    levelName: levelName,
+    subjectName: subjectName,
   );
 }
 
@@ -29,6 +33,11 @@ extension HiveToCourse on CourseHiveModel {
     lessonCount: lessonCount,
     liveClassCount: liveClassCount,
     isUserLocked: isUserLocked,
+
+    // ✅ NEW
+    levelName: levelName,
+    subjectName: subjectName,
+
     streams: [],
     streamNames: [],
   );
@@ -40,12 +49,16 @@ extension CourseDetailToHive on CourseDetailModel {
     id: id,
     title: title,
     description: description,
-    cost: cost, // It's already a String in DetailModel
+    cost: cost,
     image: image,
     rating: rating,
     studentCount: studentCount,
     lessonCount: lessonCount,
     liveClassCount: liveClassCount,
     isUserLocked: isUserLocked,
+
+    // ✅ NEW
+    levelName: levelName,
+    subjectName: subjectName,
   );
 }

@@ -70,7 +70,9 @@ class LiveClassDetailScreen extends StatelessWidget {
                             child: SingleChildScrollView(
                               child: Column(
                                 children: [
-                                  TitleWidget(title: 'Live Classes Detail'),
+                                  TitleWidget(
+                                    title: state.liveClassDetail!.title,
+                                  ),
                                   10.verticalSpace,
                                   ClassHeroCardWidget(
                                     liveClass: state.liveClassDetail!,

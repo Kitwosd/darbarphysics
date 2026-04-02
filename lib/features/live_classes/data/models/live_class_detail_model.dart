@@ -17,6 +17,8 @@ class LiveClassDetailModel {
   final String teacher;
   final String status;
   final bool isUserLocked;
+  final String? levelName;
+  final String? subjectName;
 
   LiveClassDetailModel({
     required this.id,
@@ -37,6 +39,8 @@ class LiveClassDetailModel {
     required this.teacher,
     required this.status,
     required this.isUserLocked,
+    this.levelName,
+    this.subjectName,
   });
 
   // Calculate duration
@@ -87,6 +91,8 @@ class LiveClassDetailModel {
         teacher: json["teacher"],
         status: json["status"],
         isUserLocked: json["is_user_locked"],
+        levelName: json['level_name'],
+        subjectName: json['subject_name'],
       );
 
   Map<String, dynamic> toJson() => {

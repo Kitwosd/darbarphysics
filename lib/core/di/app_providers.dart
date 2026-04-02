@@ -7,6 +7,8 @@ import 'package:durbar_physics/features/courses/presentation/bloc/courses/course
 import 'package:durbar_physics/features/courses/presentation/bloc/enrolled_courses/enrolled_courses_bloc.dart';
 import 'package:durbar_physics/features/home/presentation/bloc/bookmark/courses_book_bloc/course_bookmark_bloc.dart';
 import 'package:durbar_physics/features/home/presentation/bloc/bookmark/videos_bookmark/videos_bookmark_bloc.dart';
+import 'package:durbar_physics/features/package/presentation/bloc/packages_bloc.dart';
+import 'package:durbar_physics/features/package/presentation/bloc/packages_event.dart';
 import 'package:durbar_physics/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -37,5 +39,8 @@ List<BlocProvider> get providers => [
   ),
   BlocProvider<ProfileCubit>(
     create: (_) => getIt<ProfileCubit>()..getProfile(),
+  ),
+  BlocProvider<PackageBloc>(
+    create: (_) => getIt<PackageBloc>()..add(GetPackagesEvent()),
   ),
 ];

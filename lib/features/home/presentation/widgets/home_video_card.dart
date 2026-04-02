@@ -48,8 +48,6 @@ class HomeVideoCardWidget extends StatelessWidget {
               _thumbnailWidget(video, videoIndex, context, isDark, canAccess),
               12.horizontalSpace,
               Expanded(child: _titleWidget(video, context)),
-              8.horizontalSpace,
-              _lockedIconWidget(video, context, canAccess),
             ],
           ),
         ),
@@ -78,12 +76,12 @@ class HomeVideoCardWidget extends StatelessWidget {
             textColor: !canAccess ? Colors.yellow[900] : Colors.green[900],
           ),
         ),
-        4.verticalSpace,
-        Icon(
-          Icons.chevron_right_rounded,
-          size: 24.sp,
-          color: Theme.of(context).iconTheme.color?.withValues(alpha: 0.4),
-        ),
+
+        // Icon(
+        //   Icons.chevron_right_rounded,
+        //   size: 24.sp,
+        //   color: Theme.of(context).iconTheme.color?.withValues(alpha: 0.4),
+        // ),
       ],
     );
   }
@@ -93,6 +91,7 @@ class HomeVideoCardWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        // Title
         TextWidget(
           word: video.title,
           size: 15,
@@ -100,20 +99,99 @@ class HomeVideoCardWidget extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           weight: FontWeight.w600,
         ),
-        6.verticalSpace,
+        SizedBox(height: 6.h),
+
+        // Grade Row - Simple split with fixed space allocation
         Row(
           children: [
-            Icon(
-              Icons.access_time,
-              size: 14.sp,
-              color: Theme.of(context).shadowColor.withValues(alpha: 0.3),
+            // Left side - Grade info with fixed width
+            if (video.levelName != null)
+              Expanded(
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.school_rounded,
+                      size: 15.sp,
+                      color: const Color(0xFF6366F1),
+                    ),
+                    SizedBox(width: 4.w),
+                    Expanded(
+                      child: TextWidget(
+                        word: video.levelName!,
+                        size: 12,
+                        weight: FontWeight.w600,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        textColor: Theme.of(
+                          context,
+                        ).colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+            // Right side - Locked status (fixed size)
+            SizedBox(width: 8.w),
+            _lockedIconWidget(
+              video,
+              context,
+              !(video.isLocked && video.isUserLocked),
             ),
-            TextWidget(
-              word: ': ${video.duration}',
-              size: 12,
-              textColor: Theme.of(context).shadowColor.withValues(alpha: 0.3),
+          ],
+        ),
+
+        SizedBox(height: 4.h),
+
+        // Subject Row - Same pattern
+        Row(
+          children: [
+            // Left side - Subject info
+            if (video.subjectName != null)
+              Expanded(
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.menu_book_rounded,
+                      size: 15.sp,
+                      color: const Color(0xFF10B981),
+                    ),
+                    SizedBox(width: 4.w),
+                    Expanded(
+                      child: TextWidget(
+                        word: video.subjectName!,
+                        size: 12,
+                        weight: FontWeight.w600,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        textColor: Theme.of(
+                          context,
+                        ).colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+            // Right side - Duration (fixed size)
+            SizedBox(width: 8.w),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.access_time,
+                  size: 14.sp,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+                SizedBox(width: 4.w),
+                TextWidget(
+                  word: video.duration,
+                  size: 12,
+                  textColor: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+                5.horizontalSpace,
+              ],
             ),
-            Spacer(),
           ],
         ),
       ],

@@ -1,3 +1,4 @@
+import 'package:durbar_physics/common/widgets/numbering_widget.dart';
 import 'package:durbar_physics/common/widgets/overlay_toast_widget.dart';
 import 'package:durbar_physics/common/widgets/text_widget.dart';
 import 'package:durbar_physics/core/routing/navigation_service.dart';
@@ -6,6 +7,7 @@ import 'package:durbar_physics/features/courses/data/model/course_model.dart';
 import 'package:durbar_physics/features/home/presentation/bloc/bookmark/courses_book_bloc/course_bookmark_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -48,68 +50,204 @@ class SavedCoursesListWidget extends StatelessWidget {
               RouteName.detailScreen,
               extra: course.id,
             ),
-            child: Container(
-              margin: EdgeInsets.only(bottom: 15.h),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ClipRRect(
+            child: Stack(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(8.w),
+
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).scaffoldBackgroundColor,
                     borderRadius: BorderRadius.circular(12.r),
-                    child: Image.network(
-                      courses[index].image,
-                      height: 80.h,
-                      width: 80.w,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) => Container(
-                        height: 80.h,
-                        width: 80.w,
-                        color: Colors.grey[300],
+                    boxShadow: [
+                      BoxShadow(
+                        blurRadius: 8,
+                        color: Colors.grey,
+                        offset: Offset(0, 2),
                       ),
-                    ),
+                    ],
                   ),
-                  SizedBox(width: 15.w),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TextWidget(
-                          word: courses[index].title,
-                          maxLines: 2,
-                          weight: FontWeight.bold,
-                        ),
-                        SizedBox(height: 5.h),
-                        TextWidget(
-                          word: "Samule Doe",
-                          textColor: Colors.grey,
-                          size: 12,
-                        ), // Mock
-                        SizedBox(height: 5.h),
-                        Row(
+                  child: Row(
+                    children: [
+                      _buildThumbnail(
+                        context,
+                        height: 75.h,
+                        width: 100.w,
+                        course: course,
+                      ),
+                      16.horizontalSpace,
+                      Flexible(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+
                           children: [
-                            Icon(Icons.person, size: 14.sp, color: Colors.grey),
                             TextWidget(
-                              word: " 4k student",
-                              textColor: Colors.grey,
-                              size: 12,
+                              word: course.title,
+                              maxLines: 3,
+                              size: 16,
+                              weight: FontWeight.bold,
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            SizedBox(width: 10.w),
-                            Icon(Icons.star, size: 14.sp, color: Colors.amber),
-                            TextWidget(
-                              word: " 4.7",
-                              textColor: Colors.grey,
-                              size: 12,
+                            4.verticalSpace,
+
+                            Row(
+                              children: [
+                                Row(
+                                  children: [
+                                    Icon(Icons.video_library, size: 14.sp),
+                                    4.horizontalSpace,
+                                    TextWidget(
+                                      word: '${course.lessonCount} lessons',
+                                      size: 13,
+                                      weight: FontWeight.w500,
+                                      textColor: Theme.of(context).hintColor,
+                                    ),
+                                  ],
+                                ),
+
+                                if (course.levelName != null)
+                                  Expanded(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Icon(
+                                          Icons.school_rounded,
+                                          size: 15.sp,
+                                          color: const Color(0xFF6366F1),
+                                        ),
+                                        SizedBox(width: 4.w),
+                                        Flexible(
+                                          child: TextWidget(
+                                            word: course.levelName!,
+                                            size: 12,
+                                            weight: FontWeight.w600,
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                            textColor: Theme.of(
+                                              context,
+                                            ).hintColor,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                10.horizontalSpace,
+                              ],
+                            ),
+                            4.verticalSpace,
+                            Row(
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: 4.h,
+                                    horizontal: 8.w,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.yellow.shade100,
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.star,
+                                        color: Colors.amber.shade600,
+                                        size: 14.sp,
+                                      ),
+                                      4.horizontalSpace,
+                                      TextWidget(
+                                        word: '${course.rating}',
+                                        size: 12,
+                                        weight: FontWeight.w600,
+                                        textColor: Theme.of(context).hintColor,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+
+                                if (course.subjectName != null)
+                                  Expanded(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Icon(
+                                          Icons.menu_book_rounded,
+                                          size: 15.sp,
+                                          color: const Color(0xFF10B981),
+                                        ),
+                                        SizedBox(width: 4.w),
+                                        Flexible(
+                                          child: TextWidget(
+                                            word: course.subjectName!,
+
+                                            size: 12,
+                                            weight: FontWeight.w600,
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                            textColor: Theme.of(
+                                              context,
+                                            ).colorScheme.onSurfaceVariant,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                10.horizontalSpace,
+                              ],
                             ),
                           ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                Positioned(
+                  left: 4,
+                  top: 4,
+                  child: NumberingWidget(index: index),
+                ),
+              ],
             ),
           ),
         );
       },
+    );
+  }
+
+  Widget _buildThumbnail(
+    BuildContext context, {
+    required CourseModel course,
+    required double height,
+    required double width,
+  }) {
+    String imagePath = course.image;
+    if (!imagePath.startsWith('http')) {
+      imagePath = '${dotenv.env['BASE_THUMBNAIL_URL']}$imagePath';
+    }
+    return Container(
+      width: width,
+      height: height,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12.r),
+        gradient: LinearGradient(
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+          colors: [Colors.blue.shade200, Colors.blue.shade600],
+        ),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(12.r),
+        child: course.image.isNotEmpty
+            ? Image.network(
+                imagePath,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, ___) {
+                  return Center(
+                    child: Icon(Icons.school, size: 32.sp, color: Colors.white),
+                  );
+                },
+              )
+            : Center(
+                child: Icon(Icons.school, size: 32.sp, color: Colors.white),
+              ),
+      ),
     );
   }
 }

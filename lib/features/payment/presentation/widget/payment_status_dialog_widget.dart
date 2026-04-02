@@ -26,13 +26,13 @@ class PaymentStatusDialogWidget extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(24.w),
         decoration: BoxDecoration(
-          color: Theme.of(context).dialogBackgroundColor,
+          color: Theme.of(context).dialogTheme.backgroundColor, 
           borderRadius: BorderRadius.circular(24.r),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // ── Icon with circle background ──
+            // ── Icon with circle background ── DialogThemeData.backgroundColor
             Container(
               width: 72.w,
               height: 72.w,

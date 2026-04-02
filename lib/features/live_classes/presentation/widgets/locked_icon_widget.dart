@@ -12,14 +12,14 @@ class LockedIconWidget extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
       decoration: BoxDecoration(
-        color: isUserLocked ? Colors.yellow[100] : Colors.green[100],
+        color: isUserLocked ? Colors.orange[100] : Colors.green[100],
         borderRadius: BorderRadius.circular(12.r),
       ),
       child: TextWidget(
         word: isUserLocked ? 'LOCKED' : 'UNLOCKED',
         weight: FontWeight.bold,
         size: 10,
-        textColor: isUserLocked ? Colors.yellow[900] : Colors.green[900],
+        textColor: isUserLocked ? Colors.orange[900] : Colors.green[900],
       ),
     );
   }

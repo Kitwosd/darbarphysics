@@ -13,6 +13,8 @@ class LiveClassModel extends Equatable {
   final String status;
   final bool isUserLocked;
   final int course;
+  final String? levelName;
+  final String? subjectName;
 
   const LiveClassModel({
     required this.id,
@@ -26,6 +28,8 @@ class LiveClassModel extends Equatable {
     this.password,
     required this.isUserLocked,
     required this.course,
+    this.levelName,
+    this.subjectName,
   });
 
   factory LiveClassModel.fromJson(Map<String, dynamic> json) {
@@ -39,7 +43,7 @@ class LiveClassModel extends Equatable {
       id: json["id"] ?? 0,
       title: json["title"] ?? '',
       thumbnail: thumbnailPath,
-      teacherName: json["teacherName"] ?? 'Unknown Teacher',
+      teacherName: json["teacher"] ?? 'Unknown Teacher',
       startTime: json["startTime"] != null
           ? DateTime.parse(json["startTime"])
           : DateTime.now(),
@@ -49,6 +53,8 @@ class LiveClassModel extends Equatable {
       isUserLocked: json["is_user_locked"] ?? false,
       status: json["status"],
       course: json["course"],
+      levelName: json['level_name'],
+      subjectName: json['subject_name'],
     );
   }
 
@@ -79,5 +85,7 @@ class LiveClassModel extends Equatable {
     status,
     isUserLocked,
     course,
+    levelName,
+    subjectName,
   ];
 }

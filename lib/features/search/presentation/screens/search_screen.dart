@@ -14,24 +14,10 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController searchController = TextEditingController();
-  // String _searchQuery = '';
-  // SearchTab _currentTab = SearchTab.all;
-
-  // // Yeha real data halne
-  // List<dynamic> _allVideos = [];
-  // List<dynamic> _allCourses = [];
-  // List<dynamic> _allLiveClasses = [];
 
   @override
   void initState() {
     super.initState();
-
-    // TODO: Fetch data from your BLoC or repository
-    // Actually we have search api for this and we receive different list of live videos, and courses.
-    // Example:
-    // context.read<VideosBloc>().add(FetchVideos());
-    // context.read<CoursesBloc>().add(FetchCourses());
-    // context.read<LiveClassesBloc>().add(FetchLiveClasses());
   }
 
   @override

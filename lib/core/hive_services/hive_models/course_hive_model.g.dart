@@ -10,8 +10,7 @@ class CourseHiveModelAdapter extends TypeAdapter<CourseHiveModel> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    
-    // ✅ MANUALLY ADD THIS - the generator creates empty constructor
+
     return CourseHiveModel(
       id: fields[0] as int,
       title: fields[1] as String,
@@ -23,13 +22,19 @@ class CourseHiveModelAdapter extends TypeAdapter<CourseHiveModel> {
       lessonCount: fields[7] as int,
       liveClassCount: fields[8] as int,
       isUserLocked: fields[9] as bool,
+
+      // ✅ SAFE READ (no crash for old users)
+      levelName:
+          fields.containsKey(10) ? fields[10] as String? : null,
+      subjectName:
+          fields.containsKey(11) ? fields[11] as String? : null,
     );
   }
 
   @override
   void write(BinaryWriter writer, CourseHiveModel obj) {
     writer
-      ..writeByte(10)
+      ..writeByte(12) // ✅ updated count
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -49,7 +54,13 @@ class CourseHiveModelAdapter extends TypeAdapter<CourseHiveModel> {
       ..writeByte(8)
       ..write(obj.liveClassCount)
       ..writeByte(9)
-      ..write(obj.isUserLocked);
+      ..write(obj.isUserLocked)
+
+      // ✅ NEW FIELDS
+      ..writeByte(10)
+      ..write(obj.levelName)
+      ..writeByte(11)
+      ..write(obj.subjectName);
   }
 
   @override

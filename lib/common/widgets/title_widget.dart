@@ -40,11 +40,13 @@ class TitleWidget extends StatelessWidget {
               ),
             ),
             30.horizontalSpace,
-            TextWidget(
-              word: title,
-              size: 24,
-              weight: FontWeight.w600,
-              textColor: Theme.of(context).colorScheme.primary,
+            Expanded(
+              child: TextWidget(
+                word: title,
+                size: 24,
+                weight: FontWeight.w600,
+                textColor: Theme.of(context).colorScheme.primary,
+              ),
             ),
           ],
         ),

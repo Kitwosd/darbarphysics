@@ -23,6 +23,8 @@ import 'package:durbar_physics/features/live_classes/presentation/screens/live_c
 import 'package:durbar_physics/features/live_classes/presentation/screens/live_classes_list_screen.dart';
 // import 'package:durbar_physics/features/live_classes/presentation/screens/zoom_web_view_screens.dart';
 import 'package:durbar_physics/features/on_boarding/presentation/screens/on_boarding_screen.dart';
+import 'package:durbar_physics/features/package/presentation/screens/all_packages_screen.dart';
+import 'package:durbar_physics/features/package/presentation/screens/package_detail_screen.dart';
 import 'package:durbar_physics/features/payment/presentation/bloc/payment_bloc.dart';
 import 'package:durbar_physics/features/profile/data/models/profile_model.dart';
 import 'package:durbar_physics/features/profile/presentation/screens/edit_profile_screen.dart';
@@ -117,7 +119,7 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: RoutePath.zoomWebView,
       name: RouteName.zoomWebView,
-      builder: (context, state) =>  ZoomWebViewPage(
+      builder: (context, state) => ZoomWebViewPage(
         zoomUrl:
             'https://us04web.zoom.us/j/3117772972?pwd=oQOKC681rjGaeyA8ZiixJe8T2sW9pN.1',
       ),
@@ -244,6 +246,20 @@ final GoRouter appRouter = GoRouter(
           title: LegalConstants.termsAndConditionsTitle,
           content: LegalConstants.termsAndConditionsContent,
         );
+      },
+    ),
+    GoRoute(
+      path: RoutePath.allPackages,
+      name: RouteName.allPackages,
+      builder: (context, state) {
+        return AllPackagesScreen();
+      },
+    ),
+    GoRoute(
+      path: RoutePath.packageDetail,
+      name: RouteName.packageDetail,
+      builder: (context, state) {
+        return PackageDetailScreen();
       },
     ),
   ],

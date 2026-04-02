@@ -5,6 +5,7 @@ import 'package:durbar_physics/core/routing/route_name.dart';
 import 'package:durbar_physics/features/courses/presentation/routes/video_player_args.dart';
 import 'package:durbar_physics/features/home/data/models/video_model.dart';
 import 'package:durbar_physics/features/home/presentation/bloc/bookmark/videos_bookmark/videos_bookmark_bloc.dart';
+import 'package:durbar_physics/features/home/presentation/widgets/saved_video_thumbnail_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,9 +22,10 @@ class SavedVideosListWidget extends StatelessWidget {
       itemCount: videos.length,
       itemBuilder: (context, index) {
         final video = videos[index];
+        bool canAccess = !(video.isUserLocked && video.isLocked);
         return Slidable(
           key: ValueKey(video.id),
-          endActionPane: ActionPane(
+          startActionPane: ActionPane(
             motion: const DrawerMotion(),
             children: [
               SlidableAction(
@@ -48,7 +50,7 @@ class SavedVideosListWidget extends StatelessWidget {
 
           child: GestureDetector(
             onTap: () => NavigationService.pushNamed(
-              RouteName.videoPlayer,
+              RouteName.youtubeVideoPlayerScreen,
               extra: VideoPlayerArgs(
                 video: video,
                 videoUrl: video.videoUrl,
@@ -57,93 +59,140 @@ class SavedVideosListWidget extends StatelessWidget {
             ),
             child: Container(
               margin: EdgeInsets.only(bottom: 15.h),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surfaceContainerLow,
+                borderRadius: BorderRadius.circular(8.r),
+                border: Border.all(
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.outlineVariant.withValues(alpha: 0.3),
+                  width: 0.5,
+                ),
+              ),
+              padding: EdgeInsets.all(12.w),
+
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  if (video.thumbnail != null && video.thumbnail!.isNotEmpty)
-                    Positioned.fill(
-                      child: Image.network(
-                        videos[index].thumbnail!,
-                        height: 80.h,
-                        width: 80.w,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) => Center(
-                          child: Container(
-                            height: 80.h,
-                            width: 80.w,
-
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                width: 0.5,
-                                color: Theme.of(context).cardColor,
-                              ),
-                            ),
-                            child: Center(
-                              child: Icon(
-                                Icons.play_circle_filled,
-                                size: 40.sp,
-                                color: Colors.red[300],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  else
-                    Container(
-                      height: 80.h,
-                      width: 80.w,
-
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 0.5,
-                          color: Theme.of(context).cardColor,
-                        ),
-                      ),
-                      child: Center(
-                        child: Icon(
-                          Icons.play_circle_filled,
-                          size: 40.sp,
-                          color: Colors.red[600],
-                        ),
-                      ),
+                  // Thumbnail
+                  SizedBox(
+                    height: 80.h,
+                    width: 80.w,
+                    child: SavedVideoThumbnailWidget(
+                      video: video,
+                      videoIndex: index,
+                      canAccess: canAccess,
                     ),
+                    // (video.thumbnail != null && video.thumbnail!.isNotEmpty)
+                    // ? Image.network(
+                    //     video.thumbnail!,
+                    //     fit: BoxFit.cover,
+                    //     errorBuilder: (context, error, stackTrace) =>
+                    //         Center(
+                    //           child: Icon(
+                    //             Icons.play_circle_filled,
+                    //             size: 40.sp,
+                    //             color: Colors.red[300],
+                    //           ),
+                    //         ),
+                    //   )
+                    // : Center(
+                    //     child: Icon(
+                    //       Icons.play_circle_filled,
+                    //       size: 40.sp,
+                    //       color: Colors.red[600],
+                    //     ),
+                    //   ),
+                  ),
 
                   SizedBox(width: 15.w),
+
+                  // Details
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextWidget(
-                          word: videos[index].title,
+                          word: video.title,
+
                           maxLines: 2,
                           weight: FontWeight.bold,
                         ),
                         SizedBox(height: 5.h),
-                        TextWidget(
-                          word: 'Teacher',
-                          textColor: Colors.grey,
-                          size: 12,
-                        ), // Mock
+
+                        if (video.subjectName != null)
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.menu_book_rounded,
+                                size: 15.sp,
+                                color: const Color(0xFF10B981),
+                              ),
+                              SizedBox(width: 4.w),
+                              Expanded(
+                                child: TextWidget(
+                                  word: video.subjectName!,
+                                  size: 12,
+                                  weight: FontWeight.w600,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  textColor: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurfaceVariant,
+                                ),
+                              ),
+                            ],
+                          ),
+
                         SizedBox(height: 5.h),
+
                         Row(
                           children: [
-                            Icon(Icons.person, size: 14.sp, color: Colors.grey),
-                            TextWidget(
-                              word: " ${videos[index].course} Course",
-                              textColor: Colors.grey,
-                              size: 12,
-                            ),
-                            SizedBox(width: 10.w),
-                            Icon(
-                              Icons.watch_later_outlined,
-                              size: 14.sp,
-                              color: Colors.amber,
-                            ),
-                            TextWidget(
-                              word: " ${videos[index].duration}",
-                              textColor: Colors.grey,
-                              size: 12,
+                            if (video.levelName != null)
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.school_rounded,
+                                      size: 15.sp,
+                                      color: const Color(0xFF6366F1),
+                                    ),
+                                    SizedBox(width: 4.w),
+                                    Expanded(
+                                      child: TextWidget(
+                                        word: video.levelName!,
+                                        size: 12,
+                                        weight: FontWeight.w600,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                        textColor: Theme.of(
+                                          context,
+                                        ).colorScheme.onSurfaceVariant,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+                            SizedBox(width: 8.w),
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.access_time,
+                                  size: 14.sp,
+                                  color: Colors.amber,
+                                ),
+                                SizedBox(width: 4.w),
+                                TextWidget(
+                                  word: video.duration,
+                                  size: 12,
+                                  textColor: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurfaceVariant,
+                                ),
+                                5.horizontalSpace,
+                              ],
                             ),
                           ],
                         ),
@@ -159,3 +208,127 @@ class SavedVideosListWidget extends StatelessWidget {
     );
   }
 }
+
+
+              //  Row(
+              //   crossAxisAlignment: CrossAxisAlignment.center,
+              //   children: [
+              //     Container(
+              //       height: 80.h,
+              //       width: 80.w,
+              //       child:
+              //           (video.thumbnail != null && video.thumbnail!.isNotEmpty)
+              //           ? Image.network(
+              //               video.thumbnail!,
+              //               fit: BoxFit.cover,
+              //               errorBuilder: (context, error, stackTrace) =>
+              //                   Center(
+              //                     child: Icon(
+              //                       Icons.play_circle_filled,
+              //                       size: 40.sp,
+              //                       color: Colors.red[300],
+              //                     ),
+              //                   ),
+              //             )
+              //           : Center(
+              //               child: Icon(
+              //                 Icons.play_circle_filled,
+              //                 size: 40.sp,
+              //                 color: Colors.red[600],
+              //               ),
+              //             ),
+              //     ),
+
+              //     SizedBox(width: 15.w),
+              //     Expanded(
+              //       child: Column(
+              //         crossAxisAlignment: CrossAxisAlignment.start,
+              //         children: [
+              //           TextWidget(
+              //             word: videos[index].title,
+              //             maxLines: 2,
+              //             weight: FontWeight.bold,
+              //           ),
+              //           SizedBox(height: 5.h),
+
+              //           if (video.subjectName != null)
+              //             Row(
+              //               children: [
+              //                 Icon(
+              //                   Icons.menu_book_rounded,
+              //                   size: 15.sp,
+              //                   color: const Color(0xFF10B981),
+              //                 ),
+              //                 SizedBox(width: 4.w),
+              //                 Expanded(
+              //                   child: TextWidget(
+              //                     word: video.subjectName!,
+              //                     size: 12,
+              //                     weight: FontWeight.w600,
+              //                     overflow: TextOverflow.ellipsis,
+              //                     maxLines: 1,
+              //                     textColor: Theme.of(
+              //                       context,
+              //                     ).colorScheme.onSurfaceVariant,
+              //                   ),
+              //                 ),
+              //               ],
+              //             ),
+
+              //           SizedBox(height: 5.h),
+              //           // Subject Row - Same pattern
+              //           Row(
+              //             children: [
+              //               // Left side - Subject info
+              //               if (video.levelName != null)
+              //                 Row(
+              //                   children: [
+              //                     Icon(
+              //                       Icons.school_rounded,
+              //                       size: 15.sp,
+              //                       color: const Color(0xFF6366F1),
+              //                     ),
+              //                     SizedBox(width: 4.w),
+              //                     Expanded(
+              //                       child: TextWidget(
+              //                         word: video.levelName!,
+              //                         size: 12,
+              //                         weight: FontWeight.w600,
+              //                         overflow: TextOverflow.ellipsis,
+              //                         maxLines: 1,
+              //                         textColor: Theme.of(
+              //                           context,
+              //                         ).colorScheme.onSurfaceVariant,
+              //                       ),
+              //                     ),
+              //                   ],
+              //                 ),
+
+              //               // Right side - Duration (fixed size)
+              //               SizedBox(width: 8.w),
+              //               Row(
+              //                 mainAxisSize: MainAxisSize.min,
+              //                 children: [
+              //                   Icon(
+              //                     Icons.access_time,
+              //                     size: 14.sp,
+              //                     color: Colors.amber,
+              //                   ),
+              //                   SizedBox(width: 4.w),
+              //                   TextWidget(
+              //                     word: video.duration,
+              //                     size: 12,
+              //                     textColor: Theme.of(
+              //                       context,
+              //                     ).colorScheme.onSurfaceVariant,
+              //                   ),
+              //                   5.horizontalSpace,
+              //                 ],
+              //               ),
+              //             ],
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //   ],
+              // ),

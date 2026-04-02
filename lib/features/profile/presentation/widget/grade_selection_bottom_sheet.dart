@@ -9,11 +9,11 @@ class GradeSelectionBottomSheet extends StatefulWidget {
   final Function(AcademicModel) onGradeSelected; // Returns full AcademicModel
 
   const GradeSelectionBottomSheet({
-    Key? key,
+    super.key,
     required this.grades,
     this.currentGradeId,
     required this.onGradeSelected,
-  }) : super(key: key);
+  });
 
   @override
   State<GradeSelectionBottomSheet> createState() =>
@@ -257,7 +257,7 @@ class _GradeSelectionBottomSheetState extends State<GradeSelectionBottomSheet> {
               color: Colors.white,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
+                  color: Colors.black.withValues(alpha: 0.05),
                   blurRadius: 10,
                   offset: Offset(0, -5),
                 ),
