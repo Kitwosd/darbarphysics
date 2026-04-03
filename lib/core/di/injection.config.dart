@@ -59,13 +59,18 @@ import '../../features/package/domain/repo/packages_repo.dart' as _i170;
 import '../../features/package/presentation/bloc/package_detail/package_detail_bloc.dart'
     as _i708;
 import '../../features/package/presentation/bloc/packages_bloc.dart' as _i232;
+import '../../features/payment/data/repo_impl.dart/package_payment_repo_impl.dart'
+    as _i36;
 import '../../features/payment/data/repo_impl.dart/payment_repo_impl.dart'
     as _i93;
 import '../../features/payment/data/services/khalti_payment_service.dart'
     as _i912;
 import '../../features/payment/data/services/khalti_service.dart' as _i123;
+import '../../features/payment/domain/repo/package_payment_repo.dart' as _i214;
 import '../../features/payment/domain/repo/payment_repo.dart' as _i50;
 import '../../features/payment/presentation/bloc/payment_bloc.dart' as _i206;
+import '../../features/payment/presentation/package_payment_bloc/package_payment_bloc.dart'
+    as _i1003;
 import '../../features/profile/data/models/academic_model.dart' as _i813;
 import '../../features/profile/data/models/profile_model.dart' as _i36;
 import '../../features/profile/data/repo_impl/profile_repository_impl.dart'
@@ -118,6 +123,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i364.ProfileRepo>(
       () => _i301.ProfileRepositoryImpl(gh<_i557.ApiClient>()),
+    );
+    gh.factory<_i214.PackagePaymentRepo>(
+      () => _i36.PackagePaymentRepoImpl(gh<_i557.ApiClient>()),
     );
     gh.factory<_i323.ResetPasswordRepo>(
       () => _i966.ResetPasswordRepoImpl(gh<_i557.ApiClient>()),
@@ -172,6 +180,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i206.PaymentBloc>(
       () => _i206.PaymentBloc(gh<_i50.PaymentRepo>()),
+    );
+    gh.factory<_i1003.PackagePaymentBloc>(
+      () => _i1003.PackagePaymentBloc(gh<_i214.PackagePaymentRepo>()),
     );
     gh.factory<_i356.ProfileState>(
       () => _i356.ProfileState(

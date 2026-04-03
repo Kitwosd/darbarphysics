@@ -142,6 +142,7 @@ class _YoutubeVideoPlayerScreenState extends State<YoutubeVideoPlayerScreen> {
           TextWidget(
             word: widget.video.title,
             size: 18,
+            maxLines: 3,
             weight: FontWeight.bold,
             textColor: Colors.white,
           ),
@@ -150,6 +151,51 @@ class _YoutubeVideoPlayerScreenState extends State<YoutubeVideoPlayerScreen> {
             word: 'Duration: ${widget.video.duration}',
             textColor: Colors.grey,
           ),
+          8.verticalSpace,
+          if (widget.video.levelName != null)
+            Row(
+              children: [
+                Icon(
+                  Icons.school_rounded,
+                  size: 15.sp,
+                  color: const Color(0xFF6366F1),
+                ),
+                SizedBox(width: 4.w),
+                Expanded(
+                  child: TextWidget(
+                    word: widget.video.levelName!,
+                    size: 14,
+                    weight: FontWeight.w600,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    textColor: Theme.of(context).hintColor,
+                  ),
+                ),
+              ],
+            ),
+          8.verticalSpace,
+
+          if (widget.video.subjectName != null)
+            Row(
+              children: [
+                Icon(
+                  Icons.menu_book_rounded,
+                  size: 15.sp,
+                  color: const Color(0xFF10B981),
+                ),
+                SizedBox(width: 4.w),
+                Expanded(
+                  child: TextWidget(
+                    word: widget.video.subjectName!,
+                    size: 14,
+                    weight: FontWeight.w600,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    textColor: Theme.of(context).hintColor,
+                  ),
+                ),
+              ],
+            ),
         ],
       ),
     );

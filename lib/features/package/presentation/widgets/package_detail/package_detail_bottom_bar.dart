@@ -1,6 +1,10 @@
+import 'package:durbar_physics/common/enums/enums.dart';
 import 'package:durbar_physics/common/widgets/text_widget.dart';
 import 'package:durbar_physics/features/package/data/model/package_detail_model.dart';
+import 'package:durbar_physics/features/payment/presentation/package_payment_bloc/package_payment_bloc.dart';
+import 'package:durbar_physics/features/payment/presentation/package_payment_bloc/package_payment_event.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PackageDetailBottomBar extends StatelessWidget {
@@ -44,24 +48,49 @@ class PackageDetailBottomBar extends StatelessWidget {
             ),
             SizedBox(width: 20.w),
             Expanded(
-              child: ElevatedButton(
-                onPressed: () {
-                  // TODO: Implement enrollment logic later
+              child: BlocBuilder<PackagePaymentBloc, PackagePaymentState>(
+                builder: (context, state) {
+                  final isProcessing =
+                      state.initializeStatus == ApiDataStatus.loading ||
+                      state.verifyStatus == ApiDataStatus.loading;
+                  return ElevatedButton(
+                    onPressed: isProcessing
+                        ? null
+                        : () {
+                            context.read<PackagePaymentBloc>().add(
+                                  InitializePackagePaymentEvent(
+                                      packageId: package.id),
+                                );
+                          },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).primaryColor,
+                      padding: EdgeInsets.symmetric(vertical: 16.h),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16.r),
+                      ),
+                      elevation: 0,
+                    ),
+                    child: isProcessing
+                        ? SizedBox(
+                            child: SizedBox(
+                              height: 20.h,
+                              width: 20.w,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  Colors.white,
+                                ),
+                              ),
+                            ),
+                          )
+                        : const TextWidget(
+                            word: "Unlock Package",
+                            size: 16,
+                            weight: FontWeight.bold,
+                            textColor: Colors.white,
+                          ),
+                  );
                 },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).primaryColor,
-                  padding: EdgeInsets.symmetric(vertical: 16.h),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16.r),
-                  ),
-                  elevation: 0,
-                ),
-                child: const TextWidget(
-                  word: "Unlock Package",
-                  size: 16,
-                  weight: FontWeight.bold,
-                  textColor: Colors.white,
-                ),
               ),
             ),
           ],

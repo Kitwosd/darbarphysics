@@ -3,12 +3,14 @@ class PaymentVerificationModel {
   final bool isSucess;
   final String? status;
   final String? course;
+  final String? packageName;
   final String? errorMessage;
   final bool isPending;
   const PaymentVerificationModel({
     required this.isSucess,
     this.status,
     this.course,
+    this.packageName,
     this.errorMessage,
     this.isPending = false,
   });
@@ -33,6 +35,7 @@ class PaymentVerificationModel {
       return PaymentVerificationModel(
         isSucess: true,
         course: json['course'],
+        packageName: json['package'],
         status: json['status'],
       );
     }

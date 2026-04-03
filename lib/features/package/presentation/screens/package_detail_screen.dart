@@ -2,6 +2,7 @@ import 'package:durbar_physics/common/enums/enums.dart';
 import 'package:durbar_physics/common/widgets/custom_appbar_widget.dart';
 import 'package:durbar_physics/common/widgets/error_screen.dart';
 import 'package:durbar_physics/core/di/injection.dart';
+import 'package:durbar_physics/core/logger/app_logger.dart';
 import 'package:durbar_physics/features/package/presentation/bloc/package_detail/package_detail_bloc.dart';
 import 'package:durbar_physics/features/package/presentation/bloc/package_detail/package_detail_event.dart';
 import 'package:durbar_physics/features/package/presentation/bloc/package_detail/package_detail_state.dart';
@@ -10,6 +11,11 @@ import 'package:durbar_physics/features/package/presentation/widgets/package_det
 import 'package:durbar_physics/features/package/presentation/widgets/package_detail/package_detail_header.dart';
 import 'package:durbar_physics/features/package/presentation/widgets/package_detail/package_detail_overview_tab.dart';
 import 'package:durbar_physics/features/package/presentation/widgets/package_detail/package_detail_stats_bar.dart';
+import 'package:durbar_physics/features/payment/data/services/khalti_service.dart';
+import 'package:durbar_physics/features/payment/presentation/package_payment_bloc/package_payment_bloc.dart';
+import 'package:durbar_physics/features/payment/presentation/package_payment_bloc/package_payment_event.dart';
+import 'package:durbar_physics/features/payment/presentation/widget/payment_status_dialog_widget.dart';
+import 'package:durbar_physics/features/payment/presentation/widget/verifying_dialog_widget.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,6 +33,8 @@ class PackageDetailScreen extends StatefulWidget {
 class _PackageDetailScreenState extends State<PackageDetailScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  final KhaltiService _khaltiService = getIt<KhaltiService>();
+  bool isKhaltiOpened = false;
 
   @override
   void initState() {
@@ -40,14 +48,112 @@ class _PackageDetailScreenState extends State<PackageDetailScreen>
     super.dispose();
   }
 
+  Future<void> _onPaymentStateChanged(
+    BuildContext context,
+    PackagePaymentState state,
+  ) async {
+    if (state.initializeStatus == ApiDataStatus.success &&
+        state.pidx != null &&
+        !isKhaltiOpened) {
+      isKhaltiOpened = true;
+      logger.i('Got package pidx, opening khalti....');
+
+      final resultPidx = await _khaltiService.openPayment(
+        context: context,
+        pidx: state.pidx!,
+      );
+
+      if (!context.mounted) return;
+
+      if (resultPidx != null) {
+        logger.i('Khalti success, verifying package with backend...');
+        context.read<PackagePaymentBloc>().add(VerifyPackagePaymentEvent(pidx: resultPidx));
+      } else {
+        isKhaltiOpened = false;
+        logger.i('User cancelled or failed package. resetting......');
+        context.read<PackagePaymentBloc>().add(ResetPackageStatesEvent());
+      }
+      return;
+    }
+
+    if (state.verifyStatus == ApiDataStatus.loading) {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) => const VerifyingDialogWidget(),
+      );
+      return;
+    }
+
+    if (state.verifyStatus == ApiDataStatus.success) {
+      if (Navigator.of(context).canPop()) {
+        Navigator.of(context).pop();
+      }
+
+      await PaymentStatusDialogWidget.show(
+        isSuccess: true,
+        message: state.successMessage,
+        context: context,
+        onContinue: () {
+          context.read<PackageDetailBloc>().add(
+            GetPackageDetailEvent(packageId: widget.packageId),
+          );
+          isKhaltiOpened = false;
+          context.read<PackagePaymentBloc>().add(ResetPackageStatesEvent());
+        },
+      );
+      return;
+    }
+
+    if (state.verifyStatus == ApiDataStatus.error) {
+      if (Navigator.of(context).canPop()) {
+        Navigator.of(context).pop();
+      }
+      await PaymentStatusDialogWidget.show(
+        context: context,
+        isSuccess: false,
+        message: state.errorMessage,
+        details: state.detailErrorMessage.isNotEmpty
+            ? state.detailErrorMessage
+            : null,
+        onContinue: () {
+          isKhaltiOpened = false;
+          context.read<PackagePaymentBloc>().add(ResetPackageStatesEvent());
+        },
+      );
+      return;
+    }
+
+    if (state.initializeStatus == ApiDataStatus.error) {
+      await PaymentStatusDialogWidget.show(
+        context: context,
+        isSuccess: false,
+        message: state.errorMessage,
+        onContinue: () {
+          isKhaltiOpened = false;
+          context.read<PackagePaymentBloc>().add(ResetPackageStatesEvent());
+        },
+      );
+      return;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-          getIt<PackageDetailBloc>()
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => getIt<PackageDetailBloc>()
             ..add(GetPackageDetailEvent(packageId: widget.packageId)),
-      child: Scaffold(
-        appBar: const CustomAppbarWidget(
+        ),
+        BlocProvider(
+          create: (context) => getIt<PackagePaymentBloc>(),
+        ),
+      ],
+      child: BlocListener<PackagePaymentBloc, PackagePaymentState>(
+        listener: _onPaymentStateChanged,
+        child: Scaffold(
+          appBar: const CustomAppbarWidget(
           title: 'Package Details',
           actions: [
             // IconButton(
@@ -132,6 +238,7 @@ class _PackageDetailScreenState extends State<PackageDetailScreen>
             }
             return const SizedBox.shrink();
           },
+        ),
         ),
       ),
     );

@@ -57,6 +57,38 @@ class EnrolledCourseCardWidget extends StatelessWidget {
             ),
           ),
           10.verticalSpace,
+
+          Padding(
+            padding: EdgeInsets.only(left: 16.w),
+            child: Row(
+              children: [
+                if (course.levelName != null)
+                  TextWidget(
+                    word: course.levelName ?? '',
+                    size: 13,
+                    weight: FontWeight.w500,
+                    textColor: customColors.blackWhite.withValues(alpha: 0.6),
+                  ),
+                6.horizontalSpace,
+                if (course.subjectName != null)
+                  Container(
+                    height: 6.h,
+                    width: 6.h,
+                    color: customColors.blackWhite.withValues(alpha: 0.6),
+                  ),
+
+                6.horizontalSpace,
+                if (course.subjectName != null)
+                  TextWidget(
+                    word: course.subjectName ?? '',
+                    size: 13,
+                    weight: FontWeight.w500,
+                    textColor: customColors.blackWhite.withValues(alpha: 0.6),
+                  ),
+              ],
+            ),
+          ),
+          10.verticalSpace,
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w),
             child: courseStatsGrid(
@@ -291,7 +323,11 @@ class EnrolledCourseCardWidget extends StatelessWidget {
               child: Row(
                 children: [
                   Icon(Icons.star, size: 16),
-                  TextWidget(word: ' $rating'),
+                  TextWidget(
+                    word: ' $rating',
+                    textColor: Colors.white,
+                    weight: FontWeight.w500,
+                  ),
                 ],
               ),
             ),

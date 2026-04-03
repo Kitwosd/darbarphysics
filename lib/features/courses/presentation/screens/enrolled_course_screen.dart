@@ -21,9 +21,9 @@ class EnrolledCourseScreen extends StatefulWidget {
 }
 
 class _EnrolledCourseScreenState extends State<EnrolledCourseScreen> {
+  final ScrollController scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
-    final scrollController = ScrollController();
     return BlocProvider(
       create: (context) =>
           getIt<EnrolledCoursesBloc>()..add(GetEnrolledCoursesEvent()),

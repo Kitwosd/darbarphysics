@@ -17,7 +17,8 @@ class SavedCoursesListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
+    return ListView.separated(
       padding: EdgeInsets.all(20.w),
       itemCount: courses.length,
       itemBuilder: (context, index) {
@@ -141,8 +142,10 @@ class SavedCoursesListWidget extends StatelessWidget {
                                     vertical: 4.h,
                                     horizontal: 8.w,
                                   ),
+
                                   decoration: BoxDecoration(
                                     color: Colors.yellow.shade100,
+                                    borderRadius: BorderRadius.circular(8.r),
                                   ),
                                   child: Row(
                                     children: [
@@ -156,7 +159,11 @@ class SavedCoursesListWidget extends StatelessWidget {
                                         word: '${course.rating}',
                                         size: 12,
                                         weight: FontWeight.w600,
-                                        textColor: Theme.of(context).hintColor,
+                                        textColor: isDark
+                                            ? Colors.black.withValues(
+                                                alpha: 0.8,
+                                              )
+                                            : Theme.of(context).hintColor,
                                       ),
                                     ],
                                   ),
@@ -207,6 +214,9 @@ class SavedCoursesListWidget extends StatelessWidget {
             ),
           ),
         );
+      },
+      separatorBuilder: (BuildContext context, int index) {
+        return SizedBox(height: 8.h);
       },
     );
   }

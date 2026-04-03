@@ -23,6 +23,7 @@ class CourseResultItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
     return InkWell(
       onTap: () =>
           NavigationService.pushNamed(RouteName.detailScreen, extra: course.id),
@@ -116,20 +117,23 @@ class CourseResultItemWidget extends StatelessWidget {
                             ),
                             decoration: BoxDecoration(
                               color: Colors.yellow.shade100,
+                              borderRadius: BorderRadius.circular(8.r),
                             ),
                             child: Row(
                               children: [
                                 Icon(
                                   Icons.star,
                                   color: Colors.amber.shade600,
-                                  size: 14.sp,
+                                  size: 16.sp,
                                 ),
                                 4.horizontalSpace,
                                 TextWidget(
                                   word: '${course.rating}',
                                   size: 12,
                                   weight: FontWeight.w600,
-                                  textColor: Theme.of(context).hintColor,
+                                  textColor: isDark
+                                      ? Colors.black
+                                      : Theme.of(context).hintColor,
                                 ),
                               ],
                             ),

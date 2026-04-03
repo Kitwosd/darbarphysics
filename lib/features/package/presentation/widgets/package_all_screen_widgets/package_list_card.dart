@@ -16,7 +16,6 @@ class PackageListCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final savings = _calculateSavings(package.price);
     final isFeatured = package.id == 4; // TODO: Add featured flag to model
 
     return GestureDetector(
@@ -243,14 +242,4 @@ class PackageListCard extends StatelessWidget {
         );
   }
 
-  int _calculateSavings(String price) {
-    // TODO: Calculate actual savings based on individual course prices
-    final packagePrice = double.tryParse(price) ?? 0;
-    if (packagePrice > 10000) {
-      return 4000;
-    } else if (packagePrice > 5000) {
-      return 2000;
-    }
-    return 0;
-  }
 }
