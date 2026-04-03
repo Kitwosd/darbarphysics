@@ -15,3 +15,12 @@ class GetCourseDetailEvent extends CoursesEvent {
 }
 
 class CourseLoadMoreEvent extends CoursesEvent {}
+
+enum CourseSortOrder { newest, priceLowToHigh, priceHighToLow, mostPopular }
+
+class ChangeCourseSortEvent extends CoursesEvent {
+  final CourseSortOrder sortOrder;
+  const ChangeCourseSortEvent(this.sortOrder);
+  @override
+  List<Object> get props => [sortOrder];
+}

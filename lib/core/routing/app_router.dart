@@ -259,7 +259,8 @@ final GoRouter appRouter = GoRouter(
       path: RoutePath.packageDetail,
       name: RouteName.packageDetail,
       builder: (context, state) {
-        return PackageDetailScreen();
+        final packageId = state.extra as int;
+        return PackageDetailScreen(packageId: packageId);
       },
     ),
   ],

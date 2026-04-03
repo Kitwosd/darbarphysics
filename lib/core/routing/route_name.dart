@@ -61,6 +61,6 @@ class RoutePath {
   static const String resetPassword = '/resetPasswordScreen';
   static const String privacyPolicy = '/privacyPolicy';
   static const String termsAndConditions = '/termsAndConditions';
-  static const String allPackages = 'allPackagesScreen';
-  static const String packageDetail = 'packageDetailScreen';
+  static const String allPackages = '/allPackagesScreen';
+  static const String packageDetail = '/packageDetailScreen';
 }

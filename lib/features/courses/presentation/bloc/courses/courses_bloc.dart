@@ -17,14 +17,15 @@ part 'courses_state.dart';
 @injectable
 class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
   final HomeRepo repo;
-  CoursesBloc(this.repo) : super(CoursesState()) {
+  CoursesBloc(this.repo) : super(const CoursesState()) {
     on<GetCoursesEvent>(_onGetCoursesEvent);
     on<GetCourseDetailEvent>(_onGetCourseDetailEvent);
     on<CourseLoadMoreEvent>(_onCourseLoadMoreEvent);
+    on<ChangeCourseSortEvent>(_onChangeCourseSortEvent);
   }
 
   FutureOr<void> _onGetCoursesEvent(
-    CoursesEvent event,
+    GetCoursesEvent event,
     Emitter<CoursesState> emit,
   ) async {
     emit(state.copyWith(status: ApiDataStatus.loading));
@@ -95,5 +96,12 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
     } catch (e) {
       emit(state.copyWith(status: ApiDataStatus.error));
     }
+  }
+
+  FutureOr<void> _onChangeCourseSortEvent(
+    ChangeCourseSortEvent event,
+    Emitter<CoursesState> emit,
+  ) {
+    emit(state.copyWith(sortOrder: event.sortOrder));
   }
 }

@@ -22,7 +22,7 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
       }
 
       // Initialize Hive (local storage)
-      await HiveServices.init();
+      await   HiveServices.init();
 
       // Load Environment Variables
       await dotenv.load(fileName: ".env");

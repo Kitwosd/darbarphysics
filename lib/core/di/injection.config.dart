@@ -56,6 +56,8 @@ import '../../features/live_classes/presentation/bloc/live_classes_bloc.dart'
     as _i280;
 import '../../features/package/data/repo_impl/packages_repo_impl.dart' as _i762;
 import '../../features/package/domain/repo/packages_repo.dart' as _i170;
+import '../../features/package/presentation/bloc/package_detail/package_detail_bloc.dart'
+    as _i708;
 import '../../features/package/presentation/bloc/packages_bloc.dart' as _i232;
 import '../../features/payment/data/repo_impl.dart/payment_repo_impl.dart'
     as _i93;
@@ -130,6 +132,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i1033.SearchRepo>(
       () => _i790.SearchRepoImpl(gh<_i557.ApiClient>()),
+    );
+    gh.factory<_i708.PackageDetailBloc>(
+      () => _i708.PackageDetailBloc(gh<_i170.PackageRepo>()),
     );
     gh.factory<_i232.PackageBloc>(
       () => _i232.PackageBloc(gh<_i170.PackageRepo>()),
