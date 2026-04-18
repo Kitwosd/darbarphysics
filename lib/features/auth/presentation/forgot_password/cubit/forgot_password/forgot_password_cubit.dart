@@ -39,7 +39,6 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
         ),
       );
     } catch (e) {
-      //TODO: Comeback to study again
       String specificEmailError = '';
       String generalErrorMessage = 'Something went wrong';
 

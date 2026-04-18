@@ -64,7 +64,7 @@ class PackageSmallCard extends StatelessWidget {
                         fontSize: 15.sp,
                         fontWeight: FontWeight.w500,
                       ),
-                      maxLines: 2,
+                      maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
 

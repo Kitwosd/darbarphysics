@@ -109,15 +109,12 @@ class PackagesBentoSection extends StatelessWidget {
     );
   }
 
-  // TODO: Implement navigation handlers
   void _handlePackageTap(BuildContext context, PackageModel package) {
     NavigationService.pushNamed(RouteName.packageDetail, extra: package.id);
-    print('Package tapped: ${package.title}');
   }
 
   void _handleEnrollTap(BuildContext context, PackageModel package) {
     NavigationService.pushNamed(RouteName.packageDetail, extra: package.id);
-    print('Enroll tapped for: ${package.title}');
   }
 
   void _handleViewAllTap(BuildContext context) {

@@ -51,7 +51,7 @@
         final payConfig = khalti.KhaltiPayConfig(
           publicKey: publicKey,
           pidx: pidx,
-          environment: khalti.Environment.test, //TODO: Change to prod for live
+          environment: khalti.Environment.test, //TODO: (Khalti) Change to prod for live
         );
 
         PaymentResultModel? result;

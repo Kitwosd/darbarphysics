@@ -288,8 +288,7 @@ class SettingsScreen extends StatelessWidget {
     BuildContext context,
     IconData icon,
     String title,
-    VoidCallback?
-    navigateTo, //TODO: Just for remembering void Function()? navigateTo = VoidCallback()
+    VoidCallback? navigateTo,
   ) {
     return InkWell(
       child: Padding(

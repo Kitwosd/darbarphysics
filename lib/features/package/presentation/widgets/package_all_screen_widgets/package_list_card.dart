@@ -16,7 +16,8 @@ class PackageListCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isFeatured = package.id == 4; // TODO: Add featured flag to model
+    final isFeatured =
+        package.id == 4; //  If got time Add featured flag to model
 
     return GestureDetector(
       onTap: onTap,
@@ -241,5 +242,4 @@ class PackageListCard extends StatelessWidget {
           (Match m) => '${m[1]},',
         );
   }
-
 }

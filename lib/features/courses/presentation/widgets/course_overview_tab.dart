@@ -67,7 +67,7 @@ class _CourseOverviewTabState extends State<CourseOverviewTab>
                     SizedBox(width: 10.w),
                     _buildStatCard(
                       context,
-                      //TODO: to check if course is free not with cost zero
+
                       (double.tryParse(widget.course.cost) ?? 0) == 0
                           ? 'Free Course'
                           : widget.course.studentCount.toString(),

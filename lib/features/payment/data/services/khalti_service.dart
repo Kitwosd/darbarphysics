@@ -26,7 +26,7 @@ class KhaltiService {
     final payConfig = khalti.KhaltiPayConfig(
       publicKey: publicKey,
       pidx: pidx,
-      environment: khalti.Environment.test, // TODO: change to prod for live
+      environment: khalti.Environment.test, // TODO: (Khalti) Change to prod for live
     );
 
     // Completer waits for the result

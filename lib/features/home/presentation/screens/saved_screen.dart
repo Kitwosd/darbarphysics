@@ -85,7 +85,7 @@ class _SavedScreenState extends State<SavedScreen>
           ),
         ],
       ),
-      // floatingActionButtonLocation:
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniStartFloat,
       floatingActionButton: SizedBox(
         width: 150.w,
 
