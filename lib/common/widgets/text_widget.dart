@@ -9,6 +9,8 @@ class TextWidget extends StatelessWidget {
   final TextOverflow? overflow;
   final TextAlign? align;
   final int? maxLines;
+  final double? letterSpacing;
+  final double? height;
   const TextWidget({
     super.key,
     required this.word,
@@ -18,6 +20,8 @@ class TextWidget extends StatelessWidget {
     this.overflow,
     this.align,
     this.maxLines,
+    this.letterSpacing,
+    this.height,
   });
 
   @override
@@ -31,6 +35,8 @@ class TextWidget extends StatelessWidget {
         color: textColor ?? Theme.of(context).textTheme.bodyMedium?.color,
         fontSize: size?.sp ?? 16.sp,
         fontWeight: weight ?? FontWeight.normal,
+        letterSpacing: letterSpacing,
+        height: height,
       ),
     );
   }

@@ -1,7 +1,12 @@
 import 'package:durbar_physics/common/enums/enums.dart';
+import 'package:durbar_physics/common/widgets/enrollment_dialog_widget.dart';
 import 'package:durbar_physics/common/widgets/text_widget.dart';
-import 'package:durbar_physics/features/courses/presentation/screens/video_player_screen.dart';
+import 'package:durbar_physics/common/widgets/view_more_card_widget.dart';
+import 'package:durbar_physics/core/routing/navigation_service.dart';
+import 'package:durbar_physics/core/routing/route_name.dart';
+import 'package:durbar_physics/features/courses/presentation/screens/youtube_video_player_screen.dart';
 import 'package:durbar_physics/features/home/presentation/bloc/videos/videos_bloc.dart';
+import 'package:durbar_physics/features/home/presentation/widgets/video_thumbnail_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,110 +18,163 @@ class HomeVideosList extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<VideosBloc, VideosState>(
       builder: (BuildContext context, VideosState state) {
-        if (state.videos.isEmpty) {
-          return const SizedBox.shrink();
-        } else if (state.status == ApiDataStatus.loading) {
+        if (state.status == ApiDataStatus.loading) {
           return Center(child: CircularProgressIndicator());
         } else if (state.status == ApiDataStatus.success) {
-          return SizedBox(
-            height: 190.h,
-            child: ListView.separated(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
-              scrollDirection: Axis.horizontal,
-              itemCount: state.videos.length,
-              separatorBuilder: (context, index) => SizedBox(width: 15.w),
-              itemBuilder: (context, index) {
-                final video = state.videos[index];
-                return InkWell(
-                  child: Container(
-                    width: 250.w,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).cardColor,
-                      borderRadius: BorderRadius.circular(15.r),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Theme.of(
-                            context,
-                          ).shadowColor.withValues(alpha: .05),
-                          blurRadius: 10,
-                          offset: const Offset(0, 5),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(15.r),
-                              ),
-                              child:
-                                  // TODO: ask for the thumbnail for the video along  with actual video
-                                  // Image.network(
-                                  //   video.thumbnail.isEmpty
-                                  //       ? "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1473&q=80"
-                                  //       : video.thumbnail,
-                                  Image.network(
-                                    "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1473&q=80",
-                                    height: 120.h,
-                                    width: double.infinity,
-                                    fit: BoxFit.cover,
-                                    errorBuilder: (ctx, err, _) => Container(
-                                      height: 120.h,
-                                      width: double.infinity,
-                                      color: Colors.grey[300],
-                                      child: const Icon(Icons.broken_image),
-                                    ),
-                                  ),
+          return Builder(
+            builder: (context) {
+              return SizedBox(
+                height: 220.h,
+                child: ListView.separated(
+                  padding: EdgeInsets.symmetric(horizontal: 20.w),
+                  scrollDirection: Axis.horizontal,
+                  clipBehavior: Clip.none,
+                  itemCount: state.videos.length + 1,
+                  separatorBuilder: (context, index) => SizedBox(width: 15.w),
+                  itemBuilder: (context, index) {
+                    if (index == state.videos.length) {
+                      if (state.hasReachedMax) {
+                        return SizedBox.shrink();
+                      }
+                      return ViewMoreCardWidget(
+                        onTap: () {
+                          context.read<VideosBloc>().add(LoadMoreVideosEvent());
+                        },
+                      );
+                    }
+                    final video = state.videos[index];
+                    bool isDark =
+                        Theme.of(context).brightness == Brightness.dark;
+
+                    bool canAccess = !(video.isLocked && video.isUserLocked);
+
+                    return InkWell(
+                      child: Container(
+                        width: 250.w,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).cardColor,
+                          borderRadius: BorderRadius.circular(15.r),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Theme.of(
+                                context,
+                              ).shadowColor.withValues(alpha: 0.2),
+                              blurRadius: 4,
+                              offset: const Offset(0, 2),
                             ),
-                            Container(
-                              padding: EdgeInsets.all(8.w),
-                              decoration: BoxDecoration(
-                                color: Colors.white.withValues(alpha: .8),
-                                shape: BoxShape.circle,
-                              ),
-                              child: Icon(
-                                Icons.play_arrow,
-                                color: Theme.of(context).primaryColor,
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            VideoThumbnailWidget(
+                              video: video,
+                              isDark: isDark,
+                              width: 250,
+                              height: 100,
+                            ),
+
+                            Expanded(
+                              child: Padding(
+                                padding: EdgeInsets.all(10.w),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    TextWidget(
+                                      word: video.title,
+                                      size: 14,
+                                      weight: FontWeight.bold,
+                                      maxLines: 2,
+                                    ),
+                                    8.verticalSpace,
+                                    // Level & Subject Row
+                                    if (video.levelName != null ||
+                                        video.subjectName != null)
+                                      Row(
+                                        children: [
+                                          // Level
+                                          if (video.levelName != null) ...[
+                                            Icon(
+                                              Icons.school_rounded,
+                                              size: 15.sp,
+                                              color: const Color(0xFF6366F1),
+                                            ),
+                                            SizedBox(width: 5.w),
+                                            Flexible(
+                                              child: TextWidget(
+                                                word: video.levelName!,
+                                                size: 12,
+                                                weight: FontWeight.w600,
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                textColor: Theme.of(
+                                                  context,
+                                                ).colorScheme.onSurfaceVariant,
+                                              ),
+                                            ),
+                                          ],
+                                          Spacer(),
+
+                                          // Subject
+                                          if (video.subjectName != null) ...[
+                                            Icon(
+                                              Icons.menu_book_rounded,
+                                              size: 15.sp,
+                                              color: const Color(0xFF10B981),
+                                            ),
+                                            SizedBox(width: 5.w),
+                                            Flexible(
+                                              child: TextWidget(
+                                                word: video.subjectName!,
+                                                size: 12,
+                                                textColor: Theme.of(
+                                                  context,
+                                                ).colorScheme.onSurfaceVariant,
+
+                                                weight: FontWeight.w600,
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ),
+                                          ],
+                                        ],
+                                      ),
+                                  ],
+                                ),
                               ),
                             ),
                           ],
                         ),
-                        Expanded(
-                          child: Padding(
-                            padding: EdgeInsets.all(10.w),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                TextWidget(
-                                  word: video.title,
-                                  size: 14,
-                                  weight: FontWeight.bold,
-                                  maxLines: 2,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => VideoPlayerScreen(
-                        videoUrl: video.videoUrl,
-                        title: video.title,
                       ),
-                    ),
-                  ),
-                );
-              },
-            ),
+                      onTap: () {
+                        if (!canAccess) {
+                          EnrollmentDialogWidget.show(
+                            context,
+                            onGoToCourse: () {
+                              if (video.course != null) {
+                                NavigationService.pushNamed(
+                                  RouteName.detailScreen,
+                                  extra: video.course,
+                                );
+                              }
+                            },
+                          );
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  YoutubeVideoPlayerScreen(video: video),
+                            ),
+                          );
+                        }
+                      },
+                    );
+                  },
+                ),
+              );
+            },
           );
         } else if (state.status == ApiDataStatus.error) {
           return SizedBox.shrink();

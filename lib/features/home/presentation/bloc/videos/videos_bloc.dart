@@ -15,6 +15,7 @@ class VideosBloc extends Bloc<VideosEvent, VideosState> {
   HomeRepo repo;
   VideosBloc(this.repo) : super(VideosState()) {
     on<GetVideosEvent>(_onGetVideosEvent);
+    on<LoadMoreVideosEvent>(_onLoadMoreVideosEvent);
   }
 
   FutureOr<void> _onGetVideosEvent(
@@ -23,13 +24,45 @@ class VideosBloc extends Bloc<VideosEvent, VideosState> {
   ) async {
     try {
       emit(state.copyWith(status: ApiDataStatus.loading));
-      final videos = await repo.getVideos();
-      emit(state.copyWith(status: ApiDataStatus.success, videos: videos));
+      final videos = await repo.getVideos(page: 1);
+      emit(
+        state.copyWith(
+          status: ApiDataStatus.success,
+          videos: videos.results,
+          page: state.page + 1,
+          hasReachedMax: videos.next == null,
+        ),
+      );
     } catch (e) {
       emit(
         state.copyWith(
           status: ApiDataStatus.error,
           error: 'Error during fetching the videos: ${e.toString()}',
+        ),
+      );
+    }
+  }
+
+  FutureOr<void> _onLoadMoreVideosEvent(
+    LoadMoreVideosEvent event,
+    Emitter<VideosState> emit,
+  ) async {
+    try {
+      final response = await repo.getVideos(page: state.page);
+      final updatedList = List.of(state.videos)..addAll(response.results);
+      emit(
+        state.copyWith(
+          videos: updatedList,
+          page: state.page + 1,
+          status: ApiDataStatus.success,
+          hasReachedMax: response.next == null,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          status: ApiDataStatus.error,
+          error: 'Something wrong happened during loading more videos',
         ),
       );
     }

@@ -3,8 +3,14 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  connectivity_plus
+  file_selector_windows
+  flutter_inappwebview_windows
   flutter_localization
+  permission_handler_windows
   screen_brightness_windows
+  syncfusion_pdfviewer_windows
+  url_launcher_windows
   volume_controller
 )
 

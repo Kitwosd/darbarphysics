@@ -1,22 +1,47 @@
+import 'package:durbar_physics/core/constants/legal_constants.dart';
+import 'package:durbar_physics/core/di/injection.dart';
 import 'package:durbar_physics/core/routing/navigation_service.dart';
 import 'package:durbar_physics/core/routing/route_name.dart';
+import 'package:durbar_physics/features/auth/presentation/forgot_password/cubit/forgot_password/forgot_password_cubit.dart';
+import 'package:durbar_physics/features/auth/presentation/forgot_password/screens/change_password_screen.dart';
+import 'package:durbar_physics/features/auth/presentation/forgot_password/screens/forgot_password_screen.dart';
+import 'package:durbar_physics/features/auth/presentation/forgot_password/screens/otp_screen.dart';
 import 'package:durbar_physics/features/auth/presentation/login/screens/login_screen.dart';
 import 'package:durbar_physics/features/auth/presentation/signup/screens/sign_up_screen.dart';
+import 'package:durbar_physics/features/courses/presentation/routes/video_player_args.dart';
+import 'package:durbar_physics/features/courses/presentation/screens/all_courses_screen.dart';
+import 'package:durbar_physics/features/courses/presentation/screens/course_detail_screen.dart';
+import 'package:durbar_physics/features/courses/presentation/screens/enrolled_course_screen.dart';
+import 'package:durbar_physics/features/courses/presentation/screens/video_player_screen.dart';
+import 'package:durbar_physics/features/courses/presentation/screens/youtube_video_player_screen.dart';
 import 'package:durbar_physics/features/dashboard/presentation/screens/dashboard_screen.dart';
+import 'package:durbar_physics/features/home/data/models/video_model.dart';
+import 'package:durbar_physics/features/home/presentation/screens/all_videos_screen.dart';
 import 'package:durbar_physics/features/home/presentation/screens/home_screen.dart';
 import 'package:durbar_physics/features/home/presentation/screens/saved_screen.dart';
+import 'package:durbar_physics/features/live_classes/presentation/screens/live_class_detail_screen.dart';
+import 'package:durbar_physics/features/live_classes/presentation/screens/live_classes_list_screen.dart';
+// import 'package:durbar_physics/features/live_classes/presentation/screens/zoom_web_view_screens.dart';
 import 'package:durbar_physics/features/on_boarding/presentation/screens/on_boarding_screen.dart';
-import 'package:durbar_physics/features/profile/profile_screen.dart';
-import 'package:durbar_physics/features/settings/settings_screen.dart';
-import 'package:flutter/material.dart';
+import 'package:durbar_physics/features/package/presentation/screens/all_packages_screen.dart';
+import 'package:durbar_physics/features/package/presentation/screens/package_detail_screen.dart';
+import 'package:durbar_physics/features/payment/presentation/bloc/payment_bloc.dart';
+import 'package:durbar_physics/features/profile/data/models/profile_model.dart';
+import 'package:durbar_physics/features/profile/presentation/screens/edit_profile_screen.dart';
+import 'package:durbar_physics/features/profile/presentation/screens/profile_screen.dart';
+import 'package:durbar_physics/features/settings/screens/legal_content_screen.dart';
+import 'package:durbar_physics/features/settings/screens/reset_password_screen.dart';
+import 'package:durbar_physics/features/settings/screens/settings_screen.dart';
+import 'package:durbar_physics/features/zoom/presentation/zoom_web_view_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 final GoRouter appRouter = GoRouter(
   navigatorKey: NavigationService.navigationKey,
-  // initialLocation: Hive.box('authBox').get('isLoggedIn', defaultValue: false)
-  //     ? RoutePath.newsPage
-  //     : RoutePath.login,
-  initialLocation: RoutePath.home,
+  initialLocation: Hive.box('authBox').get('accessToken') != null
+      ? RoutePath.home
+      : RoutePath.onBoarding,
   routes: [
     GoRoute(
       path: RoutePath.onBoarding,
@@ -34,11 +59,6 @@ final GoRouter appRouter = GoRouter(
       path: RoutePath.login,
       name: RouteName.login,
       builder: (context, index) => LoginScreen(),
-    ),
-    GoRoute(
-      path: RoutePath.setting,
-      name: RouteName.setting,
-      builder: (context, index) => SettingsScreen(),
     ),
 
     StatefulShellRoute.indexedStack(
@@ -69,22 +89,179 @@ final GoRouter appRouter = GoRouter(
             GoRoute(
               path: RoutePath.play,
               name: RouteName.play,
-              builder: (context, state) => const Scaffold(
-                body: Center(child: Text("Play Screen Coming Soon")),
-              ), // Placeholder
+              builder: (context, state) =>
+                  const EnrolledCourseScreen(), // Placeholder
             ),
           ],
         ),
         StatefulShellBranch(
           routes: [
             GoRoute(
-              path: RoutePath.profile,
-              name: RouteName.profile,
-              builder: (context, state) => const ProfileScreen(),
+              path: RoutePath.setting,
+              name: RouteName.setting,
+              builder: (context, state) => const SettingsScreen(),
             ),
           ],
         ),
       ],
+    ),
+    GoRoute(
+      path: RoutePath.profile,
+      name: RouteName.profile,
+      builder: (context, state) => const ProfileScreen(),
+    ),
+
+    GoRoute(
+      path: RoutePath.liveClassesList,
+      name: RouteName.liveClassesList,
+      builder: (context, state) => const LiveClassesListScreen(),
+    ),
+    GoRoute(
+      path: RoutePath.zoomWebView,
+      name: RouteName.zoomWebView,
+      builder: (context, state) => ZoomWebViewPage(
+        zoomUrl:
+            'https://us04web.zoom.us/j/3117772972?pwd=oQOKC681rjGaeyA8ZiixJe8T2sW9pN.1',
+      ),
+    ),
+    GoRoute(
+      path: RoutePath.detailScreen,
+      name: RouteName.detailScreen,
+      builder: (context, state) {
+        final courseId = state.extra as int;
+        return BlocProvider(
+          create: (context) => getIt<PaymentBloc>(),
+          child: CourseDetailScreen(courseId: courseId),
+        );
+      },
+    ),
+    GoRoute(
+      path: RoutePath.editProfile,
+      name: RouteName.editProfile,
+      builder: (context, state) {
+        final profile = state.extra as ProfileModel;
+        return EditProfileScreen(profile: profile);
+      },
+    ),
+    GoRoute(
+      name: RouteName.videoPlayer,
+      path: RoutePath.videoPlayer,
+      builder: (context, state) {
+        final args = state.extra as VideoPlayerArgs;
+
+        return VideoPlayerScreen(
+          videoUrl: args.videoUrl,
+          title: args.videoTitle,
+          video: args.video,
+        );
+      },
+    ),
+    GoRoute(
+      path: RoutePath.liveClassDetail,
+      name: RouteName.liveclassDetail,
+      builder: (context, state) {
+        final int id = state.extra as int;
+        return LiveClassDetailScreen(id: id);
+      },
+    ),
+
+    GoRoute(
+      path: RoutePath.enrolledCourses,
+      name: RouteName.enrolledCourses,
+      builder: (context, state) {
+        return EnrolledCourseScreen();
+      },
+    ),
+    GoRoute(
+      path: RoutePath.allVideos,
+      name: RouteName.allVideos,
+      builder: (context, state) {
+        return AllVideosScreen();
+      },
+    ),
+    GoRoute(
+      path: RoutePath.allCourses,
+      name: RouteName.allCourses,
+      builder: (context, state) {
+        return AllCoursesScreen();
+      },
+    ),
+    GoRoute(
+      path: RoutePath.forgotPassword,
+      name: RouteName.forgotPassword,
+      builder: (context, state) {
+        return ForgotPasswordScreen();
+      },
+    ),
+    GoRoute(
+      path: RoutePath.otpScreen,
+      name: RouteName.otpScreen,
+      builder: (context, state) {
+        final forgotPasswordCubit = state.extra as ForgotPasswordCubit;
+        return BlocProvider.value(
+          value: forgotPasswordCubit,
+          child: OtpScreen(),
+        );
+      },
+    ),
+
+    GoRoute(
+      path: RoutePath.changePasswordScreen,
+      name: RouteName.changePasswordScreen,
+      builder: (context, state) {
+        final token = state.extra as String;
+        return ChangePasswordScreen(token: token);
+      },
+    ),
+    GoRoute(
+      path: RoutePath.youtubeVideoPlayerScreen,
+      name: RouteName.youtubeVideoPlayerScreen,
+      builder: (context, state) {
+        final video = state.extra as VideoModel;
+        return YoutubeVideoPlayerScreen(video: video);
+      },
+    ),
+    GoRoute(
+      path: RoutePath.resetPassword,
+      name: RouteName.resetPassword,
+      builder: (context, state) {
+        return ResetPasswordScreen();
+      },
+    ),
+    GoRoute(
+      path: RoutePath.privacyPolicy,
+      name: RouteName.privacyPolicy,
+      builder: (context, state) {
+        return const LegalContentScreen(
+          title: LegalConstants.privacyPolicyTitle,
+          content: LegalConstants.privacyPolicyContent,
+        );
+      },
+    ),
+    GoRoute(
+      path: RoutePath.termsAndConditions,
+      name: RouteName.termsAndConditions,
+      builder: (context, state) {
+        return const LegalContentScreen(
+          title: LegalConstants.termsAndConditionsTitle,
+          content: LegalConstants.termsAndConditionsContent,
+        );
+      },
+    ),
+    GoRoute(
+      path: RoutePath.allPackages,
+      name: RouteName.allPackages,
+      builder: (context, state) {
+        return AllPackagesScreen();
+      },
+    ),
+    GoRoute(
+      path: RoutePath.packageDetail,
+      name: RouteName.packageDetail,
+      builder: (context, state) {
+        final packageId = state.extra as int;
+        return PackageDetailScreen(packageId: packageId);
+      },
     ),
   ],
 );

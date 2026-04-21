@@ -16,6 +16,10 @@ class TextFieldWidget extends StatelessWidget {
   final String? hintText;
   final bool? obscureIcon;
   final bool obscureText; // NEW PARAMETER
+  final double? borderRadius;
+  final int? maxLines; //New
+  final double? verticalPadding;
+  final double? horizontalPadding;
 
   TextFieldWidget({
     super.key,
@@ -31,7 +35,11 @@ class TextFieldWidget extends StatelessWidget {
     this.borderColor,
     this.hintText,
     this.obscureIcon = false,
-    this.obscureText = false, // default false
+    this.obscureText = false,
+    this.borderRadius, // default false
+    this.maxLines,
+    this.verticalPadding,
+    this.horizontalPadding,
   });
 
   final ValueNotifier<bool> _obscurePassword = ValueNotifier(true);
@@ -67,6 +75,8 @@ class TextFieldWidget extends StatelessWidget {
       initialValue: initialValue,
       obscureText: isObscure,
       keyboardType: inputType,
+      maxLines: maxLines ?? 1,
+
       enabled: enabled,
       onChanged: (value) => onChanged?.call(value),
       textAlignVertical: TextAlignVertical.center,
@@ -74,30 +84,39 @@ class TextFieldWidget extends StatelessWidget {
         hintText: hintText,
         hintStyle: TextStyle(fontSize: 16.sp, color: Colors.grey[500]),
 
-        contentPadding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 0.h),
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: 8.w,
+          vertical: verticalPadding ?? 0.h,
+        ),
         border: OutlineInputBorder(
           borderSide: BorderSide(
             color: effectiveBorderColor,
             width: effectiveBorderWidth,
           ),
+
+          borderRadius: BorderRadius.circular(borderRadius ?? 4.r),
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: effectiveBorderColor,
             width: effectiveBorderWidth,
           ),
+          borderRadius: BorderRadius.circular(borderRadius ?? 4.r),
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: Theme.of(context).colorScheme.primary,
             width: effectiveBorderWidth + 1,
           ),
+          borderRadius: BorderRadius.circular(borderRadius ?? 4.r),
         ),
         errorBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.red),
+          borderRadius: BorderRadius.circular(borderRadius ?? 4.r),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.red, width: 2),
+          borderRadius: BorderRadius.circular(borderRadius ?? 4.r),
         ),
         errorText: errorText,
         suffixIcon: obscureText && obscureIcon == true

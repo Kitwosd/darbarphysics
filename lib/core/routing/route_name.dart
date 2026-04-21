@@ -12,6 +12,23 @@ class RouteName {
   static const String webview = 'webviewScreen';
   static const String saved = 'savedScreen';
   static const String play = 'playScreen';
+  static const String zoomWebView = 'zoomWebViewScreen';
+  static const String liveClassesList = 'liveClassesListScreen';
+  static const String editProfile = 'editProfileScreen';
+  static const String videoPlayer = 'videoPlayerScreen';
+  static const String liveclassDetail = 'liveClassDetailScreen';
+  static const String enrolledCourses = 'EnrolledCoursesScreen';
+  static const String allVideos = 'allVideosScreen';
+  static const String allCourses = 'allCoursesScreen';
+  static const String forgotPassword = 'forgotPasswordScreen';
+  static const String otpScreen = 'otpScreen';
+  static const String changePasswordScreen = 'changePasswordScreen';
+  static const String youtubeVideoPlayerScreen = 'youtubeVideoScreen';
+  static const String resetPassword = 'resetPasswordScreen';
+  static const String privacyPolicy = 'privacyPolicy';
+  static const String termsAndConditions = 'termsAndConditions';
+  static const String allPackages = 'allPackagesScreen';
+  static const String packageDetail = 'packageDetailScreen';
 }
 
 class RoutePath {
@@ -29,4 +46,21 @@ class RoutePath {
   static const String webview = '/webviewScreen';
   static const String saved = '/savedScreen';
   static const String play = '/playScreen';
+  static const String zoomWebView = '/zoomWebViewScreen';
+  static const String liveClassesList = '/liveClassesListScreen';
+  static const String editProfile = '/editProfileScreen';
+  static const String videoPlayer = '/videoPlayerScreen';
+  static const String liveClassDetail = '/liveClassDetailScreen';
+  static const String enrolledCourses = '/enrolledCoursesScreen';
+  static const String allVideos = '/allVideosScreen';
+  static const String allCourses = '/allCoursesScreen';
+  static const String forgotPassword = '/forgotPasswordScreen';
+  static const String otpScreen = '/otpScreen';
+  static const String changePasswordScreen = '/changePasswordScreen';
+  static const String youtubeVideoPlayerScreen = '/youtubeVideoScreen';
+  static const String resetPassword = '/resetPasswordScreen';
+  static const String privacyPolicy = '/privacyPolicy';
+  static const String termsAndConditions = '/termsAndConditions';
+  static const String allPackages = '/allPackagesScreen';
+  static const String packageDetail = '/packageDetailScreen';
 }

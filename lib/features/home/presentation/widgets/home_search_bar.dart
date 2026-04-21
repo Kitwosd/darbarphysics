@@ -1,3 +1,4 @@
+import 'package:durbar_physics/features/search/presentation/screens/search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -8,31 +9,41 @@ class HomeSearchBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 15.w),
-        decoration: BoxDecoration(
-          color: Theme.of(context).cardColor,
-          borderRadius: BorderRadius.circular(12.r),
-          boxShadow: [
-            BoxShadow(
-              color: Theme.of(context).shadowColor.withValues(alpha: 0.1),
-              blurRadius: 10,
-              offset: const Offset(0, 5),
-            ),
-          ],
-        ),
-        child: TextField(
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            hintText: 'Search here...',
-            hintStyle: TextStyle(
-              color: Theme.of(context).hintColor,
-              fontSize: 14.sp,
-            ),
-            icon: Icon(Icons.search, color: Theme.of(context).iconTheme.color),
-            suffixIcon: Icon(Icons.mic, color: Theme.of(context).primaryColor),
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const SearchScreen()),
+          );
+        },
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 14.h),
+          decoration: BoxDecoration(
+            color: Theme.of(context).cardColor,
+            borderRadius: BorderRadius.circular(12.r),
+            boxShadow: [
+              BoxShadow(
+                color: Theme.of(context).shadowColor.withValues(alpha: 0.1),
+                blurRadius: 10,
+                offset: const Offset(0, 5),
+              ),
+            ],
           ),
-          style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color),
+          child: Row(
+            children: [
+              Icon(Icons.search, color: Theme.of(context).iconTheme.color),
+              SizedBox(width: 15.w),
+              Text(
+                'Search here...',
+                style: TextStyle(
+                  color: Theme.of(context).hintColor,
+                  fontSize: 14.sp,
+                ),
+              ),
+              // const Spacer(),
+              // Icon(Icons.mic, color: Theme.of(context).primaryColor),
+            ],
+          ),
         ),
       ),
     );

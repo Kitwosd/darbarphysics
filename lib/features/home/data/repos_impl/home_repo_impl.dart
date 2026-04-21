@@ -1,27 +1,20 @@
 import 'package:durbar_physics/core/network/api_client.dart';
+import 'package:durbar_physics/core/network/paginated_response_model.dart';
+import 'package:durbar_physics/features/courses/data/model/course_detail_model.dart';
 import 'package:durbar_physics/features/courses/data/model/course_model.dart';
 import 'package:durbar_physics/features/home/data/models/class_model.dart';
-import 'package:durbar_physics/features/home/data/models/live_class_model.dart';
+
 import 'package:durbar_physics/features/home/data/models/stream_model.dart';
 import 'package:durbar_physics/features/home/data/models/video_model.dart';
 import 'package:durbar_physics/features/home/domain/repos/home_repo.dart';
 
-// import 'package:injectable/injectable.dart';
+import 'package:injectable/injectable.dart';
 
-// @Injectable(as: HomeRepo)
+@Injectable(as: HomeRepo)
 class HomeRepoImpl implements HomeRepo {
   final ApiClient apiClient;
 
   HomeRepoImpl(this.apiClient);
-
-  @override
-  Future<List<CourseModel>> getCourses() async {
-    final response = await apiClient.request(
-      path: '/courses/',
-      method: ApiMethod.get,
-    );
-    return (response as List).map((e) => CourseModel.fromJson(e)).toList();
-  }
 
   @override
   Future<List<ClassModel>> getClasses() async {
@@ -42,20 +35,39 @@ class HomeRepoImpl implements HomeRepo {
   }
 
   @override
-  Future<List<LiveClassModel>> getLiveClasses() async {
+  Future<PaginatedResponseModel<VideoModel>> getVideos({int page = 1}) async {
     final response = await apiClient.request(
-      path: '/liveclasses/',
+      path: 'lessons/',
       method: ApiMethod.get,
+      queryParameters: {'page': page},
     );
-    return (response as List).map((e) => LiveClassModel.fromJson(e)).toList();
+    return PaginatedResponseModel<VideoModel>.fromJson(
+      response,
+      (json) => VideoModel.fromJson(json),
+    );
   }
 
   @override
-  Future<List<VideoModel>> getVideos() async {
+  Future<CourseDetailModel> getCourseDetail(int id) async {
     final response = await apiClient.request(
-      path: '/videos/',
+      path: 'course/$id/',
       method: ApiMethod.get,
     );
-    return (response as List).map((e) => VideoModel.fromJson(e)).toList();
+
+    return CourseDetailModel.fromJson(response);
+  }
+
+  @override
+  Future<PaginatedResponseModel<CourseModel>> getCourses({int page = 1}) async {
+    final response = await apiClient.request(
+      path: 'course/',
+      method: ApiMethod.get,
+      queryParameters: {'page': page},
+    );
+
+    return PaginatedResponseModel.fromJson(
+      response,
+      (json) => CourseModel.fromJson(json),
+    );
   }
 }

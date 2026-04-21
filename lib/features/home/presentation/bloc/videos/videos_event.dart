@@ -8,3 +8,5 @@ sealed class VideosEvent extends Equatable {
 }
 
 class GetVideosEvent extends VideosEvent {}
+
+class LoadMoreVideosEvent extends VideosEvent{}

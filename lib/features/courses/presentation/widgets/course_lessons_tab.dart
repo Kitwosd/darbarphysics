@@ -1,45 +1,69 @@
+import 'package:durbar_physics/common/widgets/overlay_toast_widget.dart';
+import 'package:durbar_physics/common/widgets/tab_scroll_wrapper_widget.dart';
 import 'package:durbar_physics/common/widgets/text_widget.dart';
-import 'package:durbar_physics/features/courses/data/model/course_model.dart';
-import 'package:durbar_physics/features/courses/data/model/lesson_model.dart';
-import 'package:durbar_physics/features/courses/presentation/screens/video_player_screen.dart';
+import 'package:durbar_physics/core/services/app_globals.dart';
+import 'package:durbar_physics/features/courses/data/model/course_detail_model.dart';
+import 'package:durbar_physics/features/courses/presentation/screens/youtube_video_player_screen.dart';
+import 'package:durbar_physics/features/home/data/models/video_model.dart';
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class CourseLessonsTab extends StatelessWidget {
-  final CourseModel course;
+class CourseLessonsTab extends StatefulWidget {
+  final CourseDetailModel course;
 
   const CourseLessonsTab({super.key, required this.course});
 
   @override
+  State<CourseLessonsTab> createState() => _CourseLessonsTabState();
+}
+
+class _CourseLessonsTabState extends State<CourseLessonsTab>
+    with AutomaticKeepAliveClientMixin {
+  @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: course.lessons.length,
-      padding: EdgeInsets.all(20.w),
-      itemBuilder: (context, index) {
-        final lesson = course.lessons[index];
-        return _buildLessonItem(context, lesson, index);
-      },
+    super.build(context);
+    return TabScrollWrapperWidget(
+      child: CustomScrollView(
+        primary: true,
+        slivers: [
+          SliverOverlapInjector(
+            handle: ExtendedNestedScrollView.sliverOverlapAbsorberHandleFor(context),
+          ),
+          SliverPadding(
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+            sliver: SliverList(
+              delegate: SliverChildBuilderDelegate((context, index) {
+                final lesson = widget.course.lessons[index];
+                return _buildLessonItem(context, lesson, index);
+              }, childCount: widget.course.lessons.length),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
-  Widget _buildLessonItem(BuildContext context, LessonModel lesson, int index) {
+  Widget _buildLessonItem(BuildContext context, VideoModel lesson, int index) {
+    bool canAccess = !(lesson.isLocked && lesson.isUserLocked);
     return InkWell(
       onTap: () {
-        if (lesson.isLocked) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text("Please enroll to unlock this lesson"),
-            ),
+        if (!canAccess) {
+          OverlayToastWidget.show(
+            message: 'Please enroll to unlock the lesson',
           );
-        } else {
+        }
+        // if (lesson.isUserLocked == true) {
+        //   OverlayToastWidget.show(
+        //     message: 'Please enroll to unlock the lesson',
+        //   );
+        // }
+        else {
           // Play Video
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => VideoPlayerScreen(
-                videoUrl: lesson.videoUrl,
-                title: lesson.title,
-              ),
+              builder: (context) => YoutubeVideoPlayerScreen(video: lesson),
             ),
           );
         }
@@ -49,16 +73,19 @@ class CourseLessonsTab extends StatelessWidget {
         child: Row(
           children: [
             Container(
+              width: 45.w,
               padding: EdgeInsets.all(10.w),
               decoration: BoxDecoration(
                 color: Theme.of(context).cardColor,
                 borderRadius: BorderRadius.circular(10.r),
                 border: Border.all(color: Colors.grey.withValues(alpha: 0.2)),
               ),
-              child: TextWidget(
-                word: "${index + 1}",
-                weight: FontWeight.bold,
-                textColor: Colors.grey,
+              child: Center(
+                child: TextWidget(
+                  word: "${index + 1}",
+                  weight: FontWeight.bold,
+                  textColor: Colors.grey,
+                ),
               ),
             ),
             SizedBox(width: 15.w),
@@ -70,7 +97,10 @@ class CourseLessonsTab extends StatelessWidget {
                     word: lesson.title,
                     weight: FontWeight.bold,
                     maxLines: 2,
-                    textColor: lesson.isLocked ? Colors.grey : Colors.black,
+                    textColor: !(canAccess)
+                        // lesson.isUserLocked == true
+                        ? Colors.grey
+                        : customColors.blackWhite,
                   ),
                   TextWidget(
                     word: lesson.duration,
@@ -81,14 +111,15 @@ class CourseLessonsTab extends StatelessWidget {
               ),
             ),
             Icon(
-              lesson.isLocked ? Icons.lock : Icons.play_circle_fill,
-              color: lesson.isLocked
-                  ? Colors.grey
-                  : Theme.of(context).primaryColor,
+              !canAccess ? Icons.lock : Icons.play_circle_fill,
+              color: !canAccess ? Colors.grey : Theme.of(context).primaryColor,
             ),
           ],
         ),
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

@@ -19,24 +19,27 @@ class ApiClient {
         connectTimeout: const Duration(seconds: 15),
         receiveTimeout: const Duration(seconds: 15),
         headers: {
-          'Context-Type': 'application/json',
+          'Content-Type': 'application/json',
           'Accept': 'application/json',
           if (accessToken != null) 'Authorization': 'Bearer $accessToken',
         },
       ),
     );
-    // if (kDebugMode) {
-    //   _dio.interceptors.add(
-    //     LogInterceptor(requestBody: true, responseBody: true),
-    //   );
-    // }
+  }
+
+  void updateAccessToken(String accessToken) {
+    _dio.options.headers['Authorization'] = 'Bearer $accessToken';
+  }
+
+  void clearAccessToken() {
+    _dio.options.headers.remove('Authorization');
   }
 
   Future<dynamic> request({
     required String path,
     required ApiMethod method,
     Map<String, dynamic>? queryParameters,
-    Map<String, dynamic>? data,
+    dynamic data,
     Options? options,
     CancelToken? cancelToken,
   }) async {

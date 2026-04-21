@@ -1,92 +1,119 @@
-import 'package:durbar_physics/features/courses/data/model/lesson_model.dart';
+import 'package:durbar_physics/core/logger/app_logger.dart';
 import 'package:equatable/equatable.dart';
 
 class CourseModel extends Equatable {
   final int id;
   final String title;
+
+  final int? level;
+  final String? levelName;
+
+  final int? subject;
+  final String? subjectName;
+
+  final List<int>? streams;
+  final List<String>? streamNames;
+
   final String description;
   final String cost;
-  final DateTime startTime;
-  final DateTime endTime;
   final String image;
-  final DateTime createdAt;
+
   final double rating;
-  final int reviewCount;
+
   final int studentCount;
-  final String totalDuration;
   final int lessonCount;
-  final List<LessonModel> lessons;
+  final int liveClassCount;
+
+  final bool isUserLocked;
 
   const CourseModel({
     required this.id,
     required this.title,
+    this.level,
+    this.levelName,
+    this.subject,
+    this.subjectName,
+    this.streams,
+    this.streamNames,
     required this.description,
     required this.cost,
-    required this.startTime,
-    required this.endTime,
     required this.image,
-    required this.createdAt,
-    this.rating = 0.0,
-    this.reviewCount = 0,
-    this.studentCount = 0,
-    this.totalDuration = "0h 0m",
-    this.lessonCount = 0,
-    this.lessons = const [],
+    required this.rating,
+    required this.studentCount,
+    required this.lessonCount,
+    required this.liveClassCount,
+    required this.isUserLocked,
   });
 
-  factory CourseModel.fromJson(Map<String, dynamic> json) => CourseModel(
-    id: json["id"],
-    title: json["title"],
-    description: json["description"],
-    cost: json["cost"],
-    startTime: DateTime.parse(json["start_time"]),
-    endTime: DateTime.parse(json["end_time"]),
-    image: json["image"],
-    createdAt: DateTime.parse(json["created_at"]),
-    rating: (json["rating"] as num?)?.toDouble() ?? 0.0,
-    reviewCount: json["review_count"] ?? 0,
-    studentCount: json["student_count"] ?? 0,
-    totalDuration: json["total_duration"] ?? "0h 0m",
-    lessonCount: json["lesson_count"] ?? 0,
-    lessons: json["lessons"] == null
-        ? []
-        : List<LessonModel>.from(
-            json["lessons"].map((x) => LessonModel.fromJson(x)),
-          ),
-  );
+  factory CourseModel.fromJson(Map<String, dynamic> json) {
+    logger.d("ID: ${json["id"]}, Rating: ${json["rating"]}");
+
+    return CourseModel(
+      id: json["id"] as int,
+      title: json["title"] ?? '',
+
+      level: json['level'],
+      levelName: json['level_name'],
+
+      subject: json['subject'],
+      subjectName: json['subject_name'],
+
+      streams: (json["streams"] as List?)?.map((e) => e as int).toList() ?? [],
+
+      streamNames:
+          (json["stream_names"] as List?)?.map((e) => e as String).toList() ??
+          [],
+
+      description: json["description"] ?? '',
+      cost: json["cost"] ?? '0.00',
+      image: json["image"] ?? '',
+
+      rating: (json["rating"] as num?)?.toDouble() ?? 0.0,
+
+      studentCount: json["studentCount"] ?? 0,
+      lessonCount: json["lessonCount"] ?? 0,
+      liveClassCount: json["liveclassCount"] ?? 0,
+
+      isUserLocked: json["is_user_locked"] ?? false,
+    );
+  }
 
   Map<String, dynamic> toJson() => {
     "id": id,
     "title": title,
+    "level": level,
+    "level_name": levelName,
+    "subject": subject,
+    "subject_name": subjectName,
+    "streams": streams,
+    "stream_names": streamNames,
     "description": description,
     "cost": cost,
-    "start_time": startTime.toIso8601String(),
-    "end_time": endTime.toIso8601String(),
     "image": image,
-    "created_at": createdAt.toIso8601String(),
     "rating": rating,
-    "review_count": reviewCount,
-    "student_count": studentCount,
-    "total_duration": totalDuration,
-    "lesson_count": lessonCount,
-    "lessons": List<dynamic>.from(lessons.map((x) => x.toJson())),
+    "studentCount": studentCount,
+    "lessonCount": lessonCount,
+    "liveclassCount": liveClassCount,
+    "is_user_locked": isUserLocked,
   };
 
   @override
   List<Object?> get props => [
     id,
     title,
+    level,
+    levelName,
+    subject,
+    subjectName,
+    streams,
+    streamNames,
     description,
     cost,
-    startTime,
-    endTime,
     image,
-    createdAt,
     rating,
-    reviewCount,
     studentCount,
-    totalDuration,
     lessonCount,
-    lessons,
+    liveClassCount,
+    isUserLocked,
   ];
 }

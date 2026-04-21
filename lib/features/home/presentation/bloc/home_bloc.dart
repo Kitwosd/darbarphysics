@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:durbar_physics/common/enums/enums.dart';
 import 'package:durbar_physics/features/courses/data/model/course_model.dart';
 import 'package:durbar_physics/features/home/data/models/class_model.dart';
-import 'package:durbar_physics/features/home/data/models/live_class_model.dart';
+
 import 'package:durbar_physics/features/home/data/models/stream_model.dart';
 import 'package:durbar_physics/features/home/data/models/video_model.dart';
 import 'package:durbar_physics/features/home/domain/repos/home_repo.dart';
@@ -20,19 +20,17 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<GetHomeData>((event, emit) async {
       emit(state.copyWith(status: ApiDataStatus.loading));
       try {
-        final courses = await homeRepo.getCourses();
         final classes = await homeRepo.getClasses();
         final streams = await homeRepo.getStreams();
-        final liveClasses = await homeRepo.getLiveClasses();
+
         final videos = await homeRepo.getVideos();
 
         emit(
           state.copyWith(
-            courses: courses,
             classes: classes,
             streams: streams,
-            liveClasses: liveClasses,
-            videos: videos,
+
+            videos: videos.results,
             status: ApiDataStatus.success,
           ),
         );

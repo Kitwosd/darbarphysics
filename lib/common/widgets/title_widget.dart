@@ -4,39 +4,52 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TitleWidget extends StatelessWidget {
   final String title;
+  final VoidCallback? function;
 
-  const TitleWidget({super.key, required this.title});
+  const TitleWidget({super.key, required this.title, this.function});
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 54.h,
+    return Container(
+      height: 40.h,
       width: double.infinity,
-      child: Stack(
-        children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: GestureDetector(
+      color: Theme.of(context).scaffoldBackgroundColor,
+
+      child: Padding(
+        padding: EdgeInsets.only(left: 4.w),
+        child: Row(
+          children: [
+            GestureDetector(
               onTap: () {
-                Navigator.pop(context);
+                if (function != null) {
+                  function!();
+                } else {
+                  Navigator.pop(context);
+                }
               },
-              child: Icon(
-                Icons.arrow_back_rounded,
-                size: 36.h, // set size manually
-                color: Theme.of(context).colorScheme.primary,
+              child: Column(
+                children: [
+                  2.verticalSpace,
+                  Icon(
+                    Icons.keyboard_backspace_outlined,
+                    size: 36.sp, // set size manually
+                    color: Theme.of(context).colorScheme.primary,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ],
               ),
             ),
-          ),
-          Align(
-            alignment: Alignment.center,
-            child: TextWidget(
-              word: title,
-              size: 40,
-              weight: FontWeight.w600,
-              textColor: Theme.of(context).colorScheme.primary,
+            30.horizontalSpace,
+            Expanded(
+              child: TextWidget(
+                word: title,
+                size: 24,
+                weight: FontWeight.w600,
+                textColor: Theme.of(context).colorScheme.primary,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
